@@ -10,7 +10,7 @@ import numpy as np
 enr_list = []
 k_list = []
 kerr_list = []
-enr = 0.25
+enr = 0.1
 for i in range(10):
     try:
         os.mkdir('dir{}'.format(i))
