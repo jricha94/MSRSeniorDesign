@@ -45,5 +45,4 @@ crit_enr_1 = (-1*fit[1]+np.sqrt((fit[1]**2)-(4*fit[0]*(fit[2]-1.))/(2.*fit[0])))
 crit_enr_2 = (-1*fit[1]+np.sqrt((fit[1]**2)-(4*fit[0]*(fit[2]-1.))/(2.*fit[0])))
 crit_enr = [crit_enr_1, crit_enr_2]
 for num in crit_enr:
-    if 0.95 < num < 1.05:
-        print('The Critcal Enrichment is ', num)
+     print('The Critcal Enrichment is ', num)
