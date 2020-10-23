@@ -34,7 +34,7 @@ for i in range(10):
 
 fit = np.polyfit(enr_list, k_list, 2)
 fig1, ax1 = plt.subplots()
-ax1.errorbar(enr_list, k_list, yerr=kerr_list, marker=',', label = 'Serpent data')
+ax1.errorbar(enr_list, k_list, yerr=kerr_list, label = 'Serpent data')
 ax1.set(xlabel='enrichment (%)', ylabel='k_eff', title='k vs enrichment default fuel')
 fig1.savefig('default.png', transparent=False, dpi=80)
 
