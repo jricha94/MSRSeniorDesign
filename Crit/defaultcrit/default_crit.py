@@ -19,7 +19,7 @@ for i in range(10):
         shutil.rmtree('dir{}/'.format(i))
         os.mkdir('dir{}'.format(i))
         os.chdir('dir{}'.format(i))
-    dec = serpDeck(enr=enr)
+    dec = d.serpDeck(enr=enr)
     dec.full_build_run()
     enr_list.append(enr)
     fh = open("{}_res.m".format(dec.inp_name), 'r')
@@ -35,6 +35,6 @@ for i in range(10):
 
 
 fig1, ax1 = plt.subplots()
-ax1.errorabr(enr_list, k_list, yerr=kerr_list)
+ax1.errorbar(enr_list, k_list, yerr=kerr_list)
 ax1.set(xlabel='enrichment (%)', ylabel='k_eff', title='k vs enrichment default fuel')
 fig1.savefig('default.png', transparent=False, dpi=80, bbox_to_inches='tight')
