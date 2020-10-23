@@ -32,9 +32,18 @@ for i in range(10):
     shutil.rmtree('dir{}/'.format(i))
     enr += 0.25
 
-
-
+fit = np.polyfit(enr_list, k_list, 2)
+x = np.arange(0,enr+.25, .1)
 fig1, ax1 = plt.subplots()
-ax1.errorbar(enr_list, k_list, yerr=kerr_list)
+ax1.errorbar(enr_list, k_list, yerr=kerr_list,ls = '', marker=',', label = 'Serpent data')
+ax1.plot(x, fit[0]*x**2 + fit[1]*x + fit[2], label = 'fit')
 ax1.set(xlabel='enrichment (%)', ylabel='k_eff', title='k vs enrichment default fuel')
-fig1.savefig('default.png', transparent=False, dpi=80, bbox_to_inches='tight')
+ax1.legend()
+fig1.savefig('default.png', transparent=False, dpi=80)
+
+crit_enr_1 = (-1*fit[1]+np.sqrt((fit[1]**2)-(4*fit[0]*(fit[2]-1.))/(2.*fit[0])))
+crit_enr_2 = (-1*fit[1]+np.sqrt((fit[1]**2)-(4*fit[0]*(fit[2]-1.))/(2.*fit[0])))
+crit_enr = [crit_enr_1, crit_enr_2]
+for num in crit_enr:
+    if 0.95 < num < 1.05:
+        print('The Critcal Enrichment is ', num)
