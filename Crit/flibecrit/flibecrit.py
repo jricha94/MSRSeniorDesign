@@ -31,7 +31,7 @@ for i in range(10):
     os.chdir('../')
     shutil.rmtree('dir{}/'.format(i))
     enr += 0.03
-
+enr_list, k_list, kerr_list = np.array(enr_list), np.array(k_list), np.array(kerr_list)
 fit = np.polyfit(np.log(enr_list), k_list, 1)
 x = np.arange(0.01, 0.35, 0.05)
 fig1, ax1 = plt.subplots()
