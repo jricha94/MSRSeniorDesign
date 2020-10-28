@@ -773,7 +773,7 @@ coef {step_cnt} {negsteps} % Negative steps mean days, positive is MWd/kgU
         serpent_inp = 'set title "SF-MSR Concept"'
         serpent_inp += self.surf_and_cells()
         serpent_inp += self.materials()
-        serpent_inp += self.salt.serpent_mat(self.ft, self.fd)
+        serpent_inp += self.salt.serpent_mat()
         serpent_inp += self.get_data_cards()
         return serpent_inp.format(**locals())
 
