@@ -33,7 +33,7 @@ for i in range(10):
     enr += 0.01
 enr_list, k_list, kerr_list = np.array(enr_list), np.array(k_list), np.array(kerr_list)
 fit = np.polyfit(np.log(enr_list), k_list, 1)
-x = np.arange(0.01, 0.35, 0.001)
+x = np.arange(0.01, 0.13, 0.001)
 fig1, ax1 = plt.subplots()
 ax1.errorbar(100. * enr_list, k_list, yerr=kerr_list, marker='.',
              ls='', label='Serpent data', color='blue')
