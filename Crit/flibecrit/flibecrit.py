@@ -11,7 +11,7 @@ enr_list = []
 k_list = []
 kerr_list = []
 enr = 0.02
-for i in range(3):
+for i in range(10):
     try:
         os.mkdir('dir{}'.format(i))
         os.chdir('dir{}/'.format(i))
