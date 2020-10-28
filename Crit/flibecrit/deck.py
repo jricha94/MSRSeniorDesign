@@ -93,7 +93,7 @@ class serpDeck(object):
         self.saltr = Salt(self.repr_formula, self.rep_enrich)
         self.lib = '09c'
         self.nuc_libs = 'ENDF7'
-        self.histories = 5000 * 2
+        self.histories = 5000
         self.boron_graphite = 2e-06
         self.inp_name = inp_name
         self.out_name = out_name
@@ -773,9 +773,9 @@ coef {step_cnt} {negsteps} % Negative steps mean days, positive is MWd/kgU
         serpent_inp = 'set title "SF-MSR Concept"'
         serpent_inp += self.surf_and_cells()
         serpent_inp += self.materials()
-        serpent_inp += self.salt.serpent_mat()
-#        serpent_inp += self.salt.serpent_matp(self.ft, self.fd)
-#        serpent_inp += self.saltr.serpent_matr(self.ft, self.fd)
+        serpent_inp += self.salt.serpent_mat(self.ft, self.fd)
+        serpent_inp += self.salt.serpent_matp(self.ft, self.fd)
+        serpent_inp += self.saltr.serpent_matr(self.ft, self.fd)
         serpent_inp += self.get_data_cards()
         return serpent_inp.format(**locals())
 

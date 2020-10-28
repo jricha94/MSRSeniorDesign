@@ -6,34 +6,21 @@
 # 2019-08-06
 # GNU/GPL
 
+import math
 from collections import namedtuple
-import copy
 import molmass          # https://pypi.org/project/molmass/
-import numpy as np
+import copy
 
 my_debug = False
-density_warn = True
 
 MOLARVOLUMES = { # Melt composition molar volumes at 600 and 800 degC
-    'LiF' : (13.46, 14.19), # from ORNL/TM-2006/12 and ORNL-3913
+    'LiF' : (13.411, 14.142),
+    'BeF2': (23.6, 24.4),
     'NaF' : (19.08, 20.2),
-    'KF'  : (28.1,  30.0),
-    'RbF' : (33.9,  36.1),
-    'CsF' : (40.2,  43.1),
-    'BeF2': (23.6,  24.4),
-    'MgF2': (22.4,  23.4),
-    'SrF2': (30.4,  31.6),
-    'BaF2': (35.8,  37.2),
-    'CaF2': (27.5,  28.3),
-    'AlF3': (26.9,  30.7),
-    'YF3' : (34.6,  35.5),
-    'LaF3': (37.7,  38.7),
-    'CeF3': (36.3,  37.6),
-    'PrF3': (36.6,  37.6),
-    'SmF3': (39.0,  39.8),
+    'KF'  : (28.1, 30.0),
     'ZrF4': (47.0,  50.0),
-    'ThF4': (46.6,  47.7),
-    'UF4' : (45.5,  46.7)}
+    'ThF4': (46.43, 47.59),
+    'UF4' : (46.43, 47.59)}
 
 class MeltPart(object):
     'Storage for salt density fit calculation'
@@ -65,14 +52,12 @@ class Salt(object):
         try:
             f = f.strip().replace(" ", "")
         except:
-            raise ValueError("Formula " + f + " error")
-        if e<0 or e>1.0:
-            raise ValueError("Enrichment has to be 0-1: ", e)
+            raise ValueError("Formula " + self.formula + " error")
 
         self.formula:str    = f         # Chemical formula for a salt
         self.enr:float      = e         # Uranium enrichment
         self.Li7dep:float   = 0.99995   # Li-7 depletion level
-        self.mol_mass:float = None      # Molar mass of the salt
+        self.mol_mass:foat  = None      # Molar mass of the salt
         # Salt isotopic composition - isotopes repeat per melt parts
         self.isolist = []   # For internal processing use only
         self.SaltIso = namedtuple("SaltIso", "Z A atoms amass wfrac molefract")
@@ -96,7 +81,6 @@ class Salt(object):
         self.melt_parts = []        # List of , enr:floatMeltPart objects
         self.density_a:float = None # Linear density interpolation slope
         self.density_b:float = None # Intercept
-        self.Cl37enr:float   = None # Chlorine-37 enrichment, None for natural Cl
 
         if my_debug:
             print(self)
@@ -134,7 +118,7 @@ class Salt(object):
                         Z     = ele.protons
                         amass = ele.isotopes[A].mass
                         wfrac = ele.isotopes[A].abundance
-                        if wfrac > 0.0:
+                        if wfrac > 0.0:         
                             isotuple = self.SaltIso(Z, A, n_atoms, amass, wfrac, mfract)
                             self.isolist.append(isotuple)
         self.isolist.sort()                     # Looks nicer sorted
@@ -209,96 +193,42 @@ class Salt(object):
 
     def densityC(self, tempC:float) -> float:
         'Returns density [g/cm3] based on temperature in degC'
-        if 'UCl' in self.formula:   # Chlorides handled separately, no molar volumes available
-            return self.chloride_densityC(tempC)
-        if density_warn and (tempC < 600 or tempC > 800):
+        if tempC < 600 or tempC > 800:
             print("Warning: temperature data is interpolated between 600 and 800C.")
         if not self.density_a or not self.density_b:
             self._fit_density()     # Necessary to prevent infinite recursion..
         return self.density_a * tempC + self.density_b
 
-    def set_chlorine_37Cl_fraction(self, f:float):
-        'Sets chlorine-37 mass fraction, only makes sense for chloride systems'
-        if f<0 or f>1.0:
-            raise ValueError("Cl37 enrichment has to be 0-1: ", f)
-        self.Cl37enr = f
-        self.ELEMENTS['Cl'].isotopes[35].abundance  = 1.0 - self.Cl37enr
-        self.ELEMENTS['Cl'].isotopes[37].abundance  = self.Cl37enr
-
-    def chloride_densityK(self, tempK:float) -> float:
-        return self.chloride_densityC(tempK - 273.15)
-
-    def chloride_densityC(self, tempC:float) -> float:
-        '''Chlorides are handled separately, since there is no molar volume data for chlorides.
-        If chlorine is not a natural mixture, set enrichment first, after defining the salt,
-        by self.set_chlorine_37Cl_fraction()
-        Returns salt density, thus far works only for (1-x)NaCl-xUCl3, such as 55%NaCl+45%UCl3'''
-        (mNaCl,mUCl3) = self.formula.split('+')    # Separate melt components
-        (wNaCl,mform) = mNaCl.split('%')           # Separate component pct. fractions
-        if mform != 'NaCl':
-            raise ValueError("First component has to be NaCl: ", self.formula)
-        (wUCl3,mform) = mUCl3.split('%')           # Separate component pct. fractions
-        if mform != 'UCl3':
-            raise ValueError("Second component has to be UCl3: ", self.formula)
-        wNaCl = float(wNaCl)/100.0
-        wUCl3 = float(wUCl3)/100.0
-        if abs(wNaCl+wUCl3-1.0) > 0.1:
-            raise ValueError("Component mixture have to add to 100%: ", self.formula)
-        if self.Cl37enr is None:
-            print("Warning: using natural chlorine; salt.set_chlorine_37Cl_fraction() can change it.")
-        tempK = tempC + 273.15
-        #print('x=',wUCl3)
-        return self.chloride_density_interpolation(wUCl3, tempK)
-
-    def chloride_density_interpolation(self, x:float, tempK:float) -> float:
-        '''Interpolation based on Table 572, page 1135 of https://aip.scitation.org/doi/pdf/10.1063/1.555527
-        Molten salts: Volume 4, part 2, chlorides and mixtures—electrical conductance, density,
-        viscosity, and surface tension data'''
-        x = x*100.0                             # fraction -> %
-        if x<1.59 or x>53.81:
-            raise ValueError("UCl3 fraction has to be 1.6 to 53.8% :", x)
-        # rho = a + b/1e3  T
-        xmol = [1.6, 8.7, 24.7, 53.8]           # mol% of UCl3 in NaCl+UCl3
-        a    = [2.2075, 2.7796, 4.2900, 6.6390]
-        b    = [-0.5655, -0.6828, -1.5903, -3.0582]
-        ia = np.interp(x, xmol, a)
-        ib = np.interp(x, xmol, b)
-        #print(ia,ib)
-        return ia + ib*1e-3*tempK
-
-    def chloride_density_equation_BoLiShengDai(self, x:float, tempK:float) -> float:
-        '''Density calcualtion using Equation 4 from https://doi.org/10.1016/j.molliq.2019.112184
-        x is the UCl3 fraction '''
-        rho = 2.1445 + 5.3997*x - 1.8586*(x**2) - 9.2338*(x**3) + 6.1912*(x**4) + \
-        (-5.4859e-4 - 1.2053e-4*x - 5.5020e-3*x**2 + 1.1547e-2*x**3 - 6.8864e-3*x**4)*tempK
-        return rho
-
-#    def _check_chloride_interpolations(self):
-#        'Checks different density interpolations, do not use'
-#        xmol = [1.6, 8.7, 24.7, 53.8]           # mol% of UCl3 in NaCl+UCl3
-#        xmol = np.arange(1.6,53.8,0.2)
-#        temps= np.arange(900,1300,5)               # T[K]
-#        f1=open('~/tmp/datafile', 'w')
-#        for x in xmol:
-#            for t in temps:
-#                xfrc = x/100.0                  # mol% -> mol fraction
-#                rho1 = self.chloride_density_interpolation(xfrc,t)
-#                rho2 = self.chloride_density_equation_BoLiShengDai(xfrc,t)
-#                rhodiff = 2.0*(rho2-rho1)/(rho1+rho2)
-#                print("%4.1f %6.0f  %6.5f %6.5f %6.3f"%(x,t,rho1,rho2,rhodiff*100.0), file=f1)
-#            print(file=f1)
-#        f1.close()
-
     def nice_name(self)->str:
         'Return salt name with spaces around + sign'
-        return self.formula.replace('+',' + ')
+        return self.formula.replace('+',' + ')        
 
-    def serpent_mat(self, tempK:float=900.0, mat_tempK:float=900.0,
-                    lib="09c", rgb:str="240 30 30"):
-        '''Returns Serpent deck for the salt material
-        tempK is the temperature for density calculation,
-        mat_tempK is the material temperature.
-        This is useful for Doppler feedback calculations.'''
+    def serpent_mat(self, tempK:float=900, dens = 2, usedens = False, lib="09c", rgb:str="135 206 235"):
+        'Returns Serpent deck for the salt material'
+        if not self.wflist:         # Generate list of isotopic weight fractions
+            self._isotopic_fractions()
+        if my_debug:                # Check uranium enrichment 
+            u= 0.0
+            for w in self.wflist: 
+                if w.Z == 92: 
+                    u += w.wf
+            for w in self.wflist:
+                if w.Z == 92:
+                    print("DEBUG SALT: %d -> %8.3f" % (w.A, 100.0*w.wf/u) )
+        mat  = "% Fuel salt: " + self.nice_name() + ", U enrichment " + str(self.enr)
+        if usedens:
+            mat += "\nmat fuelsalt %12.8f rgb %s\n" % (dens,rgb)
+        else:
+            mat += "\nmat fuelsalt %12.8f rgb %s\n" % (-1.0*self.densityK(tempK),rgb)
+        mat += 'burn 1 vol 5468000\n'
+        #mat += 'burn 1\n'
+        for w in self.wflist:
+            mat += "%3d%03d.%s  %14.12f" % (w.Z, w.A, lib, -1.0*w.wf)
+            mat += "    %  "+ self.ELEMENTS[w.Z].symbol +"-"+ str(w.A) +"\n"
+        return mat
+
+    def serpent_matp(self, tempK:float=900, dens = 2, usedens = False, lib="09c", rgb:str="135 206 235"):
+        'Returns Serpent deck for the salt material'
         if not self.wflist:         # Generate list of isotopic weight fractions
             self._isotopic_fractions()
         if my_debug:                # Check uranium enrichment
@@ -310,21 +240,38 @@ class Salt(object):
                 if w.Z == 92:
                     print("DEBUG SALT: %d -> %8.3f" % (w.A, 100.0*w.wf/u) )
         mat  = "% Fuel salt: " + self.nice_name() + ", U enrichment " + str(self.enr)
-        mat += "\nmat fuelsalt %12.8f rgb %s burn 1 tmp %8.3f\n" % (-1.0*self.densityK(tempK),rgb,mat_tempK)
+        if usedens:
+            mat += "\nmat fuelsaltp %12.8f rgb %s\n" % (dens,rgb)
+        else:
+            mat += "\nmat fuelsaltp %12.8f rgb %s\n" % (-1.0*self.densityK(tempK),rgb)
+        mat += 'burn 1 vol 53512\n'
+        #mat += 'burn 1\n'
         for w in self.wflist:
             mat += "%3d%03d.%s  %14.12f" % (w.Z, w.A, lib, -1.0*w.wf)
             mat += "    %  "+ self.ELEMENTS[w.Z].symbol +"-"+ str(w.A) +"\n"
         return mat
 
-# This executes if someone tries to run the module
-if __name__ == '__main__':
-    print("This is a salt processing module.")
-    input("Press Ctrl+C to quit, or enter else to test it. ")
-    s = Salt()
-    print(s)
-    print()
-    print("\n\n--> Serpent deck:\n",s.serpent_mat(800.0,800.0))
-    print("--> Density [g/cm3] at 700C: ",s.densityC(700))
-    print("--> Density [g/cm3] at 800K: ",s.densityK(800))
-    print("--> Density [g/cm3] at 900K: ",s.densityK(900))
+
+    def serpent_matr(self, tempK:float=900, dens = 2, usedens = False, lib="09c", rgb:str="135 206 235"):
+        'Returns Serpent deck for the salt material'
+        if not self.wflist:         # Generate list of isotopic weight fractions
+            self._isotopic_fractions()
+        if my_debug:                # Check uranium enrichment
+            u= 0.0
+            for w in self.wflist:
+                if w.Z == 92:
+                    u += w.wf
+            for w in self.wflist:
+                if w.Z == 92:
+                    print("DEBUG SALT: %d -> %8.3f" % (w.A, 100.0*w.wf/u) )
+        mat  = "% Refueling Salt Tank: " + self.nice_name() + ", U enrichment " + str(self.enr)
+        if usedens:
+            mat += "\nmat fuelsalt_rep %12.8f rgb %s\n" % (dens,rgb)
+        else:
+            mat += "\nmat fuelsalt_rep %12.8f rgb %s\n" % (-1.0*self.densityK(tempK),rgb)
+        mat += 'burn 1 vol 1e9\n'
+        for w in self.wflist:
+            mat += "%3d%03d.%s  %14.12f" % (w.Z, w.A, lib, -1.0*w.wf)
+            mat += "    %  "+ self.ELEMENTS[w.Z].symbol +"-"+ str(w.A) +"\n"
+        return mat
 
