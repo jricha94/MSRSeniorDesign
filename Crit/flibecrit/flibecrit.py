@@ -11,7 +11,7 @@ enr_list = []
 k_list = []
 kerr_list = []
 enr = 0.02
-for i in range(10):
+for i in range(3):
     try:
         os.mkdir('dir{}'.format(i))
         os.chdir('dir{}/'.format(i))
@@ -37,7 +37,7 @@ x = np.arange(0.01, 0.35, 0.05)
 fig1, ax1 = plt.subplots()
 ax1.errorbar(100. * enr_list, k_list, yerr=kerr_list,
              marker='.', label='Serpent data', color='blue')
-ax1.plot(100. * x, fit[1] * np.log(x) + fit[2], ls='solid', marker='', label='fit', color='orange')
+ax1.plot(100. * x, fit[0] * np.log(x) + fit[1], ls='solid', marker='', label='fit', color='orange')
 ax1.set(xlabel='Enrichment (%)', ylabel='k_eff', title='k vs Enrichment FLiBe')
 fig1.savefig('FLiBe.png', transparent=False, dpi=80)
 
