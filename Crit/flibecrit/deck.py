@@ -49,7 +49,7 @@ class serpDeck(object):
                  dark_grey_edge_len=1.5, edge_to_nub=0.25, distance_from_origin=0.5, dark_angle=15,
                  bot_top_thick=10, absorber_type='enrb4c', rod_pos=[0, 0, 0, 0, 0, 0, 0], s_rad=3, c_rad=1,
                  tempK=900, tempK_vals=[850, 950], inp_name='input', out_name='output',
-                 branchBool=False, busteps=[1, 3, 5, 7, 9], enr=0.25, enr_r=0.25, dep=True, ft=902.15,
+                 branchBool=False, busteps=[1, 3, 5, 7, 9], enr=0.25, enr_r=0.25, dep=False, ft=902.15,
                  gt=902.15, fdt=902.15):
 
         try:
@@ -774,6 +774,8 @@ coef {step_cnt} {negsteps} % Negative steps mean days, positive is MWd/kgU
         serpent_inp += self.surf_and_cells()
         serpent_inp += self.materials()
         serpent_inp += self.salt.serpent_mat()
+#        serpent_inp += self.salt.serpent_matp(self.ft, self.fd)
+#        serpent_inp += self.saltr.serpent_matr(self.ft, self.fd)
         serpent_inp += self.get_data_cards()
         return serpent_inp.format(**locals())
 
