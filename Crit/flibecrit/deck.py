@@ -93,7 +93,7 @@ class serpDeck(object):
         self.saltr = Salt(self.repr_formula, self.rep_enrich)
         self.lib = '09c'
         self.nuc_libs = 'ENDF7'
-        self.histories = 5000
+        self.histories = 5000 * 2
         self.boron_graphite = 2e-06
         self.inp_name = inp_name
         self.out_name = out_name
