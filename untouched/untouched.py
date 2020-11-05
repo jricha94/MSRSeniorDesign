@@ -11,7 +11,7 @@ import numpy as np
 enr_list = []
 k_list = []
 kerr_list = []
-enr = 0.01
+enr = 0.05
 for i in range(10):
     try:
         os.mkdir('dir{}'.format(i))
@@ -31,7 +31,7 @@ for i in range(10):
     fh.close()
     os.chdir('../')
     shutil.rmtree('dir{}/'.format(i))
-    enr += 0.03
+    enr += 0.05
 enr_list, k_list, kerr_list = np.array(enr_list), np.array(k_list), np.array(kerr_list)
 fit = np.polyfit(enr_list, k_list, 5)
 x = np.arange(0.01, 0.13, 0.001)
