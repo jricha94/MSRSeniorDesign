@@ -1,0 +1,31 @@
+Usage:
+
+user_input.py contains most of the relevant files to generating and running Serpent code. deck.py and salts.py are used for generating the input and the materials respectively.
+
+#Options at the top of user_input.py to vary how the script is run
+
+At the bottom is this:
+debug()
+# control_rod_calc()
+# feedback_calc()
+# full_analy()
+# rep_build()
+
+Each of these is a different way of running a script, debug() runs a basic version, control_rod_calc() incorporates variation of control rods, feedback_calc() does the feedback calculations (though this needs looking at), full_analy() does essentially everything, and rep_build() incorporates online reprocessing (I believe this functionality may not be operational at this time, may need to check that).
+
+
+Things to do:
+
+- Look at fuel enrichment vs keff, issue (currently 0.25% enrichment).
+
+- Simplify branching (runs many scripts, likely posssible with less calculation time)
+
+- Fix plots
+
+- Fix feedback calculations
+
+- Reorganize files for easier usage / allow text file inputs (input initial fuel, refueling fuel, control rod positions, etc.)
+
+- Add New Fuel Types (manipulation of salts.py)
+
+- Incorporate online reprocessing (there are different approaches you can take on this)
