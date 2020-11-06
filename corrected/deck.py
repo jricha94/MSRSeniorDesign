@@ -89,8 +89,8 @@ class serpDeck(object):
         self.mod_width = self.lattice_edge - self.mod_dark_width - 3 * self.mod_nub_len
         self.salt_name = fuel
         self.salt_repr = refuel
-        self.salt = Salt()
-        self.saltr = Salt()
+        self.salt = Salt(self.salt_formula, self.enrichment)
+        self.saltr = Salt(self.salt_formula, self.enrichment)
         self.lib = '09c'
         self.nuc_libs = 'ENDF7'
         self.histories = 5000
