@@ -197,7 +197,7 @@ class serpDeck(object):
         # information for control and safety rod positioning
         crp = self.rod_pos
         crconv = {
-        0 : 'fuelsalt',
+        0 : 'fuelsaltp',
         1 : 'he',
         2: str(self.absorber)
         }
@@ -657,12 +657,12 @@ all {overflow_minp}
 
 % Reprocessing Control
 rep reprocessing
-rc fuelsalt fuelsalt fuel_in 0
-%rc fuelsalt fuelsalt fuel_in 0 % Serpent forums https://ttuki.vtt.fi/serpent/viewtopic.php?f=25&t=3154&p=9701&hilit=ProcessBurnMat#p9701
+rc fuelsalt_rep fuelsalt fuel_in 0
+%rc fuelsalt_rep fuelsaltp fuel_in 0 % Serpent forums https://ttuki.vtt.fi/serpent/viewtopic.php?f=25&t=3154&p=9701&hilit=ProcessBurnMat#p9701
 rc fuelsalt offgas off_gas 1
-%rc fuelsalt offgas off_gas 1 % Forum post suggested replacing pins with surface-cells
+%rc fuelsaltp offgas off_gas 1 % Forum post suggested replacing pins with surface-cells
 rc fuelsalt overflow over 1
-%rc fuelsalt overflow over 1 % This is a temporary fix which simply removes flow inside the control and safety rod channels
+%rc fuelsaltp overflow over 1 % This is a temporary fix which simply removes flow inside the control and safety rod channels
             '''
             if self.dep:
                 data_cards += '''
@@ -768,7 +768,9 @@ coef {step_cnt} {negsteps} % Negative steps mean days, positive is MWd/kgU
         serpent_inp = 'set title "SF-MSR Concept"'
         serpent_inp += self.surf_and_cells()
         serpent_inp += self.materials()
-        serpent_inp += self.saltr.serpent_mat(self.ft, self.fd)
+        serpent_inp += self.salt.serpent_mat(self.ft, self.fd, usedens = True)
+        serpent_inp += self.salt.serpent_matp(self.ft, self.fd, usedens = True)
+        serpent_inp += self.saltr.serpent_matr(self.ft, self.fd, usedens = True)
         serpent_inp += self.get_data_cards()
         return serpent_inp.format(**locals())
 

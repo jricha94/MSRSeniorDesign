@@ -118,7 +118,7 @@ class Salt(object):
                         Z     = ele.protons
                         amass = ele.isotopes[A].mass
                         wfrac = ele.isotopes[A].abundance
-                        if wfrac > 0.0:         
+                        if wfrac > 0.0:
                             isotuple = self.SaltIso(Z, A, n_atoms, amass, wfrac, mfract)
                             self.isolist.append(isotuple)
         self.isolist.sort()                     # Looks nicer sorted
@@ -201,16 +201,16 @@ class Salt(object):
 
     def nice_name(self)->str:
         'Return salt name with spaces around + sign'
-        return self.formula.replace('+',' + ')        
+        return self.formula.replace('+',' + ')
 
     def serpent_mat(self, tempK:float=900, dens = 2, usedens = False, lib="09c", rgb:str="135 206 235"):
         'Returns Serpent deck for the salt material'
         if not self.wflist:         # Generate list of isotopic weight fractions
             self._isotopic_fractions()
-        if my_debug:                # Check uranium enrichment 
+        if my_debug:                # Check uranium enrichment
             u= 0.0
-            for w in self.wflist: 
-                if w.Z == 92: 
+            for w in self.wflist:
+                if w.Z == 92:
                     u += w.wf
             for w in self.wflist:
                 if w.Z == 92:
@@ -274,4 +274,3 @@ class Salt(object):
             mat += "%3d%03d.%s  %14.12f" % (w.Z, w.A, lib, -1.0*w.wf)
             mat += "    %  "+ self.ELEMENTS[w.Z].symbol +"-"+ str(w.A) +"\n"
         return mat
-

@@ -316,6 +316,52 @@ class Salt(object):
             mat += "    %  "+ self.ELEMENTS[w.Z].symbol +"-"+ str(w.A) +"\n"
         return mat
 
+    def serpent_matp(self, tempK:float=900.0, mat_tempK:float=900.0,
+                    lib="09c", rgb:str="240 30 30"):
+        '''Returns Serpent deck for the salt material
+        tempK is the temperature for density calculation,
+        mat_tempK is the material temperature.
+        This is useful for Doppler feedback calculations.'''
+        if not self.wflist:         # Generate list of isotopic weight fractions
+            self._isotopic_fractions()
+        if my_debug:                # Check uranium enrichment
+            u= 0.0
+            for w in self.wflist:
+                if w.Z == 92:
+                    u += w.wf
+            for w in self.wflist:
+                if w.Z == 92:
+                    print("DEBUG SALT: %d -> %8.3f" % (w.A, 100.0*w.wf/u) )
+        mat  = "% Fuel salt: " + self.nice_name() + ", U enrichment " + str(self.enr)
+        mat += "\nmat fuelsaltp %12.8f rgb %s burn 1 tmp %8.3f\n" % (-1.0*self.densityK(tempK),rgb,mat_tempK)
+        for w in self.wflist:
+            mat += "%3d%03d.%s  %14.12f" % (w.Z, w.A, lib, -1.0*w.wf)
+            mat += "    %  "+ self.ELEMENTS[w.Z].symbol +"-"+ str(w.A) +"\n"
+        return mat
+
+    def serpent_matr(self, tempK:float=900.0, mat_tempK:float=900.0,
+                    lib="09c", rgb:str="240 30 30"):
+        '''Returns Serpent deck for the salt material
+        tempK is the temperature for density calculation,
+        mat_tempK is the material temperature.
+        This is useful for Doppler feedback calculations.'''
+        if not self.wflist:         # Generate list of isotopic weight fractions
+            self._isotopic_fractions()
+        if my_debug:                # Check uranium enrichment
+            u= 0.0
+            for w in self.wflist:
+                if w.Z == 92:
+                    u += w.wf
+            for w in self.wflist:
+                if w.Z == 92:
+                    print("DEBUG SALT: %d -> %8.3f" % (w.A, 100.0*w.wf/u) )
+        mat  = "% Refueling Salt Tank: " + self.nice_name() + ", U enrichment " + str(self.enr)
+        mat += "\nmat fuelsalt_rep %12.8f rgb %s burn 1 tmp %8.3f\n" % (-1.0*self.densityK(tempK),rgb,mat_tempK)
+        for w in self.wflist:
+            mat += "%3d%03d.%s  %14.12f" % (w.Z, w.A, lib, -1.0*w.wf)
+            mat += "    %  "+ self.ELEMENTS[w.Z].symbol +"-"+ str(w.A) +"\n"
+        return mat
+
 # This executes if someone tries to run the module
 if __name__ == '__main__':
     print("This is a salt processing module.")
@@ -327,4 +373,3 @@ if __name__ == '__main__':
     print("--> Density [g/cm3] at 700C: ",s.densityC(700))
     print("--> Density [g/cm3] at 800K: ",s.densityK(800))
     print("--> Density [g/cm3] at 900K: ",s.densityK(900))
-
