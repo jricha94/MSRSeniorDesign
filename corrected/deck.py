@@ -657,8 +657,8 @@ all {overflow_minp}
 
 % Reprocessing Control
 rep reprocessing
-rc fuelsalt_rep fuelsalt fuel_in 0
-%rc fuelsalt_rep fuelsalt fuel_in 0 % Serpent forums https://ttuki.vtt.fi/serpent/viewtopic.php?f=25&t=3154&p=9701&hilit=ProcessBurnMat#p9701
+rc fuelsalt fuelsalt fuel_in 0
+%rc fuelsalt fuelsalt fuel_in 0 % Serpent forums https://ttuki.vtt.fi/serpent/viewtopic.php?f=25&t=3154&p=9701&hilit=ProcessBurnMat#p9701
 rc fuelsalt offgas off_gas 1
 %rc fuelsalt offgas off_gas 1 % Forum post suggested replacing pins with surface-cells
 rc fuelsalt overflow over 1
@@ -768,7 +768,6 @@ coef {step_cnt} {negsteps} % Negative steps mean days, positive is MWd/kgU
         serpent_inp = 'set title "SF-MSR Concept"'
         serpent_inp += self.surf_and_cells()
         serpent_inp += self.materials()
-        serpent_inp += self.salt.serpent_mat(self.ft, self.fd)
         serpent_inp += self.saltr.serpent_mat(self.ft, self.fd)
         serpent_inp += self.get_data_cards()
         return serpent_inp.format(**locals())
@@ -787,7 +786,7 @@ coef {step_cnt} {negsteps} % Negative steps mean days, positive is MWd/kgU
             print(e)
 
 
-    def runfilec(self, queue = 'fill', cores = 8):j
+    def runfilec(self, queue = 'fill', cores = 8):
         # Written by ondrejch
         '''Writes run file for TORQUE.
         Inputs:
