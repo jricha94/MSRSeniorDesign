@@ -43,4 +43,4 @@ ax1.errorbar(100. * enr_list, k_list, yerr=kerr_list, marker='.',
 ax1.plot(100. * x, fit[0]*x**5+fit[1]*x**4+fit[2]*x**3+fit[3]*x**2+fit[4]*x+fit[5], ls='solid', marker='', label='fit', color='orange')
 ax1.set(xlabel='Enrichment (%)', ylabel='k_eff', title='k vs Enrichment')
 ax1.legend()
-fig1.savefig('cor.png', transparent=False, dpi=80)
+fig1.savefig('corFLiBe.png', transparent=False, dpi=80)
