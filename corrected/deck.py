@@ -29,8 +29,8 @@ reprocess = False
 # Dictionary of fuel salts and compositions
 fuelsalts = {
 'NaBe_Init'  : '76%NaF + 12%BeF2 + 9.5%ThF4 + 2.5%UF4', #NaFBeTh12
-'NaBe_Makeup' : '76%NaF + 12%BeF2 + 10.2%ThF4 + 1.8%UF4' #NaFBeTh12
-'jarod'  : '76%NaF + 12%BeF2 + 9.8%ThF4 + 2.2%UF4', #NaFBeTh12
+'NaBe_Makeup' : '76%NaF + 12%BeF2 + 10.2%ThF4 + 1.8%UF4', #NaFBeTh12
+'jarod' : '76%NaF + 12%BeF2 + 9.8%ThF4 + 2.2%UF4' #NaFBeTh12
 }
 
 # Dictionary of absorbers and names
