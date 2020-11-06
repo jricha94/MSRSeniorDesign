@@ -11,7 +11,7 @@ import numpy as np
 enr_list = []
 k_list = []
 kerr_list = []
-enr = 0.05
+enr = 0.01
 enr0 = enr
 for i in range(10):
     try:
@@ -32,7 +32,7 @@ for i in range(10):
     fh.close()
     os.chdir('../')
     shutil.rmtree('dir{}/'.format(i))
-    enr += 0.05
+    enr += 0.01
 enrf = enr
 enr_list, k_list, kerr_list = np.array(enr_list), np.array(k_list), np.array(kerr_list)
 fit = np.polyfit(enr_list, k_list, 5)
