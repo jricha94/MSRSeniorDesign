@@ -89,8 +89,8 @@ class serpDeck(object):
         self.mod_width = self.lattice_edge - self.mod_dark_width - 3 * self.mod_nub_len
         self.salt_name = fuel
         self.salt_repr = refuel
-        self.salt = Salt(self.salt_formula, self.enrichment)
-        self.saltr = Salt(self.repr_formula, self.rep_enrich)
+        self.salt = Salt()
+        self.saltr = Salt()
         self.lib = '09c'
         self.nuc_libs = 'ENDF7'
         self.histories = 5000
@@ -587,6 +587,9 @@ mat offgas -0.001 burn 1 vol 1e9
 % Overflow tank
 mat overflow -0.001 burn 1 vol 1e9
 2004.{lib} 1
+
+%Set volume checker
+set mcvol 10000000
         '''
 
         return mat_inp.format(**locals())
