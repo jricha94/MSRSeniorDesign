@@ -30,7 +30,7 @@ reprocess = False
 fuelsalts = {
 'NaBe_Init'  : '76%NaF + 12%BeF2 + 9.5%ThF4 + 2.5%UF4', #NaFBeTh12
 'NaBe_Makeup' : '76%NaF + 12%BeF2 + 10.2%ThF4 + 1.8%UF4', #NaFBeTh12
-'jarod' : '76%NaF + 12%BeF2 + 9.8%ThF4 + 2.2%UF4' #NaFBeTh12
+'Flibe' : '72%LiF + 16%BeF2 + 12%UF4'
 }
 
 # Dictionary of absorbers and names
@@ -46,7 +46,7 @@ class serpDeck(object):
     '''
     Class to create Serpent input deck.
     '''
-    def __init__(self, fuel = 'jarod', refuel = 'NaBe_Makeup',
+    def __init__(self, fuel = 'Flibe', refuel = 'NaBe_Makeup',
              dark_grey_edge_len = 1.5, edge_to_nub = 0.25, distance_from_origin = 0.5, dark_angle = 15,
              bot_top_thick = 10, absorber_type = 'enrb4c', rod_pos = [0, 0, 0, 0, 0, 0, 0], s_rad = 3, c_rad = 1,
              tempK = 900, tempK_vals = [850, 950], inp_name = 'input', out_name = 'output',

@@ -8,10 +8,11 @@ import deck as d
 import matplotlib.pyplot as plt
 import numpy as np
 
+file_name = input('Name of graph:')
 enr_list = []
 k_list = []
 kerr_list = []
-enr = 0.01
+enr = 0.0195
 enr0 = enr
 for i in range(10):
     try:
@@ -32,7 +33,7 @@ for i in range(10):
     fh.close()
     os.chdir('../')
     shutil.rmtree('dir{}/'.format(i))
-    enr += 0.01
+    enr += 0.0005
 enrf = enr
 enr_list, k_list, kerr_list = np.array(enr_list), np.array(k_list), np.array(kerr_list)
 fit = np.polyfit(enr_list, k_list, 5)
@@ -43,4 +44,8 @@ ax1.errorbar(100. * enr_list, k_list, yerr=kerr_list, marker='.',
 ax1.plot(100. * x, fit[0]*x**5+fit[1]*x**4+fit[2]*x**3+fit[3]*x**2+fit[4]*x+fit[5], ls='solid', marker='', label='fit', color='orange')
 ax1.set(xlabel='Enrichment (%)', ylabel='k_eff', title='k vs Enrichment')
 ax1.legend()
-fig1.savefig('corFLiBe.png', transparent=False, dpi=80)
+fig1.savefig(file_name, transparent=False, dpi=80)
+
+coeff = [fit[0], fit[1], fit[2], fit[3], fit[4], fit[5]-1.]
+roots = np.roots(coeff)
+print(roots)
