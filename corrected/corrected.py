@@ -8,7 +8,10 @@ import deck as d
 import matplotlib.pyplot as plt
 import numpy as np
 
-file_name = input('Name of graph:')
+
+
+
+file_name = input('File name of plot:')
 enr_list = []
 k_list = []
 kerr_list = []
