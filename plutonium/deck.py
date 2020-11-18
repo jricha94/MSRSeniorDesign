@@ -13,7 +13,7 @@
 
 # Imports
 from math import pi, sqrt, asin, tan, radians, sin, cos
-from salts import Salt
+from puSalt import Salt
 import os
 import time
 from re import search
