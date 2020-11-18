@@ -88,14 +88,14 @@ class Salt:
             iso_info.append([f'Pu-{Z}', 94, Z, pu_m*self.PuComp[Z]/tot_mass])
         return iso_info
 
-    def densityK(self):
+    def densityK(self,tempK:float=900):
         density = 0.0
         for meltpart in self.formula.split('+'):
             molfrac, compound =  meltpart.split('%')
             for mp in MOLARVOLUMES:
                 if mp in compound:
                     fit = np.polyfit([600, 800], MOLARVOLUMES[compound], 1)
-                    mol_den = (fit[0]*(self.tempK-273.15) + fit[1])*float(molfrac)
+                    mol_den = (fit[0]*(tempK-273.15) + fit[1])*float(molfrac)
                     density += ATOMICWEIGHT[compound]/mol_den
         return density
 
