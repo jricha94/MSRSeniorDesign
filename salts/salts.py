@@ -118,7 +118,8 @@ class Salt(object):
             self.ELEMENTS['Pu'].isotopes[244].abundance = 0.0 #remome Pu244
             self.formula:str = f.replace('WG', '')
             MOLARVOLUMES['Ga'] = (40.0, 41.0) #More Placeholder values
-            MOLARVOLUMES['Pu'] = (40.0, 41.0)
+            MOLARVOLUMES['Pu'] = (40.0, 41.0) #More Placeholder values
+            #Rewrite formula so it can be parsed
             self.newform = ''
             for meltpart in self.formula.split('+'):
                 mfract, comp = meltpart.split('%')
@@ -128,8 +129,6 @@ class Salt(object):
                 else:
                     self.newform += mfract + '%' + comp + '+'
                 self.formula = self.newform[0:-1]
-        print(self.formula)
-
 
 
         if my_debug:
