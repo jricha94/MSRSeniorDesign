@@ -33,7 +33,11 @@ MOLARVOLUMES = { # Melt composition molar volumes at 600 and 800 degC
     'SmF3': (39.0,  39.8),
     'ZrF4': (47.0,  50.0),
     'ThF4': (46.6,  47.7),
-    'UF4' : (45.5,  46.7)}
+    'UF4' : (45.5,  46.7),
+    'PuF3': (46.5,  47.4),      #not sure if this is dependent on type of Pu
+    'WGPu': (46.5,  47.4)}      #Weapons grade Pu, Placeholder values to be replaced
+
+
 
 class MeltPart(object):
     'Storage for salt density fit calculation'
@@ -97,6 +101,36 @@ class Salt(object):
         self.density_a:float = None # Linear density interpolation slope
         self.density_b:float = None # Intercept
         self.Cl37enr:float   = None # Chlorine-37 enrichment, None for natural Cl
+
+        #Set Plutonium values based on type of Pu used
+        if "RPuF3" in f:
+            #Add Pu isotopes to database
+            self.ELEMENTS['Pu'].isotopes[238]=molmass.Isotope(238.0495599, 0.0158, 238)
+            self.ELEMENTS['Pu'].isotopes[239]=molmass.Isotope(239.0521634, 0.5776, 239)
+            self.ELEMENTS['Pu'].isotopes[240]=molmass.Isotope(240.0538135, 0.2657, 240)
+            self.ELEMENTS['Pu'].isotopes[241]=molmass.Isotope(241.0568515, 0.0876, 241)
+            self.ELEMENTS['Pu'].isotopes[242]=molmass.Isotope(242.0587426, 0.0533, 242)
+            self.ELEMENTS['Pu'].isotopes[244].abundance = 0.0 #remome Pu244
+            self.formula:str = f.replace('R', '')
+        elif "WGPu" in f:
+            self.ELEMENTS['Pu'].isotopes[239]=molmass.Isotope(239.0521634, 0.93, 239)
+            self.ELEMENTS['Pu'].isotopes[240]=molmass.Isotope(240.0538135, 0.07, 240)
+            self.ELEMENTS['Pu'].isotopes[244].abundance = 0.0 #remome Pu244
+            self.formula:str = f.replace('WG', '')
+            MOLARVOLUMES['Ga'] = (40.0, 41.0) #More Placeholder values
+            MOLARVOLUMES['Pu'] = (40.0, 41.0)
+            self.newform = ''
+            for meltpart in self.formula.split('+'):
+                mfract, comp = meltpart.split('%')
+                if comp == 'Pu':
+                    self.newform += str(float(mfract)*0.99)+'%Pu+'
+                    self.newform += str(float(mfract)*0.01)+'%Ga+'
+                else:
+                    self.newform += mfract + '%' + comp + '+'
+                self.formula = self.newform[0:-1]
+        print(self.formula)
+
+
 
         if my_debug:
             print(self)
@@ -316,6 +350,52 @@ class Salt(object):
             mat += "    %  "+ self.ELEMENTS[w.Z].symbol +"-"+ str(w.A) +"\n"
         return mat
 
+    def serpent_matp(self, tempK:float=900.0, mat_tempK:float=900.0,
+                    lib="09c", rgb:str="240 30 30"):
+        '''Returns Serpent deck for the salt material
+        tempK is the temperature for density calculation,
+        mat_tempK is the material temperature.
+        This is useful for Doppler feedback calculations.'''
+        if not self.wflist:         # Generate list of isotopic weight fractions
+            self._isotopic_fractions()
+        if my_debug:                # Check uranium enrichment
+            u= 0.0
+            for w in self.wflist:
+                if w.Z == 92:
+                    u += w.wf
+            for w in self.wflist:
+                if w.Z == 92:
+                    print("DEBUG SALT: %d -> %8.3f" % (w.A, 100.0*w.wf/u) )
+        mat  = "% Fuel salt: " + self.nice_name() + ", U enrichment " + str(self.enr)
+        mat += "\nmat fuelsaltp %12.8f rgb %s burn 1 tmp %8.3f\n" % (-1.0*self.densityK(tempK),rgb,mat_tempK)
+        for w in self.wflist:
+            mat += "%3d%03d.%s  %14.12f" % (w.Z, w.A, lib, -1.0*w.wf)
+            mat += "    %  "+ self.ELEMENTS[w.Z].symbol +"-"+ str(w.A) +"\n"
+        return mat
+
+    def serpent_matr(self, tempK:float=900.0, mat_tempK:float=900.0,
+                    lib="09c", rgb:str="240 30 30"):
+        '''Returns Serpent deck for the salt material
+        tempK is the temperature for density calculation,
+        mat_tempK is the material temperature.
+        This is useful for Doppler feedback calculations.'''
+        if not self.wflist:         # Generate list of isotopic weight fractions
+            self._isotopic_fractions()
+        if my_debug:                # Check uranium enrichment
+            u= 0.0
+            for w in self.wflist:
+                if w.Z == 92:
+                    u += w.wf
+            for w in self.wflist:
+                if w.Z == 92:
+                    print("DEBUG SALT: %d -> %8.3f" % (w.A, 100.0*w.wf/u) )
+        mat  = "% Refueling Salt Tank: " + self.nice_name() + ", U enrichment " + str(self.enr)
+        mat += "\nmat fuelsalt_rep %12.8f rgb %s burn 1 tmp %f\n" % (-1.0*self.densityK(tempK),rgb,mat_tempK)
+        for w in self.wflist:
+            mat += "%3d%03d.%s  %14.12f" % (w.Z, w.A, lib, -1.0*w.wf)
+            mat += "    %  "+ self.ELEMENTS[w.Z].symbol +"-"+ str(w.A) +"\n"
+        return mat
+
 # This executes if someone tries to run the module
 if __name__ == '__main__':
     print("This is a salt processing module.")
@@ -327,4 +407,3 @@ if __name__ == '__main__':
     print("--> Density [g/cm3] at 700C: ",s.densityC(700))
     print("--> Density [g/cm3] at 800K: ",s.densityK(800))
     print("--> Density [g/cm3] at 900K: ",s.densityK(900))
-
