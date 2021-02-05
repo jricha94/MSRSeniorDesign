@@ -28,29 +28,30 @@ reprocess = False
 
 # Dictionary of fuel salts and compositions
 fuelsalts = {
-    'NaBe_Init': '76%NaF + 12%BeF2 + 9.5%ThF4 + 2.5%UF4',  # NaFBeTh12
-    'NaBe_Makeup': '76%NaF + 12%BeF2 + 10.2%ThF4 + 1.8%UF4'  # NaFBeTh12
+'NaBe_Init'  : '76%NaF + 12%BeF2 + 9.5%ThF4 + 2.5%UF4', #NaFBeTh12
+'NaBe_Makeup' : '76%NaF + 12%BeF2 + 10.2%ThF4 + 1.8%UF4', #NaFBeTh12
+'Flibe' : '72%LiF + 16%BeF2 + 12%UF4'
 }
 
 # Dictionary of absorbers and names
 absorbers = {
-    'natb4c': 'Natural boron carbide',
-    'enrb4c': 'Enriched boron carbide',
-    'boronmetal': 'Boron metal'
+'natb4c'    : 'Natural boron carbide',
+'enrb4c'    : 'Enriched boron carbide',
+'boronmetal': 'Boron metal'
 }
+
 
 
 class serpDeck(object):
     '''
     Class to create Serpent input deck.
     '''
-
-    def __init__(self, fuel='NaBe_Init', refuel='NaBe_Makeup',
-                 dark_grey_edge_len=1.5, edge_to_nub=0.25, distance_from_origin=0.5, dark_angle=15,
-                 bot_top_thick=10, absorber_type='enrb4c', rod_pos=[0, 0, 0, 0, 0, 0, 0], s_rad=3, c_rad=1,
-                 tempK=900, tempK_vals=[850, 950], inp_name='input', out_name='output',
-                 branchBool=False, busteps=[1, 3, 5, 7, 9], enr=0.25, enr_r=0.25, dep=False, ft=902.15,
-                 gt=902.15, fdt=902.15):
+    def __init__(self, fuel = 'Flibe', refuel = 'NaBe_Makeup',
+             dark_grey_edge_len = 1.5, edge_to_nub = 0.25, distance_from_origin = 0.5, dark_angle = 15,
+             bot_top_thick = 10, absorber_type = 'enrb4c', rod_pos = [0, 0, 0, 0, 0, 0, 0], s_rad = 3, c_rad = 1,
+             tempK = 900, tempK_vals = [850, 950], inp_name = 'input', out_name = 'output',
+             branchBool = False, busteps = [1, 3, 5, 7, 9], enr = 0.25, enr_r = 0.25, dep = True, ft = 902.15,
+             gt = 902.15, fdt = 902.15):
 
         try:
             self.salt_formula = fuelsalts[fuel]
@@ -67,18 +68,18 @@ class serpDeck(object):
 
         self.fuel = fuel
         self.refuel = refuel
-        self.lattice_edge = 22.003  # cm
-        self.apothem = 19.055  # cm
-        self.enrichment = enr  # %
+        self.lattice_edge = 22.003 # cm
+        self.apothem = 19.055 # cm
+        self.enrichment = enr # %
         self.rep_enrich = enr_r
-        # self.vol_graphite = 90 # %
+        #self.vol_graphite = 90 # %
         self.salt_fraction = 0.1112
-        # self.core_diam = 500 # cm
-        # self.core_rad = 250 # cm
-        self.core_height = 570  # cm
+        #self.core_diam = 500 # cm
+        #self.core_rad = 250 # cm
+        self.core_height = 570 # cm
         self.mod_len = 378
-        # self.vol_c = pi/4 * self.core_diam ** 2 * self.core_height # cm3
-        self.tempK = tempK  # 565-704 C or ~800-1000 K
+        #self.vol_c = pi/4 * self.core_diam ** 2 * self.core_height # cm3
+        self.tempK = tempK # 565-704 C or ~800-1000 K
         #self.core_mid2top = self.core_height / 2
         self.mod_mid2top = self.mod_len / 2
         #self.core_mid2bot = -self.core_height / 2
@@ -89,8 +90,8 @@ class serpDeck(object):
         self.mod_width = self.lattice_edge - self.mod_dark_width - 3 * self.mod_nub_len
         self.salt_name = fuel
         self.salt_repr = refuel
-        self.salt = Salt(e=self.enrichment)
-        self.saltr = Salt(self.repr_formula, self.rep_enrich)
+        self.salt = Salt(f=self.salt_formula, e=self.enrichment)
+        self.saltr = Salt(f=self.salt_formula, e=self.enrichment)
         self.lib = '09c'
         self.nuc_libs = 'ENDF7'
         self.histories = 5000
@@ -130,12 +131,10 @@ class serpDeck(object):
         for val in range(11):
             dark_width_val = val / 1
             x_val = -self.apothem + self.mod_thick
-            y_val_greater = .5 * self.lattice_edge - self.mod_nub_len - \
-                dark_width_val - self.mod_thick * tan(radians(30))
+            y_val_greater = .5 * self.lattice_edge - self.mod_nub_len - dark_width_val - self.mod_thick * tan(radians(30))
 
             b_val = 1 / tan(radians(30))
-            d_val = -self.apothem + b_val * \
-                (1/2 * self.lattice_edge - 2 * self.mod_nub_len - dark_width_val)
+            d_val = -self.apothem + b_val * (1/2 * self.lattice_edge - 2 * self.mod_nub_len - dark_width_val)
             a_val = 1
             c_val = 0
             y_val_calc = (d_val - x_val) / (b_val)
@@ -143,14 +142,14 @@ class serpDeck(object):
             print('Nub top = ' + str(y_val_greater))
             print('Nub bottom = ' + str(y_val_calc))
 
-            print('A dark moderator width of ' + str(dark_width_val) +
-                  ' will provide a nub with height ' + str(y_val_greater - y_val_calc))
+
+            print('A dark moderator width of ' + str(dark_width_val) + ' will provide a nub with height ' + str(y_val_greater - y_val_calc))
 
         if y_val_greater >= y_val_calc:
-            print('A dark moderator width of ' + str(dark_width_val) +
-                  ' will provide a nub with height ' + str(y_val_greater - y_val_calc))
+            print('A dark moderator width of ' + str(dark_width_val) + ' will provide a nub with height ' + str(y_val_greater - y_val_calc))
             print('Nub top = ' + str(y_val_greater))
             print('Nub bottom = ' + str(y_val_calc))
+
 
     def surf_and_cells(self):
         '''
@@ -159,29 +158,23 @@ class serpDeck(object):
         light_mod_len = 0.5 * self.lattice_edge - 2.0 * self.mod_nub_len - self.mod_dark_width
         angle = 30.0
 
-        # Calculations for the far left graphite slab
+        ## Calculations for the far left graphite slab
         # x-planes
         px11 = -self.apothem
         px12 = -self.apothem + self.mod_thick
         px13 = -self.apothem + self.mod_thick + self.mod_nub_len
 
         # y-planes
-        py14 = .5 * self.lattice_edge - 2.0 * self.mod_nub_len - self.mod_dark_width - \
-            self.mod_thick * tan(radians(angle)) + self.mod_nub_len
-        py15 = .5 * self.lattice_edge - 2.0 * self.mod_nub_len - self.mod_dark_width - \
-            self.mod_thick * tan(radians(angle)) - 0.25 * light_mod_len
-        py16 = .5 * self.lattice_edge - 2.0 * self.mod_nub_len - self.mod_dark_width - \
-            self.mod_thick * tan(radians(angle)) - 0.25 * light_mod_len - self.mod_nub_width
-        py17 = -self.lattice_edge * tan(radians(angle)) - self.mod_thick * \
-            tan(radians(angle)) + .25 * self.lattice_edge + self.mod_nub_width
-        py18 = -self.lattice_edge * tan(radians(angle)) - self.mod_thick * \
-            tan(radians(30)) + .25 * self.lattice_edge
+        py14 = .5 * self.lattice_edge - 2.0 * self.mod_nub_len - self.mod_dark_width - self.mod_thick * tan(radians(angle)) + self.mod_nub_len
+        py15 = .5 * self.lattice_edge - 2.0 * self.mod_nub_len - self.mod_dark_width - self.mod_thick * tan(radians(angle)) - 0.25 * light_mod_len
+        py16 = .5 * self.lattice_edge - 2.0 * self.mod_nub_len - self.mod_dark_width - self.mod_thick * tan(radians(angle)) - 0.25 * light_mod_len - self.mod_nub_width
+        py17 = -self.lattice_edge * tan(radians(angle)) - self.mod_thick * tan(radians(angle)) + .25 * self.lattice_edge + self.mod_nub_width
+        py18 = -self.lattice_edge * tan(radians(angle)) - self.mod_thick * tan(radians(30)) + .25 * self.lattice_edge
         py19 = -1.0/2.0 * self.lattice_edge
 
         # top and bottom planes
         b22 = 1.0 / tan(radians(angle))
-        d22 = -self.apothem + b22 * ((1.0/2.0 * self.lattice_edge) -
-                                     2.0 * self.mod_nub_len - self.mod_dark_width)
+        d22 = -self.apothem + b22 * ((1.0/2.0 * self.lattice_edge) - 2.0 * self.mod_nub_len - self.mod_dark_width)
         pe22 = '1 ' + str(b22) + ' 0 ' + str(d22)
 
         b23 = b22
@@ -205,15 +198,16 @@ class serpDeck(object):
         # information for control and safety rod positioning
         crp = self.rod_pos
         crconv = {
-            0: 'fuelsaltp',
-            1: 'he',
-            2: str(self.absorber)
+        0 : 'fuelsaltp',
+        1 : 'he',
+        2: str(self.absorber)
         }
         crplug = list()
         for each in crp:
             crplug.append(crconv[each])
 
-        surf_cell_inp = '''
+
+        surf_cell_inp ='''
 %_______________surface definitions_____________________________________________
 % LOG SHAPE
 surf hex hexxprism  0  0  {self.apothem} {self.mod_mid2bot} {self.mod_mid2top}
@@ -276,16 +270,11 @@ surf 125 pz {bot_bot}
             px12 = -self.apothem + self.mod_thick + x_diff * each_slab
             px13 = -self.apothem + self.mod_thick + self.mod_nub_len + x_diff * each_slab
 
-            py14 = .5 * self.lattice_edge - 2 * self.mod_nub_len - self.mod_dark_width - \
-                self.mod_thick * tan(radians(angle)) + self.mod_nub_len + y_diff * each_slab
-            py15 = .5 * self.lattice_edge - 2 * self.mod_nub_len - self.mod_dark_width - \
-                self.mod_thick * tan(radians(angle)) - 0.25 * light_mod_len + y_diff * each_slab
-            py16 = .5 * self.lattice_edge - 2 * self.mod_nub_len - self.mod_dark_width - self.mod_thick * \
-                tan(radians(angle)) - 0.25 * light_mod_len - self.mod_nub_width + y_diff * each_slab
-            py17 = -self.lattice_edge * tan(radians(angle)) - self.mod_thick * tan(
-                radians(angle)) + .25 * self.lattice_edge + self.mod_nub_width + y_diff * each_slab
-            py18 = -self.lattice_edge * tan(radians(angle)) - self.mod_thick * \
-                tan(radians(30)) + .25 * self.lattice_edge + y_diff * each_slab
+            py14 = .5 * self.lattice_edge - 2 * self.mod_nub_len - self.mod_dark_width - self.mod_thick * tan(radians(angle)) + self.mod_nub_len + y_diff * each_slab
+            py15 = .5 * self.lattice_edge - 2 * self.mod_nub_len - self.mod_dark_width - self.mod_thick * tan(radians(angle)) - 0.25 * light_mod_len + y_diff * each_slab
+            py16 = .5 * self.lattice_edge - 2 * self.mod_nub_len - self.mod_dark_width - self.mod_thick * tan(radians(angle)) - 0.25 * light_mod_len - self.mod_nub_width + y_diff * each_slab
+            py17 = -self.lattice_edge * tan(radians(angle)) - self.mod_thick * tan(radians(angle)) + .25 * self.lattice_edge + self.mod_nub_width + y_diff * each_slab
+            py18 = -self.lattice_edge * tan(radians(angle)) - self.mod_thick * tan(radians(30)) + .25 * self.lattice_edge + y_diff * each_slab
             py19 = -1/2 * self.lattice_edge + y_diff * each_slab
 
             s_names = np.arange(211, 222) + diff_prev
@@ -309,42 +298,42 @@ surf {s_names[10]} px {bot_intersect}
 '''.format(**locals())
             diff_prev = s_names[-1]
 
+
         # Dark moderator
         angle_dark = self.dark_angle
-        pxd1 = px13  # Half dark thickness
+        pxd1 = px13 # Half dark thickness
         pxd2 = -self.apothem
         pxd3 = 0.0
 
         b3 = -1.0 / tan(radians(angle_dark))
         d3 = 2.0 * -px13 * 2
         d4 = b3 * -self.o_dist
-        pd3 = '1 ' + str(b3) + ' 0 ' + str(d3)  # bottom right
-        pd4 = '1 ' + str(b3) + ' 0 ' + str(d4)  # top left
+        pd3 = '1 ' + str(b3) + ' 0 ' + str(d3) #bottom right
+        pd4 = '1 ' + str(b3) + ' 0 ' + str(d4) #top left
 
         bd5 = b22
         dd5 = -self.apothem + b22 * (-py19 + self.mod_nub_len)
-        d6 = 1.0 / bd5 * -self.o_dist
-        pd5 = pe23  # bottom left
-        pd6 = '1 ' + str(bd5) + ' 0 ' + str(d6)  # top right
+        d6  = 1.0 / bd5 * -self.o_dist
+        pd5 = pe23 #bottom left
+        pd6 = '1 ' + str(bd5) + ' 0 ' + str(d6) #top right
 
         bd7 = 1.0 / tan(radians(angle))
         dd7 = bd7 * -self.o_dist
-        pd7 = '1 ' + str(bd7) + ' 0 ' + str(dd7)  # upper plane for lower half of right portion
+        pd7 = '1 ' + str(bd7) + ' 0 ' + str(dd7) # upper plane for lower half of right portion
 
-        dd8 = -self.apothem + bd7 * (0.5 * self.lattice_edge -
-                                     self.mod_nub_len - self.mod_dark_width)
-        pd8 = '1 ' + str(bd7) + ' 0 ' + str(dd8)  # lower plane for lower half of right portion
+        dd8 = -self.apothem + bd7 * (0.5 * self.lattice_edge - self.mod_nub_len - self.mod_dark_width)
+        pd8 = '1 ' + str(bd7) + ' 0 ' + str(dd8) # lower plane for lower half of right portion
 
         bd9 = -1.0 / tan(radians(angle_dark + angle))
         dd9 = (self.o_dist) * (-cos(radians(angle)) + bd9 * sin(radians(angle)))
-        pd9 = '1 ' + str(bd9) + ' 0 ' + str(dd9)  # inner plane for lower half of right portion
+        pd9 = '1 ' + str(bd9) + ' 0 ' + str(dd9) # inner plane for lower half of right portion
 
         bd10 = -1.0 / tan(radians(angle))
         dd10 = -self.apothem + bd10 * (0.5 * self.lattice_edge - self.mod_nub_len)
-        pd10 = '1 ' + str(bd10) + ' 0 ' + str(dd10)  # outer plane for upper half of right portion
+        pd10 = '1 ' + str(bd10) + ' 0 ' + str(dd10) # outer plane for upper half of right portion
 
         bd11 = 1.0 / tan(radians(angle))
-        pd11 = '1 ' + str(bd11) + ' 0 ' + '0'  # upper plane for upper half of right portion
+        pd11 = '1 ' + str(bd11) + ' 0 ' + '0' # upper plane for upper half of right portion
 
         surf_cell_inp += '''
 % Dark Moderator Slab Left Half
@@ -425,6 +414,8 @@ cell ctr4 c4 fill cr_ctrl4 -124 125
 cell ctr5 c5 fill cr_ctrl5 -124 125
 cell ctr6 c6 fill cr_ctrl6 -124 125
 '''
+
+
 
         # Creating cells for slabs
         diff_prev = 0
@@ -517,15 +508,17 @@ cell abv 0 graphite -pot 121
 
         '''
 
+
         return surf_cell_inp.format(**locals())
+
 
     def materials(self):
         '''
         Define the materials to be used in the Serpent input
         '''
-        gr_lib = self.lib
-        lib = self.lib
-        gr_frac = 1.0 - self.boron_graphite
+        gr_lib   = self.lib
+        lib      = self.lib
+        gr_frac  = 1.0 - self.boron_graphite
         b10_frac = 0.2 * self.boron_graphite
         b11_frac = 0.8 * self.boron_graphite
         mat_inp = '''
@@ -595,9 +588,13 @@ mat offgas -0.001 burn 1 vol 1e9
 % Overflow tank
 mat overflow -0.001 burn 1 vol 1e9
 2004.{lib} 1
+
+%Set volume checker
+set mcvol 10000000
         '''
 
         return mat_inp.format(**locals())
+
 
     def get_data_cards(self):
         '''
@@ -691,6 +688,8 @@ bustep
 {steps}
             '''
 
+
+
         if self.branch:
             data_cards += '''
 % Historical variation and branch
@@ -710,6 +709,8 @@ set nfg default2_ext
 set micro defaultmg_ext
 set xenon 1
 '''
+
+
 
             # fuel and graphite naming and calculations for branching
             f_names = list()
@@ -741,19 +742,15 @@ var FSD {f_dens}
             '''.format(**locals())
 
         # building coefficient matrix and cleaning strings
-            step_cnt = len(self.busteps)  # Adding zero to fix pointer error?
+            step_cnt = len(self.busteps) # Adding zero to fix pointer error?
             #steps = str(busteps).replace(']', '').replace('[', '')
             use = (self.busteps).copy()
             #use.insert(0, 0)
-            negsteps = str([each * 1 for each in use]).replace(']',
-                                                               '').replace('[', '').replace(',', '')
+            negsteps = str([each * 1 for each in use]).replace(']', '').replace('[', '').replace(',', '')
             num = len(self.tempKs)
-            f_list = str(f_names).replace('[', '').replace(
-                ']', '').replace("'", ' ').replace(',', '')
-            f_list_d = str(f_names_d).replace('[', '').replace(
-                ']', '').replace("'", ' ').replace(',', '')
-            g_list = str(g_names).replace('[', '').replace(
-                ']', '').replace("'", ' ').replace(',', '')
+            f_list = str(f_names).replace('[', '').replace(']', '').replace("'", ' ').replace(',', '')
+            f_list_d = str(f_names_d).replace('[', '').replace(']', '').replace("'", ' ').replace(',', '')
+            g_list = str(g_names).replace('[', '').replace(']', '').replace("'", ' ').replace(',', '')
             data_cards += '''
 
 % coefficient matrix
@@ -766,6 +763,8 @@ coef {step_cnt} {negsteps} % Negative steps mean days, positive is MWd/kgU
             '''
         return data_cards.format(**locals())
 
+
+
     def get_deck(self):
         '''
         Output the Serpent input deck
@@ -773,11 +772,12 @@ coef {step_cnt} {negsteps} % Negative steps mean days, positive is MWd/kgU
         serpent_inp = 'set title "SF-MSR Concept"'
         serpent_inp += self.surf_and_cells()
         serpent_inp += self.materials()
-        serpent_inp += self.salt.serpent_mat(self.ft, self.fd)
-        serpent_inp += self.salt.serpent_matp(self.ft, self.fd)
-        serpent_inp += self.saltr.serpent_matr(self.ft, self.fd)
+        serpent_inp += self.salt.serpent_mat(tempK=self.ft,mat_tempK=self.gt)
+        serpent_inp += self.salt.serpent_matp(tempK=self.ft,mat_tempK=self.gt)
+        serpent_inp += self.saltr.serpent_matr(tempK=self.ft,mat_tempK=self.gt)
         serpent_inp += self.get_data_cards()
         return serpent_inp.format(**locals())
+
 
     def write_deck(self):
         '''
@@ -791,7 +791,8 @@ coef {step_cnt} {negsteps} % Negative steps mean days, positive is MWd/kgU
             print('Unable to write to ', self.inp_name)
             print(e)
 
-    def runfilec(self, queue='fill', cores=8):
+
+    def runfilec(self, queue = 'fill', cores = 8):
         # Written by ondrejch
         '''Writes run file for TORQUE.
         Inputs:
@@ -801,7 +802,7 @@ coef {step_cnt} {negsteps} % Negative steps mean days, positive is MWd/kgU
         Outputs:
             output:     string containing the runscript'''
 
-        output = '''
+        output ='''
 #!/bin/bash
 
 #PBS -V
@@ -818,7 +819,8 @@ echo "done" > done.dat
         output = output.format(**locals())
         return output
 
-    def runfilech(self, queue='fill', cores=8):
+
+    def runfilech(self, queue = 'fill', cores = 8):
         # Written by ondrejch (modified)
         '''Writes run file for TORQUE.
         Inputs:
@@ -828,7 +830,7 @@ echo "done" > done.dat
         Outputs:
             output:     string containing the runscript'''
 
-        output = '''
+        output ='''
 #!/bin/bash
 
 #PBS -V
@@ -846,7 +848,8 @@ echo "done" > done.dat
         output = output.format(**locals())
         return output
 
-    def runfilecb(self, queue='fill', cores=8):
+
+    def runfilecb(self, queue = 'fill', cores = 8):
         # Written by ondrejch (modified)
         '''Writes run file for TORQUE.
         Inputs:
@@ -856,7 +859,7 @@ echo "done" > done.dat
         Outputs:
             output:     string containing the runscript'''
 
-        output = '''
+        output ='''
 #!/bin/bash
 
 #PBS -V
@@ -874,9 +877,10 @@ echo "done" > done.dat
         output = output.format(**locals())
         return output
 
-    def run_deck(self, hist=False):
-        # Runs the deck with variations based on whether there is branching (self.branch)
-        # Also checks if the historical variation is already run (hist)
+
+    def run_deck(self, hist = False):
+    # Runs the deck with variations based on whether there is branching (self.branch)
+    # Also checks if the historical variation is already run (hist)
         if hist == False:
             if self.branch:
                 print('Running histories')
@@ -914,6 +918,7 @@ echo "done" > done.dat
             print(hist)
             print('Unknown boolean provided.')
 
+
     def full_build_run(self):
         res_fname = "{self.inp_name}_res.m".format(**locals())
         inp = '{self.inp_name}'.format(**locals())
@@ -945,7 +950,7 @@ echo "done" > done.dat
                 # Historical variation complete
                 if os.path.exists('./' + inp + '.wrk'):
                     done = False
-                    self.run_deck(hist=True)
+                    self.run_deck(hist = True)
                     # Now running branch variation
                     don2 = False
                     while don2 == False:
@@ -1008,8 +1013,11 @@ echo "done" > done.dat
             outf.write('Conversion Ratio Error:      ' + str(round(self.crerr, rnd)))
             outf.write('\n')
 
+
+
         os.system('rm run*')
         print('Done!')
+
 
     def history_run(self):
         # This should run the deck historical variation
@@ -1041,12 +1049,13 @@ echo "done" > done.dat
                         time.sleep(10)
         os.system('rm run*')
 
+
     def branch_run(self):
         print('branch_run')
         # This should run the deck branch variation using historical variation data (see full_build_run)
         inp = '{self.inp_name}'.format(**locals())
         self.write_deck()
-        self.run_deck(hist=True)
+        self.run_deck(hist = True)
         # Loop init
         done = False
         # Loop region
@@ -1072,7 +1081,8 @@ echo "done" > done.dat
         os.system('rm run*')
 
 
-def done_check(fname='done.dat'):
+
+def done_check(fname = 'done.dat'):
     t0 = time.time()
     while True:
         if os.path.exists(fname):
@@ -1080,6 +1090,7 @@ def done_check(fname='done.dat'):
             return tf
         else:
             pass
+
 
 
 # Testing/Debugging
