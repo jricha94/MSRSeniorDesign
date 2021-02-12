@@ -46,12 +46,30 @@ class serpDeck(object):
     '''
     Class to create Serpent input deck.
     '''
-    def __init__(self, fuel = 'Flibe', refuel = 'NaBe_Makeup',
-             dark_grey_edge_len = 1.5, edge_to_nub = 0.25, distance_from_origin = 0.5, dark_angle = 15,
-             bot_top_thick = 10, absorber_type = 'enrb4c', rod_pos = [0, 0, 0, 0, 0, 0, 0], s_rad = 3, c_rad = 1,
-             tempK = 900, tempK_vals = [850, 950], inp_name = 'input', out_name = 'output',
-             branchBool = False, busteps = [1, 3, 5, 7, 9], enr = 0.25, enr_r = 0.25, dep = True, ft = 902.15,
-             gt = 902.15, fdt = 902.15):
+    def __init__(self, 
+        fuel = 'NaBe_Init', #Fuel used in the reactor, NaBe_Init
+        refuel = 'NaBe_Makeup', #Fuel used to refuel the reactor
+        dark_grey_edge_len = 1.5,
+        edge_to_nub = 0.25, 
+        distance_from_origin = 0.5, 
+        dark_angle = 15,
+        bot_top_thick = 10, 
+        absorber_type = 'enrb4c', 
+        rod_pos = [0, 0, 0, 0, 0, 0, 0], 
+        s_rad = 3, 
+        c_rad = 1,
+        tempK = 900, 
+        tempK_vals = [850, 950], 
+        inp_name = 'input', 
+        out_name = 'output',
+        branchBool = False, 
+        busteps = [1, 3, 5, 7, 9], 
+        enr = 0.25, 
+        enr_r = 0.25, 
+        dep = True, 
+        ft = 902.15,
+        gt = 902.15, 
+        fdt = 902.15):
 
         try:
             self.salt_formula = fuelsalts[fuel]
