@@ -11,6 +11,7 @@ enr_list = []
 k_list = []
 kerr_list = []
 enr = 0.20
+enr0 = enr
 for i in range(10):
     try:
         os.mkdir('dir{}'.format(i))
@@ -31,18 +32,14 @@ for i in range(10):
     os.chdir('../')
     shutil.rmtree('dir{}/'.format(i))
     enr += 0.05
+    enrf = enr
 enr_list, k_list, kerr_list = np.array(enr_list), np.array(k_list), np.array(kerr_list)
 fit = np.polyfit(np.log(enr_list), k_list, 1)
-x = np.arange(0.01, 0.13, 0.001)
+x = np.arange(enr0,enrf, 0.01)
 fig1, ax1 = plt.subplots()
-ax1.errorbar(100. * enr_list, k_list, yerr=kerr_list, marker='.',
-             ls='', label='Serpent data', color='blue')
+ax1.errorbar(100. * enr_list, k_list, yerr=kerr_list, marker='.', ls='', label='Serpent data', color='blue')
 ax1.plot(100. * x, fit[0] * np.log(x) + fit[1], ls='solid', marker='', label='fit', color='orange')
-ax1.set(xlabel='Enrichment (%)', ylabel='k_eff', title='k vs Enrichment FLiBe')
+ax1.set(xlabel='Enrichment (%)', ylabel='k_eff', title='k vs Enrichment TRU salt')
 ax1.legend()
-fig1.savefig('FLiBe.png', transparent=False, dpi=80)
+fig1.savefig('TRU.png', transparent=False, dpi=80)
 
-# crit_enr_1 = (-1 * fit[1] + np.sqrt((fit[1]**2) - (4 * fit[0] * (fit[2] - 1.)) / (2. * fit[0])))
-# crit_enr_2 = (-1 * fit[1] - np.sqrt((fit[1]**2) - (4 * fit[0] * (fit[2] - 1.)) / (2. * fit[0])))
-# crit_enr = [crit_enr_1, crit_enr_2]
-# print('The Critcal Enrichment is ', crit_enr)
