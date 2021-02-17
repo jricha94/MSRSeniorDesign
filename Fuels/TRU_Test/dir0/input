@@ -1,0 +1,442 @@
+set title "SF-MSR Concept"
+%_______________surface definitions_____________________________________________
+% LOG SHAPE
+surf hex hexxprism  0  0  19.055 -189.0 189.0
+surf pot cylz 0 0 243.04800000000003 -199.0 199.0
+
+% CONTROL RODS
+% Empty Spot
+pin pempty
+ graphite 1
+ graphite
+
+% Safety Rod
+pin cr_safe
+ fuelsaltp 3
+ graphite
+
+% Control Rods
+pin cr_ctrl1
+ fuelsaltp 1
+ graphite
+
+pin cr_ctrl2
+ fuelsaltp 1
+ graphite
+
+pin cr_ctrl3
+ fuelsaltp 1
+ graphite
+
+pin cr_ctrl4
+ fuelsaltp 1
+ graphite
+
+pin cr_ctrl5
+ fuelsaltp 1
+ graphite
+
+pin cr_ctrl6
+ fuelsaltp 1
+ graphite
+
+% MODERATOR SLABS LIGHT
+
+surf 120 pz -189.0
+surf 121 pz 189.0
+
+surf 122 plane 1 1.7320508075688774 0 -3.9142778656366577
+surf 123 plane 1 1.7320508075688774 0 -37.45197765259283
+
+surf 124 pz 199.0
+surf 125 pz -199.0
+
+
+
+% Slab 0
+surf 211 px -19.055
+surf 212 px -15.071
+surf 213 px -14.690999999999999
+surf 214 py 6.821336527548531
+surf 215 py 4.25596152754853
+surf 216 py 3.65596152754853
+surf 217 py -8.902851445430805
+surf 218 py -9.502851445430805
+surf 219 py -11.0015
+
+surf 220 px -15.729179306876173
+surf 221 px -18.396820693123825
+
+
+
+
+% Slab 1
+surf 432 px -14.690999999999999
+surf 433 px -10.707
+surf 434 px -10.326999999999998
+surf 435 py 4.3017799528050045
+surf 436 py 1.7364049528050036
+surf 437 py 1.1364049528050035
+surf 438 py -11.422408020174332
+surf 439 py -12.022408020174332
+surf 440 py -13.521056574743527
+
+surf 441 px -15.729179306876173
+surf 442 px -18.396820693123825
+
+
+
+
+% Slab 2
+surf 653 px -10.327
+surf 654 px -6.343
+surf 655 px -5.962999999999999
+surf 656 py 1.7822233780614773
+surf 657 py -0.7831516219385231
+surf 658 py -1.3831516219385231
+surf 659 py -13.94196459491786
+surf 660 py -14.541964594917857
+surf 661 py -16.040613149487054
+
+surf 662 px -15.729179306876173
+surf 663 px -18.396820693123825
+
+
+
+
+% Slab 3
+surf 874 px -5.963000000000001
+surf 875 px -1.979000000000001
+surf 876 px -1.5990000000000002
+surf 877 py -0.7373331966820489
+surf 878 py -3.3027081966820493
+surf 879 py -3.9027081966820494
+surf 880 py -16.461521169661385
+surf 881 py -17.061521169661383
+surf 882 py -18.56016972423058
+
+surf 883 px -15.729179306876173
+surf 884 px -18.396820693123825
+
+
+
+
+% Dark Moderator Slab Left Half
+surf pxd1 px -1.5990000000000002
+surf pxd3 px 0.0
+surf pd4  plane  1 -3.7320508075688776 0 1.8660254037844388
+surf pd5  plane  1 1.7320508075688774 0 -37.45197765259283
+
+% Dark Moderator Slab Right Half Lower
+surf pxd2 px -19.055
+surf pd7 plane 1 1.7320508075688774 0 -0.8660254037844387
+surf pd8 plane 1 1.7320508075688774 0 -3.2560985587604865
+surf pd9 plane 1 -1.0000000000000002 0 -0.6830127018922194
+
+% Dark Moderator Slab Right Half Upper
+surf pd10 plane 1 -1.7320508075688774 0 -37.45197765259283
+surf pd11 plane 1 1.7320508075688774 0 0
+
+
+
+%__________cell definitons______________________________________________________
+% OUTSIDE
+cell 999 0 outside   pot
+%cell 999 0 outside        101
+% GRAPHITE CELLS
+% Dark Moderator Left
+cell dmodL 1 yoke pxd1 -pxd3 pd5 pd4
+% Dark Moderator Right
+cell dmodRB 1 yoke pxd2 -pd9 pd8 -pd7
+cell dmodRT 1 yoke pd7 -pd9 -pd11 pd10
+% Edge of Pot
+cell potedg 3 oug -hex
+
+% FUEL CELLS
+% Bottom Part
+cell bot0 1 fuelsalt -hex -123 -219 -213
+cell bot1 1 fuelsalt -hex -123 -440 -434
+cell bot2 1 fuelsalt -hex -123 -661 -655
+cell bot3 1 fuelsalt -hex -123 -882
+% Slim Channels Below Bottom Nubs
+cell slim0 1 fuelsalt 123 212 -213 -218
+cell slim1 1 fuelsalt 123 433 -434 -439
+cell slim2 1 fuelsalt 123 654 -655 -660
+cell slim3 1 fuelsalt 123 875 -876 -881
+% Area Between Nubs
+cell btwn0 1 fuelsalt 217 -216 212 -213
+cell btwn1 1 fuelsalt 438 -437 433 -434
+cell btwn2 1 fuelsalt 659 -658 654 -655
+cell btwn3 1 fuelsalt 880 -879 875 -876
+% Below Top Nubs
+cell blw0 1 fuelsalt -122 215 212 -213
+cell blw1 1 fuelsalt -122 436 433 -434
+cell blw2 1 fuelsalt -122 657 654 -655
+cell blw3 1 fuelsalt -122 878 875 -876
+% Above Top Nubs
+cell abv0 1 fuelsalt 122 -pd8 214 211
+cell abv1 1 fuelsalt 122 -pd8 435 212
+cell abv2 1 fuelsalt 122 -pd8 656 433
+cell abv3 1 fuelsalt 122 -pd8 877 654
+cell abv4 1 fuelsalt 122 -pd8 875 -876
+% Center Area
+cell cent 1 fuelsalt -pd4 pd9 -pxd3 -pd11 876
+% Extra Bit
+cell xtra 1 fuelsalt pxd2 -pd10 -pd11
+cell xtr2 1 fuelsalt pd8 -876 pd9
+cell xtr3 1 fuelsalt -pd8 876 -pd9
+cell xtr4 1 fuelsalt hex
+
+% CONTROL ROD CELLS
+cell empt mt fill pempty -124 125
+cell safe sr fill cr_safe -124 125
+cell ctr1 c1 fill cr_ctrl1 -124 125
+cell ctr2 c2 fill cr_ctrl2 -124 125
+cell ctr3 c3 fill cr_ctrl3 -124 125
+cell ctr4 c4 fill cr_ctrl4 -124 125
+cell ctr5 c5 fill cr_ctrl5 -124 125
+cell ctr6 c6 fill cr_ctrl6 -124 125
+
+% Complete Slab                 Main Shape          Top Nub             Right Top Nub       Right Bottom Nub    Bottom Nub
+cell 311 1 graphite             211 -212 123 -122 : 122 -212 211 -214 : 212 -213 216 -215 : 218 -217 212 -213 : -123 211 -212 219
+
+
+% Complete Slab                 Main Shape          Top Nub             Right Top Nub       Right Bottom Nub    Bottom Nub
+cell 624 1 graphite             432 -433 123 -122 : 122 -433 432 -435 : 433 -434 437 -436 : 439 -438 433 -434 : -123 432 -433 440
+
+
+% Complete Slab                 Main Shape          Top Nub             Right Top Nub       Right Bottom Nub    Bottom Nub
+cell 937 1 graphite             653 -654 123 -122 : 122 -654 653 -656 : 654 -655 658 -657 : 660 -659 654 -655 : -123 653 -654 661
+
+
+% Complete Slab                 Main Shape          Top Nub             Right Top Nub       Right Bottom Nub    Bottom Nub
+cell 1250 1 graphite             874 -875 123 -122 : 122 -875 874 -877 : 875 -876 879 -878 : 881 -880 875 -876 : -123 874 -875 882
+
+
+cell latte 6 testmat -hex
+
+
+%__________symmetry and duplicates______________________________________________
+%trans U 1 4.364 -2.5195565747435267 0
+
+
+%set usym UNI AX BC X0 Y0 θ0 θw [ OPT ]
+ set usym 1   3   3  0  0 150 120
+
+cell fin 2 fill 1    -hex
+%cell crl 7 fill 8
+
+% 2 is standard log
+% 3 is graphite (for edges)
+% 4 is outside for outer
+% 5 is center control rod log
+% 6 is temporary testing log
+% 7 is control log
+
+% LATTICE FOR CONTROL RODS
+lat 7 1 0 0 11 11 6.0
+% mt, sr, cN
+%1  2  3  4  5  6  7  8  9  10 11
+ mt mt mt mt mt mt mt mt mt mt mt % 1
+ mt mt mt mt mt mt mt mt mt mt mt % 2
+ mt mt mt mt mt mt mt mt mt mt mt % 3
+ mt mt mt mt c1 mt c2 mt mt mt mt % 4
+ mt mt mt mt mt mt mt mt mt mt mt % 5
+ mt mt mt c5 mt sr mt c6 mt mt mt % 6
+ mt mt mt mt mt mt mt mt mt mt mt % 7
+ mt mt mt mt c4 mt c3 mt mt mt mt % 8
+ mt mt mt mt mt mt mt mt mt mt mt % 9
+ mt mt mt mt mt mt mt mt mt mt mt % 10
+ mt mt mt mt mt mt mt mt mt mt mt % 11
+
+
+% LATTICE FOR CORE
+%lat <uni> <type> 0 0 <nx> <ny> <p>
+lat univ_lat 2 0 0 17 17 38.109
+%0 1 2 3 4 5 6 7 c 9 0 1 2 3 4 5 6
+ 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ 3 3 3 3 3 3 3 3 3 2 2 2 2 3 3 3 3 %1
+ 3 3 3 3 3 3 3 2 2 2 2 2 2 2 3 3 3 %2
+ 3 3 3 3 3 3 2 2 2 2 2 2 2 2 3 3 3 %3
+ 3 3 3 3 3 2 2 2 2 2 2 2 2 2 3 3 3 %4
+ 3 3 3 3 2 2 2 2 2 2 2 2 2 2 3 3 3 %5
+ 3 3 3 3 2 2 2 2 7 2 2 2 2 3 3 3 3 %c
+ 3 3 3 2 2 2 2 2 2 2 2 2 2 3 3 3 3 %7
+ 3 3 3 2 2 2 2 2 2 2 2 2 3 3 3 3 3 %8
+ 3 3 3 2 2 2 2 2 2 2 2 3 3 3 3 3 3 %9
+ 3 3 3 2 2 2 2 2 2 2 3 3 3 3 3 3 3 %10
+ 3 3 3 3 2 2 2 2 3 3 3 3 3 3 3 3 3 %11
+ 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+
+
+
+cell pot 0 fill univ_lat -pot 120 -121
+
+cell und 0 graphite -pot -120
+cell abv 0 graphite -pot 121
+
+        
+%
+%__________material definitions____________________________
+% Graphite Moderator
+mat graphite -1.80 moder graph 6000
+rgb 130 130 130
+6000.09c 0.999998
+5010.09c 4e-07
+5011.09c 1.6e-06
+% Thermal Scattering Library for Graphite
+therm graph 902.15 gre7.18t gre7.22t
+
+% Yoke
+mat yoke -1.80 moder graph 6000
+rgb 80 80 80
+6000.09c 0.999998
+5010.09c 4e-07
+5011.09c 1.6e-06
+
+
+% Outer Graphite
+mat oug -1.80 moder graph 6000
+rgb 160 160 160
+6000.09c 0.999998
+5010.09c 4e-07
+5011.09c 1.6e-06
+
+
+% Testing Material
+mat testmat -10
+rgb 128 128 0
+6000.09c -1.0
+
+% Control Rod Materials
+% Natural Boron
+mat boronmetal -2.3
+rgb 75 75 75
+5010.09c -0.199
+5011.09c -0.801
+
+% Control Rod: natural B4C
+mat natb4c -2.418
+rgb 70 70 70
+5010.09c -0.14419     %   B10
+5011.09c -0.63843     %   B11
+6000.09c -0.21738     %   carbon
+
+% Control Rod: enriched B4C
+mat enrb4c -2.296
+rgb 65 65 65
+5010.09c -0.68702     %   B10
+5011.09c -0.08397     %   B11
+6000.09c -0.22901     %   carbon
+
+%  HELIUM: gas due to alpha particles
+%  DENSITY: 54.19 E-6 g/cc
+mat he -54.19E-6
+rgb 255 245 213
+2004.09c 1
+
+% Offgas tank
+mat offgas -0.001 burn 1 vol 1e9
+2004.09c 1
+
+% Overflow tank
+mat overflow -0.001 burn 1 vol 1e9
+2004.09c 1
+
+%Set volume checker
+set mcvol 10000000
+        % Fuel salt: 72%LiF + 16%BeF2 + 10%UF4 + 0.03%Np + 1.786%Pu + 0.128%Am + 0.056%Cm, U enrichment 0.003
+mat fuelsalt  -3.31179312 rgb 240 30 30 burn 1 tmp  902.150
+  3006.09c  -0.000003466322    %  Li-6
+  3007.09c  -0.080857898443    %  Li-7
+  4009.09c  -0.023081916356    %  Be-9
+  9019.09c  -0.437926742706    %  F-19
+ 92234.09c  -0.000010002878    %  U-234
+ 92235.09c  -0.001128735463    %  U-235
+ 92236.09c  -0.000005214309    %  U-236
+ 92238.09c  -0.379899756782    %  U-238
+ 93237.09c  -0.001138360305    %  Np-237
+ 94238.09c  -0.002361566543    %  Pu-238
+ 94239.09c  -0.031451591225    %  Pu-239
+ 94240.09c  -0.024054700928    %  Pu-240
+ 94241.09c  -0.004396868614    %  Pu-241
+ 94242.09c  -0.006536005099    %  Pu-242
+ 95241.09c  -0.002778265917    %  Am-241
+ 95242.09c  -0.000155238130    %  Am-242
+ 95243.09c  -0.002022962002    %  Am-243
+ 96243.09c  -0.000155569369    %  Cm-243
+ 96244.09c  -0.001406548892    %  Cm-244
+ 96245.09c  -0.000392349874    %  Cm-245
+ 96246.09c  -0.000236239841    %  Cm-246
+% Fuel salt: 72%LiF + 16%BeF2 + 10%UF4 + 0.03%Np + 1.786%Pu + 0.128%Am + 0.056%Cm, U enrichment 0.003
+mat fuelsaltp  -3.31179312 rgb 240 30 30 burn 1 tmp  902.150
+  3006.09c  -0.000003466322    %  Li-6
+  3007.09c  -0.080857898443    %  Li-7
+  4009.09c  -0.023081916356    %  Be-9
+  9019.09c  -0.437926742706    %  F-19
+ 92234.09c  -0.000010002878    %  U-234
+ 92235.09c  -0.001128735463    %  U-235
+ 92236.09c  -0.000005214309    %  U-236
+ 92238.09c  -0.379899756782    %  U-238
+ 93237.09c  -0.001138360305    %  Np-237
+ 94238.09c  -0.002361566543    %  Pu-238
+ 94239.09c  -0.031451591225    %  Pu-239
+ 94240.09c  -0.024054700928    %  Pu-240
+ 94241.09c  -0.004396868614    %  Pu-241
+ 94242.09c  -0.006536005099    %  Pu-242
+ 95241.09c  -0.002778265917    %  Am-241
+ 95242.09c  -0.000155238130    %  Am-242
+ 95243.09c  -0.002022962002    %  Am-243
+ 96243.09c  -0.000155569369    %  Cm-243
+ 96244.09c  -0.001406548892    %  Cm-244
+ 96245.09c  -0.000392349874    %  Cm-245
+ 96246.09c  -0.000236239841    %  Cm-246
+% Refueling Salt Tank: 72%LiF + 16%BeF2 + 10%UF4 + 0.03%Np + 1.786%Pu + 0.128%Am + 0.056%Cm, U enrichment 0.003
+mat fuelsalt_rep  -3.31179312 rgb 240 30 30 burn 1 tmp 902.150000
+  3006.09c  -0.000003466322    %  Li-6
+  3007.09c  -0.080857898443    %  Li-7
+  4009.09c  -0.023081916356    %  Be-9
+  9019.09c  -0.437926742706    %  F-19
+ 92234.09c  -0.000010002878    %  U-234
+ 92235.09c  -0.001128735463    %  U-235
+ 92236.09c  -0.000005214309    %  U-236
+ 92238.09c  -0.379899756782    %  U-238
+ 93237.09c  -0.001138360305    %  Np-237
+ 94238.09c  -0.002361566543    %  Pu-238
+ 94239.09c  -0.031451591225    %  Pu-239
+ 94240.09c  -0.024054700928    %  Pu-240
+ 94241.09c  -0.004396868614    %  Pu-241
+ 94242.09c  -0.006536005099    %  Pu-242
+ 95241.09c  -0.002778265917    %  Am-241
+ 95242.09c  -0.000155238130    %  Am-242
+ 95243.09c  -0.002022962002    %  Am-243
+ 96243.09c  -0.000155569369    %  Cm-243
+ 96244.09c  -0.001406548892    %  Cm-244
+ 96245.09c  -0.000392349874    %  Cm-245
+ 96246.09c  -0.000236239841    %  Cm-246
+
+set power 557000000  % Watts of power, 557 MWth per pot
+
+% Boundary condition
+% vacuum, refelective, periodic (reflective doesnt work for this)
+%set bc 1
+% Neutron population and criticality cycles
+set pop 5000 100 40 % 5000 neutrons, 100 active, 40 inactive cycles
+% Analog reaction rate
+set arr 2
+set printm 1
+        
+% Data Libraries
+set acelib "/opt/serpent/xsdata/sss_endfb7u.xsdata"
+set declib "/opt/serpent/xsdata/sss_endfb7.dec"
+set nfylib "/opt/serpent/xsdata/sss_endfb7.nfy"
+            
+
+dep
+bustep
+1  3  5  7  9
+            

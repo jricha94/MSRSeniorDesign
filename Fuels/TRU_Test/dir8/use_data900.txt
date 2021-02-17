@@ -1,0 +1,11 @@
+Fuel Used:                   TRU
+Absorber Used:               enrb4c
+Temperature Used:            900
+Rod Positions Used:          [0, 0, 0, 0, 0, 0, 0]
+Safety Rod Radius Used:      3 cm
+Control Rod Radius Used:     1 cm
+Multiplication Factor:       0.822452
+Multiplication Factor Error: 0.00315
+Reactivity:                  -21587.6428 pcm
+Conversion Ratio:            0.85735
+Conversion Ratio Error:      0.00422
