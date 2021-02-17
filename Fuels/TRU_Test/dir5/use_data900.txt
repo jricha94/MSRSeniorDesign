@@ -4,8 +4,8 @@ Temperature Used:            900
 Rod Positions Used:          [0, 0, 0, 0, 0, 0, 0]
 Safety Rod Radius Used:      3 cm
 Control Rod Radius Used:     1 cm
-Multiplication Factor:       0.77817
-Multiplication Factor Error: 0.00247
-Reactivity:                  -28506.62452 pcm
-Conversion Ratio:            0.95362
-Conversion Ratio Error:      0.00325
+Multiplication Factor:       0.776788
+Multiplication Factor Error: 0.00251
+Reactivity:                  -28735.25338 pcm
+Conversion Ratio:            0.95907
+Conversion Ratio Error:      0.00306
