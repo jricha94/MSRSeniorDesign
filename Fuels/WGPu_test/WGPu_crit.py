@@ -10,7 +10,7 @@ import numpy as np
 WGPu_list = []
 k_list = []
 kerr_list = []
-enr = 0.003
+enr = 0.01
 UF4_per = 10 #%
 WGPu_per = 2  #%
 cleanup = False 
@@ -39,12 +39,12 @@ for i in range(10):
     UF4_per -= 0.5
     WGPu_per += 0.5
 WGPu_list, k_list, kerr_list = np.array(WGPu_list), np.array(k_list), np.array(kerr_list)
-#fit = np.polyfit(np.log(TRU_list), k_list, 1)
-#x = np.arange(0.01, 0.13, 0.001)
+fit = np.polyfit(WGPu_list), k_list, 2)
+x = np.arange(2, 12, 0.001)
 fig1, ax1 = plt.subplots()
 ax1.errorbar(WGPU_list, k_list, yerr=kerr_list, marker='.',
              ls='', label='Serpent data', color='blue')
-#ax1.plot(100. * x, fit[0] * np.log(x) + fit[1], ls='solid', marker='', label='fit', color='orange')
+ax1.plot(x, fit[0]*(x**2)  + fit[1]*x + fit[2], ls='solid', marker='', label='fit', color='orange')
 ax1.set(xlabel='WGPu Fuel Salt Concentration (%)', ylabel='k_eff', title='k vs WGPu Concentration')
 ax1.legend()
 fig1.savefig('WGPu.png', transparent=False, dpi=80)
