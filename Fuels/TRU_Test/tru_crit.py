@@ -10,7 +10,7 @@ import numpy as np
 TRU_list = []
 k_list = []
 kerr_list = []
-enr = 0.003
+enr = 0.01
 UF4_per = 10 #%
 TRU_per = 2  #%
 cleanup = False 
@@ -23,7 +23,7 @@ for i in range(10):
         os.mkdir('dir{}'.format(i))
         os.chdir('dir{}'.format(i))
     d.fuelsalts['TRU'] = f'72%LiF + 16%BeF2 + {UF4_per}%UF4 + {TRU_per}%TRU'
-    dec = d.serpDeck(enr=enr, fuel='TRU')
+    dec = d.serpDeck(enr=enr, fuel='TRU', histories=100)
     dec.full_build_run()
     #enr_list.append(enr)
     TRU_list.append(TRU_per)
@@ -39,12 +39,12 @@ for i in range(10):
     UF4_per -= 0.5
     TRU_per += 0.5
 TRU_list, k_list, kerr_list = np.array(TRU_list), np.array(k_list), np.array(kerr_list)
-#fit = np.polyfit(np.log(TRU_list), k_list, 1)
-#x = np.arange(0.01, 0.13, 0.001)
+fit = np.polyfit(np.log(TRU_list), k_list, 1)
+x = np.arange(2, 12, 0.001)
 fig1, ax1 = plt.subplots()
 ax1.errorbar(100. * enr_list, k_list, yerr=kerr_list, marker='.',
              ls='', label='Serpent data', color='blue')
-#ax1.plot(100. * x, fit[0] * np.log(x) + fit[1], ls='solid', marker='', label='fit', color='orange')
+ax1.plot(100. * x, fit[0] * np.log(x) + fit[1], ls='solid', marker='', label='fit', color='orange')
 ax1.set(xlabel='TRU Fuel Salt Concentration (%)', ylabel='k_eff', title='k vs TRU Concentration')
 ax1.legend()
 fig1.savefig('TRU.png', transparent=False, dpi=80)
