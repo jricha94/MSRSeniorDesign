@@ -24,6 +24,7 @@ for i in range(10):
         os.chdir('dir{}'.format(i))
     d.fuelsalts['WGPu'] = f'72%LiF + 16%BeF2 + {UF4_per}%UF4 + {WGPu_per}%WGPu'
     dec = d.serpDeck(enr=enr, fuel='WGPu')
+    dec.histories = 10000
     dec.full_build_run()
     #enr_list.append(enr)
     WGPu_list.append(WGPu_per)
