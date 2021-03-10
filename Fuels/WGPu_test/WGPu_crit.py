@@ -11,9 +11,9 @@ WGPu_list = []
 k_list = []
 kerr_list = []
 enr = 0.01
-UF4_per = 10 #%
-WGPu_per = 2  #%
-cleanup = False 
+UF4_per = 12 #%
+WGPu_per = 0  #%
+cleanup = True  
 for i in range(10):
     try:
         os.mkdir('dir{}'.format(i))
@@ -37,13 +37,13 @@ for i in range(10):
     os.chdir('../')
     if cleanup == True:
         shutil.rmtree('dir{}/'.format(i))
-    UF4_per -= 0.5
-    WGPu_per += 0.5
+    UF4_per -= 0.03
+    WGPu_per += 0.03
 WGPu_list, k_list, kerr_list = np.array(WGPu_list), np.array(k_list), np.array(kerr_list)
-fit = np.polyfit(WGPu_list), k_list, 2)
-x = np.arange(2, 12, 0.001)
+fit = np.polyfit(WGPu_list, k_list, 2)
+x = np.arange(0, WGPu_per, 0.001)
 fig1, ax1 = plt.subplots()
-ax1.errorbar(WGPU_list, k_list, yerr=kerr_list, marker='.',
+ax1.errorbar(WGPu_list, k_list, yerr=kerr_list, marker='.',
              ls='', label='Serpent data', color='blue')
 ax1.plot(x, fit[0]*(x**2)  + fit[1]*x + fit[2], ls='solid', marker='', label='fit', color='orange')
 ax1.set(xlabel='WGPu Fuel Salt Concentration (%)', ylabel='k_eff', title='k vs WGPu Concentration')
