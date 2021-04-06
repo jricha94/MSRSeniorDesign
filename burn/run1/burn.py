@@ -46,7 +46,7 @@ class burn(object):
         self.rep_lower:float = 1e-10
         #feedback constants
         self.feed_path:str  = os.getcwd() + '/feedback' 
-        self.feedback_temps:list= [850.0, 900.0, 950.0]
+        self.feedback_temps:list= [800.0, 850.0, 900.0, 950.0, 1000.0]
         self.base_temp:float= 900.0
         self.fb_lats:dict = {}
         self.rhos:list = []
@@ -327,9 +327,11 @@ class burn(object):
         if not self.alphas:
             print('Warning: nothing to plot')
             return
-        xvals = self.alphas[0]
-        yvals = self.alphas[1]
-
+        xvals = []
+        yvals = []
+        for step in self.alphas:
+            xvals.append(step[0])
+            yvals.append(step[1])
         plt.plot(xvals, yvals, ls='', marker='.')
         plt.title(f'Doppler feedback vs Time')
         plt.xlabel("Time [d]")
