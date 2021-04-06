@@ -104,7 +104,7 @@ class serpDeck(object):
         self.nuc_libs:str  = 'ENDF7'    # Nuclear data library
         self.lib:str       = '09c'      # CE xsection temp selection salt
         self.gr_lib:str    = '09c'      # CE xsection temp selection graphite
-        self.queue:str     = 'local'     # NEcluster torque queue
+        self.queue:str     = 'fill'     # NEcluster torque queue
         self.histories:int = 5000       # Neutron histories per cycle
         self.ompcores:int  = 20 if self.queue == 'local' else 8
         self.deck_name:str = 'core'  # Serpent input file name
@@ -511,7 +511,7 @@ class serpDeck(object):
         inp += self.makeLog()[2]
         inp += self.makeLog()[3]
         inp += self.makeSurfsAndCells()[0]
-        inp += self.makeSurfsAndCells()[1]
+        inp += self.makeSurfsAndCells()[1]]
         inp += self.makeMats()
         inp += self.s.serpent_mat(self.fs_tempK, self.mat_tempK, self.lib, self.vol)+'\n'
         if self.reprocess:
