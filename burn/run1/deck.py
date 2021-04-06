@@ -511,7 +511,7 @@ class serpDeck(object):
         inp += self.makeLog()[2]
         inp += self.makeLog()[3]
         inp += self.makeSurfsAndCells()[0]
-        inp += self.makeSurfsAndCells()[1]]
+        inp += self.makeSurfsAndCells()[1]
         inp += self.makeMats()
         inp += self.s.serpent_mat(self.fs_tempK, self.mat_tempK, self.lib, self.vol)+'\n'
         if self.reprocess:
