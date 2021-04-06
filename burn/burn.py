@@ -46,7 +46,7 @@ class burn(object):
         self.rep_lower:float = 1e-10
         #feedback constants
         self.feed_path:str  = os.getcwd() + '/feedback' 
-        self.feedback_temps:list= [850.0, 900.0, 950.0]
+        self.feedback_temps:list= [800.0, 850.0, 900.0, 950.0, 1000.0]
         self.base_temp:float= 900.0
         self.fb_lats:dict = {}
         self.rhos:list = []
@@ -170,10 +170,17 @@ class burn(object):
         yvals = [y[1] for y in self.rholist]
         yerrs = [e[2] for e in self.rholist]
 
-        plt.errorbar(x=xvals, y=yvals, yerr=yerrs, ls='', marker='.')
+        # Add fit line
+        fit  = np.polyfit(np.log(xvals), yvals, 1)
+        xfit = np.arange(min(xvals), max(xvals), 0.01)
+        yfit = [fit[0]*np.log(x)+fit[1] for x in xfit]
+
+        plt.errorbar(x=xvals, y=yvals, yerr=yerrs, ls='', marker='.', label='Sample Points')
+        plt.plot(xfit, yfit, ls='-', marker='', label='fit')
         plt.title(f'Reactivity vs Enrichment for ThorCon Core [{self.salt}]')
         plt.xlabel("Enrichment")
         plt.ylabel("Reactivity [pcm]")
+        plt.legend()
         plt.grid(True)
         plt.savefig(self.iter_path + '/' + plot_name, bbox_inches='tight')
         plt.close()
@@ -316,10 +323,19 @@ class burn(object):
         yvals = self.rhos[pos][1]
         yerrs = self.rhos[pos][2]
 
-        plt.errorbar(x=xvals, y=yvals, yerr=yerrs, ls='', marker='.')
-        plt.title(f'Reactivity vs Temperature [{self.rhos[pos][0]} days')
+        # Fit line
+        fit  = np.polyfit(self.feedback_temps, self.rhos[pos][1], 1)
+        xfit = np.arange(min(self.feedback_temps), max(self.feedback_temps), 0.01)
+        yfit = [fit[0]*x+fit[1] for x in xfit]
+
+
+
+        plt.errorbar(x=xvals, y=yvals, yerr=yerrs, ls='', marker='.', label='Sampled Points')
+        plt.plot(xfit, yfit, marker='', ls='-', label='Fit')
+        plt.title(f'Reactivity vs Temperature [{self.rhos[pos][0]}] days')
         plt.xlabel("Temperature [k]")
         plt.ylabel("Reactivity [pcm]")
+        plt.legend()
         plt.savefig(self.feed_path + '/' + plot_name, bbox_inches='tight')
         plt.close()        
 
@@ -327,10 +343,12 @@ class burn(object):
         if not self.alphas:
             print('Warning: nothing to plot')
             return
-        xvals = self.alphas[0]
-        yvals = self.alphas[1]
-
-        plt.plot(xvals, yvals, ls='', marker='.')
+        xvals = []
+        yvals = []
+        for step in self.alphas:
+            xvals.append(step[0])
+            yvals.append(step[1])
+        plt.plot(xvals, yvals, ls='-', marker='.')
         plt.title(f'Doppler feedback vs Time')
         plt.xlabel("Time [d]")
         plt.ylabel("Alpha [pcm/dk]")
@@ -343,7 +361,7 @@ class burn(object):
 
 if __name__ == '__main__':
     test = burn('thorConSalt', 'thorConSalt')
-    test.run_feedbacks(feedback='fs.dopp',recalc=True)
+    test.run_feedbacks(feedback='fs.dopp',recalc=False)
     test.read_feedbacks()
     test.plot_feedback_rho(pos=0,plot_name='rhoFirstDay.png')
     test.plot_feedback_rho(pos=-1,plot_name='rhoLastDay.png')

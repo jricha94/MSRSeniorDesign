@@ -105,7 +105,7 @@ class serpDeck(object):
         self.lib:str       = '09c'      # CE xsection temp selection salt
         self.gr_lib:str    = '09c'      # CE xsection temp selection graphite
         self.queue:str     = 'local'     # NEcluster torque queue
-        self.histories:int = 5000       # Neutron histories per cycle
+        self.histories:int = 10000       # Neutron histories per cycle
         self.ompcores:int  = 20 if self.queue == 'local' else 8
         self.deck_name:str = 'core'  # Serpent input file name
         self.qsub_name:str = 'run.sh' #name for shell file to run serpent
@@ -372,7 +372,7 @@ class serpDeck(object):
         # Graphite material definition
         mats += dedent(f'''\n
             % Graphite Moderator
-             mat graphite -{str(self.graphiteDensityExpansion(self.gr_tempK))} moder graph 6000 tms {self.gr_tempK  }
+             mat graphite -{str(self.graphiteDensityExpansion(self.gr_tempK))} moder graph 6000 tms {self.gr_tempK}
              rgb 130 130 130
              6000.{self.gr_lib} {grFrac}
              5010.{self.gr_lib} {b10Frac}
@@ -425,7 +425,7 @@ class serpDeck(object):
             set mcvol 10000000
 
             % Neutron population and criticality cycles
-            set pop {self.histories} 100 40 % {self.histories} neutrons, 100 active, 40 inactive cycles
+            set pop {self.histories} 200 60 % {self.histories} neutrons, 200 active, 60 inactive cycles
             % Analog reaction rate
             set arr 2
             set printm 1''')
