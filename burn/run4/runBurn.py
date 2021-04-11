@@ -2,11 +2,18 @@
 
 from burn import burn
 
-test = burn(salt='thorConSalt', rep_salt='thorConSalt')
-test.iterate_rho()
-test.save_iters()
-test.e0 = test.conv_enr
-test.rep_e = 0.1975
-test.get_rep_rate(False)
-test.run_feedbacks(feedback='fs.dopp', recalc=True)
-test.run_feedbacks(feedback='gr.dopp', recalc=True)
+run = burn(salt='thorConSalt', rep_salt='thorConSalt')
+run.queue = 'fill'
+run.ompcores = 8
+run.iterate_rho()
+run.save_iters()
+
+run.e0 = run.conv_enr
+run.rep_e = 0.1975
+run.queue = 'xeon'
+run.ompcores = 64
+run.get_rep_rate(False)
+
+
+run.run_feedbacks(feedback='fs.dopp', recalc=True)
+run.run_feedbacks(feedback='gr.dopp', recalc=True)

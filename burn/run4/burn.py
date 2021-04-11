@@ -26,9 +26,11 @@ class burn(object):
         self.enr_eps:float  = 1e-9      # epsilon enrichment
         self.RhoData = namedtuple("rhoData", 'enr rho rho_err')
         self.rholist = []
+        self.queue:str = 'fill'
+        self.ompcores:int = 8
         #iteration constants
         self.iter_path:str  = os.getcwd() + '/k_iter'   # path to run model
-        self.enr_min:float  = 0.13     # minimum enrichment
+        self.enr_min:float  = 0.01     # minimum enrichment
         self.enr_max:float  = 0.25       # maximum enrichment
         self.iter_max:int   = 20        # maximum number of iterations
         self.conv_enr:float = None      # converged enrichment
@@ -41,8 +43,8 @@ class burn(object):
         self.k_diff:float   = 1.0
         self.min_k_diff:float = 0.00665
         self.max_run:int    = 12
-        self.rep_rate:float =  1e-7
-        self.rep_upper:float= 1e-5
+        self.rep_rate:float =  1e-9
+        self.rep_upper:float= 1e-7
         self.rep_lower:float = 1e-10
         #feedback constants
         self.feed_path:str  = os.getcwd() + '/feedback' 
@@ -71,9 +73,13 @@ class burn(object):
         while rho0 > 0.0 or rho1 < 0.0:
             # Set up lattices
             lat0 = serpDeck(fuel=self.salt, e=enr0)
+            lat0.queue = self.queue
+            lat0.ompcores = self.ompcores
             lat0.deck_path = self.iter_path + '/lat0'
             lat0.deck_name = 'lat0_deck'
             lat1 = serpDeck(fuel=self.salt, e=enr1)
+            lat1.queue = self.queue
+            lat1.ompcores = self.ompcores
             lat1.deck_path = self.iter_path + '/lat1'
             lat1.deck_name = 'lat1_deck'
             # run lat 0
@@ -131,6 +137,8 @@ class burn(object):
                 break  # Enrichments close, done!
             os.chdir(self.iter_path)
             mylat = serpDeck(fuel=self.salt, e=enri)
+            mylat.queue = self.queue
+            mylat.ompcores = self.ompcores
             mylat.deck_path = self.iter_path + '/mylat'
             mylat.deck_name = 'mylat_deck'
 
@@ -251,9 +259,9 @@ class burn(object):
         run = 0
         while self.k_diff > self.min_k_diff and run < self.max_run:
             lat = serpDeck(self.salt, self.e0, self.rep_salt, self.rep_e, True)
+            lat.queue = self.queue
+            lat.ompcores = self.ompcores
             lat.deck_path = self.rep_path + '/rep' + str(run)
-            lat.queue = 'xeon'
-            lat.ompcores = 64
             lat.rep_rate = self.rep_rate   # tons of heavy metal per year ?
             lat.re_rep   = self.rep_rate
             lat.full_build_run()
@@ -293,10 +301,10 @@ class burn(object):
             fb_lat_name = feedback + '.' + str(int(t))
             self.fb_lats[fb_lat_name] = serpDeck(self.salt, self.e0, self.rep_salt, self.rep_e, True)
             mylat = self.fb_lats[fb_lat_name]
+            mylat.queue = self.queue
+            mylat.ompcores = self.ompcores
             mylat.deck_path = self.feed_path + '/' + fb_lat_name
             mylat.deck_name = fb_lat_name
-            mylat.queue = 'xeon'
-            mylat.ompcores = 64
             mylat.rep_rate  = self.rep_rate
             mylat.re_rep    = self.rep_rate
 
@@ -341,7 +349,7 @@ class burn(object):
         #self.ngts = self.fb_lats[fb_lat_name].burn_ngts
         #self.betas = self.fb_lats[fb_lat_name].burn_betas
         #self.rhos = [(rho(k[0]), 1e5*k[1]) for k in self.fb_lats[fb_lat_name].burnup_k]
-#######################################################################################################
+        #######################################################################################################
         #Get alpha list
         for i in range(len(self.days)):
             temps = self.feedback_temps
@@ -352,7 +360,7 @@ class burn(object):
                 w.append(1/(e[i]*1e5))
                 _, alpha = np.polynomial.polynomial.polyfit()
 
-########################################################################################################
+        ########################################################################################################
         # # get alpha list
         # for i in range(len(self.alphas)):
         #     alpha, _ = np.polyfit(self.feedback_temps, self.rhos[i][1], 1)
