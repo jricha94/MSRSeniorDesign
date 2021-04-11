@@ -15,7 +15,7 @@ serpentTools.settings.rc['verbosity'] = 'error'
 
 # Dictionary of fuel salts and compositions
 SALTS = {
-    'thorConSalt'   : '76%NaF + 12%BeF2 + 9.5%ThF4 + 2.5%UF4',        #NaFBeTh12
+    'thorConSalt'   : '76%NaF + 12%BeF2 + 9.8%ThF4 + 2.2%UF4',        #NaFBeTh12
     'thorCons_ref': '76%NaF + 12%BeF2 + 10.2%ThF4 + 1.8%UF4',       #NaFBeTh12
     'flibe'         : '72%LiF + 16%BeF2 + 12%UF4'                     #flibe
 }
@@ -98,8 +98,8 @@ class serpDeck(object):
         # Burnup values
         self.burnup_k:list   = None                  # k-eff for burnup
         self.burn_days:list  = None                  # burn days 
-        self.burn_betas = None
-        self.burn_ngt   = None
+        self.burn_betas:list = None
+        self.burn_ngts:list  = None
 
         self.nuc_libs:str  = 'ENDF7'    # Nuclear data library
         self.lib:str       = '09c'      # CE xsection temp selection salt
@@ -323,15 +323,41 @@ class serpDeck(object):
 
         cells += '\n%Void\ncell 999 0 outside pot'
         cells += '\n%B4C Shield\ncell B4CShield 0 natb4c -pot inShield -topCore botCore'
-        cells += '\n%top salt plenum\n cell topSalt 0 fuelsalt -pot topCore -topPlenum'
+        cells += '\n%top salt plenum\ncell topSalt 0 fuelsalt -pot topCore -topPlenum'
         cells += '\n%top reflector\ncell topRef 0 graphite -pot topPlenum'
-        cells += '\n%bottom salt plenum\n cell botSalt 0 fuelsalt -pot -botCore botPlenum'
+        cells += '\n%bottom salt plenum\ncell botSalt 0 fuelsalt -pot -botCore botPlenum'
         cells += '\n%bottom reflector\ncell botRef 0 graphite -pot -botPlenum'        
 
         latticePitch = self.graphiteLinearExpansion(self.latticePitch, self.gr_tempK) * 2.0 - 0.001
 
+        #Outer graphite reflector
         surfs += f'%graphite for outside reflector\nsurf sHEX1 hexxc 0.0 0.0 {self.graphiteLinearExpansion(self.latticePitch, self.gr_tempK)}'
         cells += f'%graphite reflector shield cell\ncell reflector 3 graphite -sHEX1'
+
+        #Control Log
+        surfs += '\n\n% Surfs for control log\n'
+        surfs += f'surf sCTRL0 cyl 0 0 {self.graphiteLinearExpansion(3, self.gr_tempK)}\n'
+        for i in range(6):
+            x = 12.0*math.cos(math.radians(60.0*float(i)))
+            y = 12.0*math.sin(math.radians(60.0*float(i)))
+            #expand from temp
+            pos = self.graphiteLinearExpansion([x,y], self.gr_tempK)
+            surfs += f'surf sCTRL{i+1} cyl {pos[0]} {pos[1]} {self.graphiteLinearExpansion(1, self.gr_tempK)}\n'
+
+        cells += dedent('''\n
+        % Cells for control log
+        cell ctrlSalt 7 fuelsalt -sCTRL0:-sCTRL1:-sCTRL2:-sCTRL3:-sCTRL4:-sCTRL5:-sCTRL6:sHEX1
+        cell ctrlgraphite 7 graphite sCTRL0 sCTRL1 sCTRL2 sCTRL3 sCTRL4 sCTRL5 sCTRL6 -sHEX1
+        ''')
+
+
+
+
+        surfs += dedent(f'''
+        ''')
+
+        cells += dedent(f'''
+        ''')
 
         cells += dedent(f'''
         % LATTICE FOR CORE
@@ -346,7 +372,7 @@ class serpDeck(object):
          3 3 3 3 3 3 2 2 2 2 2 2 2 2 3 3 3 %3
          3 3 3 3 3 2 2 2 2 2 2 2 2 2 3 3 3 %4
          3 3 3 3 2 2 2 2 2 2 2 2 2 2 3 3 3 %5
-         3 3 3 3 2 2 2 2 3 2 2 2 2 3 3 3 3 %c
+         3 3 3 3 2 2 2 2 7 2 2 2 2 3 3 3 3 %c
          3 3 3 2 2 2 2 2 2 2 2 2 2 3 3 3 3 %7
          3 3 3 2 2 2 2 2 2 2 2 2 3 3 3 3 3 %8
          3 3 3 2 2 2 2 2 2 2 2 3 3 3 3 3 3 %9
@@ -529,9 +555,14 @@ class serpDeck(object):
 
         results = serpentTools.read(self.deck_path + '/' + self.deck_name + "_res.m")
         self.k     = results.resdata["anaKeff"][0]
-        self.kerr  = results.resdata["anaKeff"][1]
+        self.kerr  = results.resdata["anaKeff"][1] * self.k 
         self.ngt   = results.resdata["adjNauchiGenTime"][0]
-        self.betas = results.resdata["adjNauchiBetaEff"]
+        betas = results.resdata["adjNauchiBetaEff"]
+        self.betas = []
+        for i in range(int(len(betas)/2)):
+            self.betas.append(betas[2*i])
+        self.betas.pop(0)
+
         return True
 
     def get_burnup_values(self) -> bool:
@@ -545,9 +576,23 @@ class serpDeck(object):
 
         self.burnup_k  = []
         self.burn_days = []
-        for value, day in zip(results.resdata['anaKeff'], burn_results.days):
-            self.burnup_k.append((value[0], value[1]))
-            self.burn_days.append(day)
+        self.burn_betas = []
+        self.burn_ngts  = []
+        days  = burn_results.days
+        ks    = results.resdata['anaKeff']
+        ngts  = results.resdata['adjNauchiGenTime']
+        betas = results.resdata['adjNauchiBetaEff']
+
+        for i in range(len(days)):
+            self.burn_days.append(days[i])
+            self.burnup_k.append((ks[i][0],ks[i][1]*ks[i][0]))
+            self.burn_ngts.append(ngts[i][0])
+            beta_list = []
+            for j in range(int(len(betas[i])/2)):
+                beta_list.append(betas[i][2*j])
+            beta_list.pop(0)
+            self.burn_betas.append(beta_list)          
+
         return True
 
     def save_deck(self):
@@ -613,17 +658,15 @@ class serpDeck(object):
                         if entry.is_file():
                             os.remove(entry)
 
-
-
-
 if __name__ == '__main__':
     test = serpDeck(reprocess = False)
+    test.do_plots = True
+    #test.cleanup()
+    #test.full_build_run()
     test.get_calculated_values()
-    print(test.ngt)
-    print(test.betas)
-    print(len(test.betas))
-
-    
+    print(test.k)
+    #print(test.ngt)
+    #print(test.betas)
 
 
     

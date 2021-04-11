@@ -28,7 +28,7 @@ class burn(object):
         self.rholist = []
         #iteration constants
         self.iter_path:str  = os.getcwd() + '/k_iter'   # path to run model
-        self.enr_min:float  = 0.007     # minimum enrichment
+        self.enr_min:float  = 0.01     # minimum enrichment
         self.enr_max:float  = 0.25       # maximum enrichment
         self.iter_max:int   = 20        # maximum number of iterations
         self.conv_enr:float = None      # converged enrichment
@@ -49,8 +49,12 @@ class burn(object):
         self.feedback_temps:list= [800.0, 850.0, 900.0, 950.0, 1000.0]
         self.base_temp:float= 900.0
         self.fb_lats:dict = {}
-        self.rhos:list = []
-        self.alphas:list = []
+        self.days:list   = None
+        self.alphas:list = None
+        #For dynamic model parameters
+        self.rhos:list   = None
+        self.ngts:list   = None
+        self.betas:list  = None
 
 
         
@@ -168,7 +172,13 @@ class burn(object):
             return
         xvals = [x[0] for x in self.rholist]
         yvals = [y[1] for y in self.rholist]
-        yerrs = [e[2] for e in self.rholist]
+        erel  = [e[2]*1e-3 for e in self.rholist]
+        yerrs = [e*y for e,y in zip(erel, yvals)]
+
+        print(xvals)
+        print(yvals)
+        print(erel)
+        print(yerrs)
 
         # Add fit line
         fit  = np.polyfit(np.log(xvals), yvals, 1)
@@ -184,6 +194,40 @@ class burn(object):
         plt.grid(True)
         plt.savefig(self.iter_path + '/' + plot_name, bbox_inches='tight')
         plt.close()
+
+    def read_rhos_if_done(self, save_file:str='converge_data.txt') -> bool:
+        'Try to load previous search file'
+        if os.path.exists(self.iter_path + '/' + save_file) and \
+                os.path.getsize(self.iter_path + '/' + save_file) > 50:
+            fh = open(self.iter_path + '/' + save_file, 'r')
+        else:
+            return False
+        myline = fh.readline().strip()
+        mysalt = myline.split()[5]
+      #  mysf   = float(myline.split()[7])
+      #  myl    = float(myline.split()[9])
+
+        if not (mysalt==self.salt):
+            print("ERROR: Lattice parameters do not match!")
+            return False
+        for myline in fh.readlines():
+            myline = myline.strip().split()
+            myenr = float(myline[0])
+            myrho = float(myline[1])
+            myrhoerr = float(myline[2])
+            self.rholist.append(self.RhoData(myenr, myrho, myrhoerr))
+
+        if len(self.rholist) < 3:
+            return False
+
+        found_rho0   = self.rholist[-1][1]
+        if abs(found_rho0 - self.rho_tgt) < self.rho_eps:
+            self.conv_enr    = self.rholist[-1][0]
+            self.conv_rho    = self.rholist[-1][1]
+            self.conv_rhoerr = self.rholist[-1][2]
+            return True
+        else:
+            return False
 
     def save_iters(self, save_file:str='converge_data.txt'):
         'save history of the iterative search'
@@ -288,25 +332,27 @@ class burn(object):
         for t in self.feedback_temps:
             fb_lat_name = feedback + '.' + str(int(t))
             self.fb_lats[fb_lat_name].get_burnup_values()
-        
-        # Make lists using days
-        fb_lat_name = feedback + '.' + str(int(self.feedback_temps[0]))
-        for day in self.fb_lats[fb_lat_name].burn_days:
-            self.rhos.append([day,[],[]])
-            self.alphas.append([day])
-        #add rhos to list in form [[day1,[rho1s],[err1s]], [day2, [rho2s], [err2s]], ...]
-        for t in self.feedback_temps:
-            fb_lat_name = feedback + '.' + str(int(t))
-            for i in range(len(self.rhos)):
-                k   = self.fb_lats[fb_lat_name].burnup_k[i][0]
-                err = self.fb_lats[fb_lat_name].burnup_k[i][1]
-                self.rhos[i][1].append(rho(k))
-                self.rhos[i][2].append(err*10e-5)
-        
-        # get alpha list
-        for i in range(len(self.alphas)):
-            alpha, _ = np.polyfit(self.feedback_temps, self.rhos[i][1], 1)
-            self.alphas[i].append(alpha)
+
+        self.days = self.fb_lats[fb_lat_name].burn_days
+        #self.ngts = self.fb_lats[fb_lat_name].burn_ngts
+        #self.betas = self.fb_lats[fb_lat_name].burn_betas
+        #self.rhos = [(rho(k[0]), 1e5*k[1]) for k in self.fb_lats[fb_lat_name].burnup_k]
+#######################################################################################################
+        #Get alpha list
+        for i in range(len(self.days)):
+            temps = self.feedback_temps
+            rhos  = []
+            w     = []
+            for k,e in self.fb_lats[fb_lat_name].burnup_k:
+                rhos.append(rho(k[i])) 
+                w.append(1/(e[i]*1e5))
+                _, alpha = np.polynomial.polynomial.polyfit()
+
+########################################################################################################
+        # # get alpha list
+        # for i in range(len(self.alphas)):
+        #     alpha, _ = np.polyfit(self.feedback_temps, self.rhos[i][1], 1)
+        #     self.alphas[i].append(alpha)
 
         if cleanup:
             for t in self.feedback_temps:
@@ -363,11 +409,10 @@ if __name__ == '__main__':
     test = burn('thorConSalt', 'thorConSalt')
     test.run_feedbacks(feedback='fs.dopp',recalc=False)
     test.read_feedbacks()
-    test.plot_feedback_rho(pos=0,plot_name='rhoFirstDay.png')
-    test.plot_feedback_rho(pos=-1,plot_name='rhoLastDay.png')
-    test.plot_feedback_alphas()
-
-
+    print(test.days)
+    print(test.rhos)
+    print(test.ngts)
+    print(test.betas)
             
 
             

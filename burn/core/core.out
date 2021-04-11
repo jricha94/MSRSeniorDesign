@@ -75,7 +75,7 @@
 
  Nuclide    1 / 17 : 4009.09c -- beryllium 9 (Be-9)
 
- Pointers                     : 28461 6336556
+ Pointers                     : 29134 6336556
  Primary type                 : Transport
  Nuclide ZAI                  : 40090
  Library ID                   : 09c
@@ -137,7 +137,7 @@
 
  Nuclide    2 / 17 : 5010.09c -- boron 10 (B-10)
 
- Pointers                     : 15115 6145364
+ Pointers                     : 15788 6145364
  Primary type                 : Transport
  Nuclide ZAI                  : 50100
  Library ID                   : 09c
@@ -238,7 +238,7 @@
 
  Nuclide    3 / 17 : 5010.09c -- boron 10 (B-10)
 
- Pointers                     : 20871 4412
+ Pointers                     : 21544 4412
  Primary type                 : Transport
  Nuclide ZAI                  : 50100
  Library ID                   : 09c
@@ -338,7 +338,7 @@
 
  Nuclide    4 / 17 : 5011.09c -- boron 11 (B-11)
 
- Pointers                     : 19109 6192948
+ Pointers                     : 19782 6192948
  Primary type                 : Transport
  Nuclide ZAI                  : 50110
  Library ID                   : 09c
@@ -408,7 +408,7 @@
 
  Nuclide    5 / 17 : 5011.09c -- boron 11 (B-11)
 
- Pointers                     : 24865 4688
+ Pointers                     : 25538 4688
  Primary type                 : Transport
  Nuclide ZAI                  : 50110
  Library ID                   : 09c
@@ -477,7 +477,7 @@
 
  Nuclide    6 / 17 : 6000.09c -- natural carbon (C-nat)
 
- Pointers                     : 13276 6068720
+ Pointers                     : 13949 6068720
  Primary type                 : Transport
  Nuclide ZAI                  : 60000
  Library ID                   : 09c
@@ -547,7 +547,7 @@
 
  Nuclide    7 / 17 : 6000.09c -- natural carbon (C-nat)
 
- Pointers                     : 26627 4964
+ Pointers                     : 27300 4964
  Primary type                 : Transport
  Nuclide ZAI                  : 60000
  Library ID                   : 09c
@@ -617,7 +617,7 @@
 
  Nuclide    8 / 17 : 6000.09s -- natural carbon (C-nat)
 
- Pointers                     : 165988 6068720
+ Pointers                     : 166661 6068720
  Primary type                 : Transport
  Nuclide ZAI                  : 60000
  Library ID                   : 09s
@@ -688,7 +688,7 @@
 
  Nuclide    9 / 17 : 9019.09c -- fluorine 19 (F-19)
 
- Pointers                     : 29719 6914066
+ Pointers                     : 30392 6914066
  Primary type                 : Transport
  Nuclide ZAI                  : 90190
  Library ID                   : 09c
@@ -770,7 +770,7 @@
 
  Nuclide   10 / 17 : 11023.09c -- sodium 23 (Na-23)
 
- Pointers                     : 32417 7032537
+ Pointers                     : 33090 7032537
  Primary type                 : Transport
  Nuclide ZAI                  : 110230
  Library ID                   : 09c
@@ -847,7 +847,7 @@
 
  Nuclide   11 / 17 : 90232.09c -- thorium 232 (Th-232)
 
- Pointers                     : 34558 7090369
+ Pointers                     : 35231 7090369
  Primary type                 : Transport
  Nuclide ZAI                  : 902320
  Library ID                   : 09c
@@ -958,7 +958,7 @@
 
  Nuclide   12 / 17 : 92234.09c -- uranium 234 (U-234)
 
- Pointers                     : 58351 9206563
+ Pointers                     : 59024 9206563
  Primary type                 : Transport
  Nuclide ZAI                  : 922340
  Library ID                   : 09c
@@ -1067,7 +1067,7 @@
 
  Nuclide   13 / 17 : 92235.09c -- uranium 235 (U-235)
 
- Pointers                     : 83025 9471923
+ Pointers                     : 83698 9471923
  Primary type                 : Transport
  Nuclide ZAI                  : 922350
  Library ID                   : 09c
@@ -1169,7 +1169,7 @@
 
  Nuclide   14 / 17 : 92236.09c -- uranium 236 (U-236)
 
- Pointers                     : 117879 9819501
+ Pointers                     : 118552 9819501
  Primary type                 : Transport
  Nuclide ZAI                  : 922360
  Library ID                   : 09c
@@ -1274,7 +1274,7 @@
 
  Nuclide   15 / 17 : 92238.09c -- uranium 238 (U-238)
 
- Pointers                     : 141805 10027202
+ Pointers                     : 142478 10027202
  Primary type                 : Transport
  Nuclide ZAI                  : 922380
  Library ID                   : 09c
@@ -1376,7 +1376,7 @@
 
  Nuclide   16 / 17 : gre7.18t -- natural carbon (C-nat)
 
- Pointers                     : 165488 121183
+ Pointers                     : 166161 121183
  Primary type                 : Thermal scattering
  Nuclide ZAI                  : 60000
  Library ID                   : 18t
@@ -1422,7 +1422,7 @@
 
  Nuclide   17 / 17 : gre7.22t -- natural carbon (C-nat)
 
- Pointers                     : 165738 121229
+ Pointers                     : 166411 121229
  Primary type                 : Thermal scattering
  Nuclide ZAI                  : 60000
  Library ID                   : 22t
@@ -1477,8 +1477,8 @@ Material "graphite":
  - Material is included in geometry
  - Atom density 9.03621E-02 1/barn*cm
  - Mass density 1.80079E+00 g/cm3
- - Volume 7.90007E+07 cm3
- - Mass 1.42264E+08 g
+ - Volume 7.89978E+07 cm3
+ - Mass 1.42258E+08 g
  - Photon emission rate 0.00000E+00 1/s
  - Neutron emission rate 0.00000E+00 1/s
  - 3 nuclides in composition
@@ -1502,8 +1502,8 @@ Material "natb4c":
  - Material is included in geometry
  - Atom density 1.31785E-01 1/barn*cm
  - Mass density 2.41800E+00 g/cm3
- - Volume 5.65681E+06 cm3
- - Mass 1.36782E+07 g
+ - Volume 5.66072E+06 cm3
+ - Mass 1.36876E+07 g
  - Photon emission rate 0.00000E+00 1/s
  - Neutron emission rate 0.00000E+00 1/s
  - 3 nuclides in composition
@@ -1525,10 +1525,10 @@ Material "fuelsalt":
 
  - Material is included in majorant
  - Material is included in geometry
- - Atom density 6.47103E-02 1/barn*cm
- - Mass density 3.23461E+00 g/cm3
- - Volume 4.98205E+06 cm3
- - Mass 1.61150E+07 g
+ - Atom density 6.47012E-02 1/barn*cm
+ - Mass density 3.23344E+00 g/cm3
+ - Volume 4.97785E+06 cm3
+ - Mass 1.60956E+07 g
  - Photon emission rate 0.00000E+00 1/s
  - Neutron emission rate 0.00000E+00 1/s
  - 8 nuclides in composition
@@ -1540,13 +1540,13 @@ Isotopic composition (non-zero densities):
 -------------------------------------------------------------------
  Nuclide    a. weight   temp      a. dens      a. frac      m. frac
 -------------------------------------------------------------------
-  4009.09c    9.01220  908.1  3.13111E-03  4.83865E-02  1.44865E-02    
-  9019.09c   18.99820  908.1  3.86175E-02  5.96775E-01  3.76643E-01    
- 11023.09c   22.98949  908.1  1.98306E-02  3.06452E-01  2.34045E-01    
- 90232.09c  232.03833  908.1  2.47880E-03  3.83060E-02  2.95280E-01    
- 92234.09c  234.04093  908.1  9.86953E-07  1.52519E-05  1.18583E-04    
- 92235.09c  235.04395  908.1  1.10894E-04  1.71369E-03  1.33810E-02    
- 92236.09c  236.04556  908.1  5.10111E-07  7.88299E-06  6.18150E-05    
- 92238.09c  238.05078  908.1  5.39925E-04  8.34372E-03  6.59837E-02    
-       sum                    6.47103E-02  1.00000E+00  1.00000E+00
+  4009.09c    9.01220  908.1  3.13067E-03  4.83865E-02  1.44897E-02    
+  9019.09c   18.99820  908.1  3.86120E-02  5.96775E-01  3.76726E-01    
+ 11023.09c   22.98949  908.1  1.98278E-02  3.06452E-01  2.34097E-01    
+ 90232.09c  232.03833  908.1  2.55671E-03  3.95157E-02  3.04672E-01    
+ 92234.09c  234.04093  908.1  8.68396E-07  1.34216E-05  1.04376E-04    
+ 92235.09c  235.04395  908.1  9.75726E-05  1.50805E-03  1.17779E-02    
+ 92236.09c  236.04556  908.1  4.48834E-07  6.93703E-06  5.44092E-05    
+ 92238.09c  238.05078  908.1  4.75067E-04  7.34247E-03  5.80785E-02    
+       sum                    6.47012E-02  1.00000E+00  1.00000E+00
 -------------------------------------------------------------------

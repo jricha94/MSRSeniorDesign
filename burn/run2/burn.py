@@ -28,7 +28,7 @@ class burn(object):
         self.rholist = []
         #iteration constants
         self.iter_path:str  = os.getcwd() + '/k_iter'   # path to run model
-        self.enr_min:float  = 0.007     # minimum enrichment
+        self.enr_min:float  = 0.01     # minimum enrichment
         self.enr_max:float  = 0.25       # maximum enrichment
         self.iter_max:int   = 20        # maximum number of iterations
         self.conv_enr:float = None      # converged enrichment
@@ -168,8 +168,13 @@ class burn(object):
             return
         xvals = [x[0] for x in self.rholist]
         yvals = [y[1] for y in self.rholist]
-        erel  = [e[2] for e in self.rholist]
+        erel  = [e[2]*1e-3 for e in self.rholist]
         yerrs = [e*y for e,y in zip(erel, yvals)]
+
+        print(xvals)
+        print(yvals)
+        print(erel)
+        print(yerrs)
 
         # Add fit line
         fit  = np.polyfit(np.log(xvals), yvals, 1)
@@ -185,6 +190,40 @@ class burn(object):
         plt.grid(True)
         plt.savefig(self.iter_path + '/' + plot_name, bbox_inches='tight')
         plt.close()
+
+    def read_rhos_if_done(self, save_file:str='converge_data.txt') -> bool:
+        'Try to load previous search file'
+        if os.path.exists(self.iter_path + '/' + save_file) and \
+                os.path.getsize(self.iter_path + '/' + save_file) > 50:
+            fh = open(self.iter_path + '/' + save_file, 'r')
+        else:
+            return False
+        myline = fh.readline().strip()
+        mysalt = myline.split()[5]
+      #  mysf   = float(myline.split()[7])
+      #  myl    = float(myline.split()[9])
+
+        if not (mysalt==self.salt):
+            print("ERROR: Lattice parameters do not match!")
+            return False
+        for myline in fh.readlines():
+            myline = myline.strip().split()
+            myenr = float(myline[0])
+            myrho = float(myline[1])
+            myrhoerr = float(myline[2])
+            self.rholist.append(self.RhoData(myenr, myrho, myrhoerr))
+
+        if len(self.rholist) < 3:
+            return False
+
+        found_rho0   = self.rholist[-1][1]
+        if abs(found_rho0 - self.rho_tgt) < self.rho_eps:
+            self.conv_enr    = self.rholist[-1][0]
+            self.conv_rho    = self.rholist[-1][1]
+            self.conv_rhoerr = self.rholist[-1][2]
+            return True
+        else:
+            return False
 
     def save_iters(self, save_file:str='converge_data.txt'):
         'save history of the iterative search'
@@ -362,10 +401,12 @@ class burn(object):
 
 if __name__ == '__main__':
     test = burn('thorConSalt', 'thorConSalt')
-    test.queue = 'local'
-    test.iterate_rho()
+    #test.queue = 'local'
+    #test.iterate_rho()
+    #test.save_iters()
+    #test.plot_iters()
+    test.save_iters()
     test.plot_iters()
-
 
             
 

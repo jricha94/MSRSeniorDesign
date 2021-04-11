@@ -1,0 +1,284 @@
+
+  _                   .-=-.           .-=-.          .-==-.       
+ { }      __        .' O o '.       .' O o '.       /  -<' )--<   
+ { }    .' O'.     / o .-. O \     / o .-. O \     /  .---`       
+ { }   / .-. o\   /O  /   \  o\   /O  /   \  o\   /O /            
+  \ `-` /   \ O`-'o  /     \  O`-'o  /     \  O`-`o /             
+   `-.-`     '.____.'       `._____.'       `.____.'              
+
+Serpent 2 beta
+
+A Continuous-energy Monte Carlo Reactor Physics Burnup Calculation Code
+
+ - Version 2.1.30 (February 14, 2018) -- Contact: serpent@vtt.fi
+
+ - Reference: J. Leppanen, et al. "The Serpent Monte Carlo code: Status,
+              development and applications in 2013." Ann. Nucl. Energy,
+              82 (2015) 142-150.
+
+ - Compiled Feb 15 2021 19:17:39
+
+ - MPI Parallel calculation mode not available
+
+ - OpenMP Parallel calculation mode available
+
+ - Geometry and mesh plotting available
+
+ - Default data path set to: "/opt/serpent/xsdata"
+
+Begin calculation on Sat Apr 10 17:43:05 2021
+
+Reading input file "core"...
+
+NOTE: The "set printm" feature is outdated and not recommended to be
+      used anymore. For restart calculations use the binary restart
+      files ("set rfw") and ("set rfr"):
+
+      http://serpent.vtt.fi/mediawiki/index.php/Input_syntax_manual#set_rfw
+
+      Isotopic data is best obtained from the _res.m output.
+
+
+Checking duplicate input definitions...
+OK.
+
+Creating geometry...
+OK.
+
+Counting geometry zones...
+
+The geometry consists of 3 levels:
+
+Level 0 size: max 7 zones
+Level 1 size: max 289 zones
+Level 2 size: max 7 zones
+
+Processing cells...
+OK.
+
+Linking materials to geometry...
+OK.
+
+Counting cells...
+OK.
+
+Processing data for group constant generation:
+
+ - 70 energy groups in micro-group structure
+ - 2 energy groups in macro-group structure
+ - B1 fundamental mode calculation is not run
+ - Group constants generated in 1 universes
+ - Discontinuity factors are not calculated
+ - Pin-power distributions are not calculated
+ - Albedos are not calculated
+ - Poison cross sections are not calculated
+
+Calculating material volumes by Monte Carlo...
+
+Estimated calculation time: 0:00:01
+Realized calculation time:  0:00:01
+
+
+OK.
+
+Plotting geometry:
+
+   0% complete
+  33% complete
+  67% complete
+ 100% complete
+
+Reading ACE directory files...
+OK.
+
+Reading neutron-induced fission yields...
+OK.
+
+Adding nuclides in material graphite...
+
+Nuclide   6000.09c -- natural carbon at 900K (C-nat)
+Nuclide   5010.09c -- boron 10 at 900K (B-10)
+Nuclide   5011.09c -- boron 11 at 900K (B-11)
+
+Adding nuclides in material natb4c...
+
+Nuclide   5010.09c -- boron 10 at 900K (B-10)
+Nuclide   5011.09c -- boron 11 at 900K (B-11)
+Nuclide   6000.09c -- natural carbon at 900K (C-nat)
+
+Adding nuclides in material fuelsalt...
+
+Nuclide   4009.09c -- beryllium 9 at 908K (Be-9)
+Nuclide   9019.09c -- fluorine 19 at 908K (F-19)
+Nuclide  11023.09c -- sodium 23 at 908K (Na-23)
+Nuclide  90232.09c -- thorium 232 at 908K (Th-232)
+Nuclide  92234.09c -- uranium 234 at 908K (U-234)
+Nuclide  92235.09c -- uranium 235 at 908K (U-235)
+Nuclide  92236.09c -- uranium 236 at 908K (U-236)
+Nuclide  92238.09c -- uranium 238 at 908K (U-238)
+
+Setting majorant temperatures for TMS:
+
+Material graphite at 908.1K
+
+Running Doppler-broadening preprocessor:
+
+Adjusting nuclide   6000.09c temperature from 900K to 908K...
+Adjusting nuclide   5010.09c temperature from 900K to 908K...
+Adjusting nuclide   5011.09c temperature from 900K to 908K...
+Adjusting nuclide   4009.09c temperature from 900K to 908K...
+Adjusting nuclide   9019.09c temperature from 900K to 908K...
+Adjusting nuclide  11023.09c temperature from 900K to 908K...
+Adjusting nuclide  90232.09c temperature from 900K to 908K...
+Adjusting nuclide  92234.09c temperature from 900K to 908K...
+Adjusting nuclide  92235.09c temperature from 900K to 908K...
+Adjusting nuclide  92236.09c temperature from 900K to 908K...
+Adjusting nuclide  92238.09c temperature from 900K to 908K...
+
+Adding thermal scattering data...
+
+Nuclide   gre7.18t -- natural carbon at 800K (C-nat)
+Nuclide   gre7.22t -- natural carbon at 1200K (C-nat)
+
+Checking data and printing output...
+OK.
+
+
+***** Sat Apr 10 17:43:11 2021 (seed = 1618090985)
+Warning message from function ProcessNuclides:
+
+Minimum photon cross section energy 1.000000E+37 MeV is
+above the energy grid minimum 1.000000E-03 MeV.
+The energy grid minimum is set to 1.000000E+37 MeV.
+Possible changes in energy cutoff cards (warned if any).
+
+
+***** Sat Apr 10 17:43:11 2021 (seed = 1618090985)
+Warning message from function ProcessNuclides:
+
+Photon energy cutoff 1.000000E-03 MeV is changed to 1.000000E+37.
+
+
+Generating unionize energy grids...
+
+Adding points:
+
+  4009.09c -- Points added in neutron grid: 307
+  5010.09c -- Points added in neutron grid: 390
+  5010.09c -- Points added in neutron grid: 0
+  5011.09c -- Points added in neutron grid: 2631
+  5011.09c -- Points added in neutron grid: 0
+  6000.09c -- Points added in neutron grid: 594
+  6000.09c -- Points added in neutron grid: 0
+  6000.09s -- Points added in neutron grid: 0
+  9019.09c -- Points added in neutron grid: 1102
+ 11023.09c -- Points added in neutron grid: 1667
+ 90232.09c -- Points added in neutron grid: 19676
+ 92234.09c -- Points added in neutron grid: 8380
+ 92235.09c -- Points added in neutron grid: 25051
+ 92236.09c -- Points added in neutron grid: 7813
+ 92238.09c -- Points added in neutron grid: 54091
+  gre7.18t -- Points added in neutron grid: 1216
+  gre7.22t -- Points added in neutron grid: 2
+
+Generating unionized energy grid:
+
+ - Unionization performed without grid thinning
+   between 1.00E-11 and 20.0 MeV.
+
+ - Final neutron grid size: 122819 points.
+
+ - 6.37 Mb of memory allocated for grid data
+
+OK.
+
+Processing cross sections and ENDF reaction laws...
+
+Nuclide   4009.09c -- beryllium 9 at 908K (Be-9)
+Nuclide   5010.09c -- boron 10 at 908K (B-10)
+Nuclide   5010.09c -- boron 10 at 900K (B-10)
+Nuclide   5011.09c -- boron 11 at 908K (B-11)
+Nuclide   5011.09c -- boron 11 at 900K (B-11)
+Nuclide   6000.09c -- natural carbon at 908K (C-nat)
+Nuclide   6000.09c -- natural carbon at 900K (C-nat)
+Nuclide   6000.09s -- natural carbon at 908K (C-nat)
+Nuclide   9019.09c -- fluorine 19 at 908K (F-19)
+Nuclide  11023.09c -- sodium 23 at 908K (Na-23)
+Nuclide  90232.09c -- thorium 232 at 908K (Th-232)
+Nuclide  92234.09c -- uranium 234 at 908K (U-234)
+Nuclide  92235.09c -- uranium 235 at 908K (U-235)
+Nuclide  92236.09c -- uranium 236 at 908K (U-236)
+Nuclide  92238.09c -- uranium 238 at 908K (U-238)
+Nuclide   gre7.18t -- natural carbon at 800K (C-nat)
+Nuclide   gre7.22t -- natural carbon at 1200K (C-nat)
+
+Adjusting majorant temperatures:
+
+
+ ***** Warning: Nuclide 5010.09c is adjusted to a single temperature using TMS.
+ Consider using Doppler preprocessor instead.
+
+Nuclide   5010.09c TMS majorant to 913K...
+
+ ***** Warning: Nuclide 5011.09c is adjusted to a single temperature using TMS.
+ Consider using Doppler preprocessor instead.
+
+Nuclide   5011.09c TMS majorant to 913K...
+
+ ***** Warning: Nuclide 6000.09c is adjusted to a single temperature using TMS.
+ Consider using Doppler preprocessor instead.
+
+Nuclide   6000.09c TMS majorant to 913K...
+Nuclide   6000.09s TMS majorant to 913K...
+
+SUMMARY -- 17 nuclides included in calculation:
+
+ - 17 transport nuclides
+ - Neutron energy cut-offs at 1.00E-11 and 20.0 MeV
+ - 496 transport reactions
+ - 70 special reactions
+ - 10 decay reactions
+ - 12 transmutation reactions + 2 branches
+ - 119.22 Mb of memory allocated for data
+
+Normalizing compositions and processing mixtures...
+OK.
+
+Allocating memory for macroscopic cross section data...
+OK.
+
+Allocating memory for particle structures...
+OK.
+
+Calculating maximum densities...
+OK.
+
+Performing density cut-off...
+OK.
+
+Sorting material-wise reaction lists:
+
+   0% complete
+ 100% complete
+
+Calculating macroscopic cross sections:
+
+   0% complete
+  67% complete
+ 100% complete
+
+Calculating DT neutron majorant cross section:
+
+   0% complete
+ 100% complete
+
+Clearing results and statistics...
+OK.
+
+Sampling initial source...
+OK.
+
+Inactive cycle   1 /  60: k-eff = 1.00000
+Inactive cycle   2 /  60: k-eff = 0.83650
+Inactive cycle   3 /  60: k-eff = 0.86737
+Inactive cycle   4 /  60: k-eff = 0.89165

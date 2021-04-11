@@ -1,0 +1,772 @@
+
+  _                   .-=-.           .-=-.          .-==-.       
+ { }      __        .' O o '.       .' O o '.       /  -<' )--<   
+ { }    .' O'.     / o .-. O \     / o .-. O \     /  .---`       
+ { }   / .-. o\   /O  /   \  o\   /O  /   \  o\   /O /            
+  \ `-` /   \ O`-'o  /     \  O`-'o  /     \  O`-`o /             
+   `-.-`     '.____.'       `._____.'       `.____.'              
+
+Serpent 2 beta
+
+A Continuous-energy Monte Carlo Reactor Physics Burnup Calculation Code
+
+ - Version 2.1.30 (February 14, 2018) -- Contact: serpent@vtt.fi
+
+ - Reference: J. Leppanen, et al. "The Serpent Monte Carlo code: Status,
+              development and applications in 2013." Ann. Nucl. Energy,
+              82 (2015) 142-150.
+
+ - Compiled Feb 15 2021 19:17:39
+
+ - MPI Parallel calculation mode not available
+
+ - OpenMP Parallel calculation mode available
+
+ - Geometry and mesh plotting available
+
+ - Default data path set to: "/opt/serpent/xsdata"
+
+Begin calculation on Sat Apr 10 16:11:22 2021
+
+Reading input file "lat0_deck"...
+
+NOTE: The "set printm" feature is outdated and not recommended to be
+      used anymore. For restart calculations use the binary restart
+      files ("set rfw") and ("set rfr"):
+
+      http://serpent.vtt.fi/mediawiki/index.php/Input_syntax_manual#set_rfw
+
+      Isotopic data is best obtained from the _res.m output.
+
+
+Checking duplicate input definitions...
+OK.
+
+Creating geometry...
+OK.
+
+Counting geometry zones...
+
+The geometry consists of 3 levels:
+
+Level 0 size: max 7 zones
+Level 1 size: max 289 zones
+Level 2 size: max 7 zones
+
+Processing cells...
+OK.
+
+Linking materials to geometry...
+OK.
+
+Counting cells...
+OK.
+
+Processing data for group constant generation:
+
+ - 70 energy groups in micro-group structure
+ - 2 energy groups in macro-group structure
+ - B1 fundamental mode calculation is not run
+ - Group constants generated in 1 universes
+ - Discontinuity factors are not calculated
+ - Pin-power distributions are not calculated
+ - Albedos are not calculated
+ - Poison cross sections are not calculated
+
+Calculating material volumes by Monte Carlo...
+
+Estimated calculation time: 0:00:01
+Realized calculation time:  0:00:01
+
+
+OK.
+
+Reading ACE directory files...
+OK.
+
+Reading neutron-induced fission yields...
+OK.
+
+Adding nuclides in material graphite...
+
+Nuclide   6000.09c -- natural carbon at 900K (C-nat)
+Nuclide   5010.09c -- boron 10 at 900K (B-10)
+Nuclide   5011.09c -- boron 11 at 900K (B-11)
+
+Adding nuclides in material natb4c...
+
+Nuclide   5010.09c -- boron 10 at 900K (B-10)
+Nuclide   5011.09c -- boron 11 at 900K (B-11)
+Nuclide   6000.09c -- natural carbon at 900K (C-nat)
+
+Adding nuclides in material fuelsalt...
+
+Nuclide   4009.09c -- beryllium 9 at 908K (Be-9)
+Nuclide   9019.09c -- fluorine 19 at 908K (F-19)
+Nuclide  11023.09c -- sodium 23 at 908K (Na-23)
+Nuclide  90232.09c -- thorium 232 at 908K (Th-232)
+Nuclide  92234.09c -- uranium 234 at 908K (U-234)
+Nuclide  92235.09c -- uranium 235 at 908K (U-235)
+Nuclide  92236.09c -- uranium 236 at 908K (U-236)
+Nuclide  92238.09c -- uranium 238 at 908K (U-238)
+
+Setting majorant temperatures for TMS:
+
+Material graphite at 908.1K
+
+Running Doppler-broadening preprocessor:
+
+Adjusting nuclide   6000.09c temperature from 900K to 908K...
+Adjusting nuclide   5010.09c temperature from 900K to 908K...
+Adjusting nuclide   5011.09c temperature from 900K to 908K...
+Adjusting nuclide   4009.09c temperature from 900K to 908K...
+Adjusting nuclide   9019.09c temperature from 900K to 908K...
+Adjusting nuclide  11023.09c temperature from 900K to 908K...
+Adjusting nuclide  90232.09c temperature from 900K to 908K...
+Adjusting nuclide  92234.09c temperature from 900K to 908K...
+Adjusting nuclide  92235.09c temperature from 900K to 908K...
+Adjusting nuclide  92236.09c temperature from 900K to 908K...
+Adjusting nuclide  92238.09c temperature from 900K to 908K...
+
+Adding thermal scattering data...
+
+Nuclide   gre7.18t -- natural carbon at 800K (C-nat)
+Nuclide   gre7.22t -- natural carbon at 1200K (C-nat)
+
+Checking data and printing output...
+OK.
+
+
+***** Sat Apr 10 16:11:25 2021 (seed = 1618085482)
+Warning message from function ProcessNuclides:
+
+Minimum photon cross section energy 1.000000E+37 MeV is
+above the energy grid minimum 1.000000E-03 MeV.
+The energy grid minimum is set to 1.000000E+37 MeV.
+Possible changes in energy cutoff cards (warned if any).
+
+
+***** Sat Apr 10 16:11:25 2021 (seed = 1618085482)
+Warning message from function ProcessNuclides:
+
+Photon energy cutoff 1.000000E-03 MeV is changed to 1.000000E+37.
+
+
+Generating unionize energy grids...
+
+Adding points:
+
+  4009.09c -- Points added in neutron grid: 307
+  5010.09c -- Points added in neutron grid: 390
+  5010.09c -- Points added in neutron grid: 0
+  5011.09c -- Points added in neutron grid: 2631
+  5011.09c -- Points added in neutron grid: 0
+  6000.09c -- Points added in neutron grid: 594
+  6000.09c -- Points added in neutron grid: 0
+  6000.09s -- Points added in neutron grid: 0
+  9019.09c -- Points added in neutron grid: 1102
+ 11023.09c -- Points added in neutron grid: 1667
+ 90232.09c -- Points added in neutron grid: 19676
+ 92234.09c -- Points added in neutron grid: 8380
+ 92235.09c -- Points added in neutron grid: 25051
+ 92236.09c -- Points added in neutron grid: 7813
+ 92238.09c -- Points added in neutron grid: 54091
+  gre7.18t -- Points added in neutron grid: 1216
+  gre7.22t -- Points added in neutron grid: 2
+
+Generating unionized energy grid:
+
+ - Unionization performed without grid thinning
+   between 1.00E-11 and 20.0 MeV.
+
+ - Final neutron grid size: 122819 points.
+
+ - 6.37 Mb of memory allocated for grid data
+
+OK.
+
+Processing cross sections and ENDF reaction laws...
+
+Nuclide   4009.09c -- beryllium 9 at 908K (Be-9)
+Nuclide   5010.09c -- boron 10 at 908K (B-10)
+Nuclide   5010.09c -- boron 10 at 900K (B-10)
+Nuclide   5011.09c -- boron 11 at 908K (B-11)
+Nuclide   5011.09c -- boron 11 at 900K (B-11)
+Nuclide   6000.09c -- natural carbon at 908K (C-nat)
+Nuclide   6000.09c -- natural carbon at 900K (C-nat)
+Nuclide   6000.09s -- natural carbon at 908K (C-nat)
+Nuclide   9019.09c -- fluorine 19 at 908K (F-19)
+Nuclide  11023.09c -- sodium 23 at 908K (Na-23)
+Nuclide  90232.09c -- thorium 232 at 908K (Th-232)
+Nuclide  92234.09c -- uranium 234 at 908K (U-234)
+Nuclide  92235.09c -- uranium 235 at 908K (U-235)
+Nuclide  92236.09c -- uranium 236 at 908K (U-236)
+Nuclide  92238.09c -- uranium 238 at 908K (U-238)
+Nuclide   gre7.18t -- natural carbon at 800K (C-nat)
+Nuclide   gre7.22t -- natural carbon at 1200K (C-nat)
+
+Adjusting majorant temperatures:
+
+
+ ***** Warning: Nuclide 5010.09c is adjusted to a single temperature using TMS.
+ Consider using Doppler preprocessor instead.
+
+Nuclide   5010.09c TMS majorant to 913K...
+
+ ***** Warning: Nuclide 5011.09c is adjusted to a single temperature using TMS.
+ Consider using Doppler preprocessor instead.
+
+Nuclide   5011.09c TMS majorant to 913K...
+
+ ***** Warning: Nuclide 6000.09c is adjusted to a single temperature using TMS.
+ Consider using Doppler preprocessor instead.
+
+Nuclide   6000.09c TMS majorant to 913K...
+Nuclide   6000.09s TMS majorant to 913K...
+
+SUMMARY -- 17 nuclides included in calculation:
+
+ - 17 transport nuclides
+ - Neutron energy cut-offs at 1.00E-11 and 20.0 MeV
+ - 496 transport reactions
+ - 70 special reactions
+ - 10 decay reactions
+ - 12 transmutation reactions + 2 branches
+ - 119.22 Mb of memory allocated for data
+
+Normalizing compositions and processing mixtures...
+OK.
+
+Allocating memory for macroscopic cross section data...
+OK.
+
+Allocating memory for particle structures...
+OK.
+
+Calculating maximum densities...
+OK.
+
+Performing density cut-off...
+OK.
+
+Sorting material-wise reaction lists:
+
+   0% complete
+ 100% complete
+
+Calculating macroscopic cross sections:
+
+   0% complete
+ 100% complete
+
+Calculating DT neutron majorant cross section:
+
+   0% complete
+ 100% complete
+
+Clearing results and statistics...
+OK.
+
+Sampling initial source...
+OK.
+
+Inactive cycle   1 /  60: k-eff = 1.00000
+Inactive cycle   2 /  60: k-eff = 0.79100
+Inactive cycle   3 /  60: k-eff = 0.78570
+Inactive cycle   4 /  60: k-eff = 0.81406
+Inactive cycle   5 /  60: k-eff = 0.82408
+Inactive cycle   6 /  60: k-eff = 0.79136
+Inactive cycle   7 /  60: k-eff = 0.79840
+Inactive cycle   8 /  60: k-eff = 0.81501
+Inactive cycle   9 /  60: k-eff = 0.82936
+Inactive cycle  10 /  60: k-eff = 0.83632
+Inactive cycle  11 /  60: k-eff = 0.83239
+Inactive cycle  12 /  60: k-eff = 0.82873
+Inactive cycle  13 /  60: k-eff = 0.81912
+Inactive cycle  14 /  60: k-eff = 0.82182
+Inactive cycle  15 /  60: k-eff = 0.81105
+Inactive cycle  16 /  60: k-eff = 0.81357
+Inactive cycle  17 /  60: k-eff = 0.81641
+Inactive cycle  18 /  60: k-eff = 0.82564
+Inactive cycle  19 /  60: k-eff = 0.82820
+Inactive cycle  20 /  60: k-eff = 0.81462
+Inactive cycle  21 /  60: k-eff = 0.83164
+Inactive cycle  22 /  60: k-eff = 0.83056
+Inactive cycle  23 /  60: k-eff = 0.81885
+Inactive cycle  24 /  60: k-eff = 0.82303
+Inactive cycle  25 /  60: k-eff = 0.82854
+Inactive cycle  26 /  60: k-eff = 0.83012
+Inactive cycle  27 /  60: k-eff = 0.83759
+Inactive cycle  28 /  60: k-eff = 0.81489
+Inactive cycle  29 /  60: k-eff = 0.82817
+Inactive cycle  30 /  60: k-eff = 0.81981
+Inactive cycle  31 /  60: k-eff = 0.83399
+Inactive cycle  32 /  60: k-eff = 0.81731
+Inactive cycle  33 /  60: k-eff = 0.80039
+Inactive cycle  34 /  60: k-eff = 0.82152
+Inactive cycle  35 /  60: k-eff = 0.82867
+Inactive cycle  36 /  60: k-eff = 0.82958
+Inactive cycle  37 /  60: k-eff = 0.80760
+Inactive cycle  38 /  60: k-eff = 0.82488
+Inactive cycle  39 /  60: k-eff = 0.84063
+Inactive cycle  40 /  60: k-eff = 0.81415
+Inactive cycle  41 /  60: k-eff = 0.81717
+Inactive cycle  42 /  60: k-eff = 0.81431
+Inactive cycle  43 /  60: k-eff = 0.79468
+Inactive cycle  44 /  60: k-eff = 0.84443
+Inactive cycle  45 /  60: k-eff = 0.82686
+Inactive cycle  46 /  60: k-eff = 0.83307
+Inactive cycle  47 /  60: k-eff = 0.80632
+Inactive cycle  48 /  60: k-eff = 0.85285
+Inactive cycle  49 /  60: k-eff = 0.83980
+Inactive cycle  50 /  60: k-eff = 0.81847
+Inactive cycle  51 /  60: k-eff = 0.81871
+Inactive cycle  52 /  60: k-eff = 0.83542
+Inactive cycle  53 /  60: k-eff = 0.81879
+Inactive cycle  54 /  60: k-eff = 0.81085
+Inactive cycle  55 /  60: k-eff = 0.79804
+Inactive cycle  56 /  60: k-eff = 0.83020
+Inactive cycle  57 /  60: k-eff = 0.83120
+Inactive cycle  58 /  60: k-eff = 0.83344
+Inactive cycle  59 /  60: k-eff = 0.80460
+Inactive cycle  60 /  60: k-eff = 0.82544
+
+----- Begin active cycles -----
+
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle    1 / 200  Source neutrons : 10060
+
+Running time :                  0:01:04
+Estimated running time :        -:--:--
+Estimated running time left :   -:--:--
+
+Estimated relative CPU usage :  2001.5%
+
+k-eff (analog)    = 0.83039 +/- 0.00000  [0.83039  0.83039]
+k-eff (implicit)  = 0.81593 +/- 0.00000  [0.81593  0.81593]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle    2 / 200  Source neutrons :  9861
+
+Running time :                  0:01:05
+Estimated running time :        0:04:42
+Estimated running time left :   0:03:36
+
+Estimated relative CPU usage :  1998.2%
+
+k-eff (analog)    = 0.82462 +/- 0.00577  [0.81331  0.83593]
+k-eff (implicit)  = 0.82264 +/- 0.00672  [0.80948  0.83581]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle    3 / 200  Source neutrons : 10413
+
+Running time :                  0:01:06
+Estimated running time :        0:04:45
+Estimated running time left :   0:03:39
+
+Estimated relative CPU usage :  1995.7%
+
+k-eff (analog)    = 0.83397 +/- 0.00993  [0.81452  0.85343]
+k-eff (implicit)  = 0.82494 +/- 0.00450  [0.81611  0.83377]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle    4 / 200  Source neutrons :  9678
+
+Running time :                  0:01:07
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:35
+
+Estimated relative CPU usage :  1998.7%
+
+k-eff (analog)    = 0.83178 +/- 0.00735  [0.81737  0.84619]
+k-eff (implicit)  = 0.82461 +/- 0.00320  [0.81834  0.83089]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle    5 / 200  Source neutrons : 10087
+
+Running time :                  0:01:08
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:35
+
+Estimated relative CPU usage :  1998.1%
+
+k-eff (analog)    = 0.83190 +/- 0.00570  [0.82074  0.84307]
+k-eff (implicit)  = 0.82426 +/- 0.00251  [0.81935  0.82917]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle    6 / 200  Source neutrons :  9979
+
+Running time :                  0:01:09
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:33
+
+Estimated relative CPU usage :  1996.4%
+
+k-eff (analog)    = 0.83169 +/- 0.00466  [0.82257  0.84082]
+k-eff (implicit)  = 0.82460 +/- 0.00207  [0.82054  0.82866]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle    7 / 200  Source neutrons : 10205
+
+Running time :                  0:01:10
+Estimated running time :        0:04:44
+Estimated running time left :   0:03:33
+
+Estimated relative CPU usage :  1996.3%
+
+k-eff (analog)    = 0.83398 +/- 0.00455  [0.82506  0.84289]
+k-eff (implicit)  = 0.82454 +/- 0.00175  [0.82110  0.82797]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle    8 / 200  Source neutrons :  9592
+
+Running time :                  0:01:11
+Estimated running time :        0:04:42
+Estimated running time left :   0:03:30
+
+Estimated relative CPU usage :  1998.3%
+
+k-eff (analog)    = 0.83137 +/- 0.00473  [0.82210  0.84063]
+k-eff (implicit)  = 0.82472 +/- 0.00153  [0.82172  0.82772]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle    9 / 200  Source neutrons : 10169
+
+Running time :                  0:01:12
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:30
+
+Estimated relative CPU usage :  2001.4%
+
+k-eff (analog)    = 0.83086 +/- 0.00420  [0.82263  0.83909]
+k-eff (implicit)  = 0.82354 +/- 0.00180  [0.82002  0.82706]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   10 / 200  Source neutrons :  9912
+
+Running time :                  0:01:14
+Estimated running time :        0:04:42
+Estimated running time left :   0:03:28
+
+Estimated relative CPU usage :  1995.3%
+
+k-eff (analog)    = 0.82973 +/- 0.00392  [0.82204  0.83742]
+k-eff (implicit)  = 0.82329 +/- 0.00162  [0.82011  0.82648]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   11 / 200  Source neutrons :  9977
+
+Running time :                  0:01:15
+Estimated running time :        0:04:42
+Estimated running time left :   0:03:27
+
+Estimated relative CPU usage :  1995.7%
+
+k-eff (analog)    = 0.82863 +/- 0.00371  [0.82136  0.83591]
+k-eff (implicit)  = 0.82321 +/- 0.00147  [0.82033  0.82609]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   12 / 200  Source neutrons : 10129
+
+Running time :                  0:01:16
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:27
+
+Estimated relative CPU usage :  1994.6%
+
+k-eff (analog)    = 0.82860 +/- 0.00339  [0.82196  0.83524]
+k-eff (implicit)  = 0.82391 +/- 0.00152  [0.82094  0.82689]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   13 / 200  Source neutrons : 10212
+
+Running time :                  0:01:17
+Estimated running time :        0:04:44
+Estimated running time left :   0:03:26
+
+Estimated relative CPU usage :  1998.6%
+
+k-eff (analog)    = 0.82992 +/- 0.00339  [0.82328  0.83656]
+k-eff (implicit)  = 0.82446 +/- 0.00150  [0.82152  0.82739]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   14 / 200  Source neutrons :  9762
+
+Running time :                  0:01:18
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:25
+
+Estimated relative CPU usage :  1997.2%
+
+k-eff (analog)    = 0.82962 +/- 0.00315  [0.82344  0.83579]
+k-eff (implicit)  = 0.82433 +/- 0.00139  [0.82160  0.82706]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   15 / 200  Source neutrons :  9942
+
+Running time :                  0:01:19
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:23
+
+Estimated relative CPU usage :  1996.0%
+
+k-eff (analog)    = 0.82903 +/- 0.00299  [0.82317  0.83489]
+k-eff (implicit)  = 0.82432 +/- 0.00130  [0.82178  0.82686]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   16 / 200  Source neutrons : 10104
+
+Running time :                  0:01:20
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:22
+
+Estimated relative CPU usage :  1998.5%
+
+k-eff (analog)    = 0.82905 +/- 0.00280  [0.82357  0.83454]
+k-eff (implicit)  = 0.82345 +/- 0.00149  [0.82053  0.82637]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   17 / 200  Source neutrons :  9802
+
+Running time :                  0:01:21
+Estimated running time :        0:04:42
+Estimated running time left :   0:03:20
+
+Estimated relative CPU usage :  1996.3%
+
+k-eff (analog)    = 0.82811 +/- 0.00279  [0.82264  0.83358]
+k-eff (implicit)  = 0.82303 +/- 0.00146  [0.82016  0.82589]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   18 / 200  Source neutrons : 10264
+
+Running time :                  0:01:22
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:20
+
+Estimated relative CPU usage :  1996.9%
+
+k-eff (analog)    = 0.82846 +/- 0.00266  [0.82325  0.83367]
+k-eff (implicit)  = 0.82301 +/- 0.00138  [0.82030  0.82571]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   19 / 200  Source neutrons :  9922
+
+Running time :                  0:01:24
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:19
+
+Estimated relative CPU usage :  1994.8%
+
+k-eff (analog)    = 0.82843 +/- 0.00251  [0.82351  0.83336]
+k-eff (implicit)  = 0.82365 +/- 0.00145  [0.82080  0.82649]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   20 / 200  Source neutrons :  9859
+
+Running time :                  0:01:25
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:18
+
+Estimated relative CPU usage :  1998.8%
+
+k-eff (analog)    = 0.82782 +/- 0.00246  [0.82300  0.83264]
+k-eff (implicit)  = 0.82342 +/- 0.00140  [0.82068  0.82616]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   21 / 200  Source neutrons : 10082
+
+Running time :                  0:01:26
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:17
+
+Estimated relative CPU usage :  1994.3%
+
+k-eff (analog)    = 0.82759 +/- 0.00235  [0.82298  0.83220]
+k-eff (implicit)  = 0.82345 +/- 0.00133  [0.82085  0.82606]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   22 / 200  Source neutrons : 10220
+
+Running time :                  0:01:27
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:16
+
+Estimated relative CPU usage :  1996.1%
+
+k-eff (analog)    = 0.82820 +/- 0.00232  [0.82365  0.83276]
+k-eff (implicit)  = 0.82323 +/- 0.00129  [0.82071  0.82575]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
+------------------------------------------------------------
+
+Serpent 2.1.30 -- Static criticality source simulation
+
+Input file: "lat0_deck" 
+
+Active cycle   23 / 200  Source neutrons :  9871
+
+Running time :                  0:01:28
+Estimated running time :        0:04:43
+Estimated running time left :   0:03:15
+
+Estimated relative CPU usage :  1998.8%
+
+k-eff (analog)    = 0.82829 +/- 0.00222  [0.82393  0.83265]
+k-eff (implicit)  = 0.82345 +/- 0.00125  [0.82101  0.82590]
+
+(O4) (U) (TMS) (OMP=20) 
+------------------------------------------------------------
