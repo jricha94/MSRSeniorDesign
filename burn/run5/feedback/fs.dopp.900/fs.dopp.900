@@ -297,3 +297,8 @@ set inventory
 fp
 lanthanides
 actinides
+
+% Plots
+plot 1 2000  2000 0
+plot 2 2000  2000 0
+plot 3 2000  2000 0

@@ -42,14 +42,14 @@ class burn(object):
         self.rep_e:str      = 0.1975
         self.k_diff:float   = 1.0
         self.min_k_diff:float = 0.00665
-        self.max_run:int    = 15
-        self.rep_rate:float =  1e-4
-        self.rep_upper:float= 1e-3
+        self.max_run:int    = 12
+        self.rep_rate:float =  1e-9
+        self.rep_upper:float= 1e-7
         self.rep_lower:float = 1e-10
         #feedback constants
         self.feed_path:str  = os.getcwd() + '/feedback' 
         self.feedback_temps:list= [800.0, 850.0, 900.0, 950.0, 1000.0]
-        self.base_temp:float= 900.0
+        self.base_temp:float = 900
         self.fb_lats:dict = {}
         self.days:list   = None
         self.alphas:list = None
@@ -345,52 +345,65 @@ class burn(object):
             fb_lat_name = feedback + '.' + str(int(t))
             self.fb_lats[fb_lat_name].get_burnup_values()
 
-        self.days = self.fb_lats[fb_lat_name].burn_days
-        #self.ngts = self.fb_lats[fb_lat_name].burn_ngts
-        #self.betas = self.fb_lats[fb_lat_name].burn_betas
-        #self.rhos = [(rho(k[0]), 1e5*k[1]) for k in self.fb_lats[fb_lat_name].burnup_k]
-        #######################################################################################################
-        #Get alpha list
-        for i in range(len(self.days)):
-            temps = self.feedback_temps
-            rhos  = []
-            w     = []
-            for k,e in self.fb_lats[fb_lat_name].burnup_k:
-                rhos.append(rho(k[i])) 
-                w.append(1/(e[i]*1e5))
-                _, alpha = np.polynomial.polynomial.polyfit()
 
-        ########################################################################################################
-        # # get alpha list
-        # for i in range(len(self.alphas)):
-        #     alpha, _ = np.polyfit(self.feedback_temps, self.rhos[i][1], 1)
-        #     self.alphas[i].append(alpha)
+        # Get days for alpha calc
+        fb_lat_name = feedback + '.' + str(int(self.feedback_temps[0]))
+        self.fb_lats[fb_lat_name].get_burnup_values()        
+        self.days = self.fb_lats[fb_lat_name].burn_days
+
+        self.alphas = []
+        for i in range(len(self.days)):
+            rho_list = []
+            for t in self.feedback_temps:
+                fb_lat_name = feedback + '.' + str(int(t))
+                mylat = self.fb_lats[fb_lat_name]
+                mylat.get_burnup_values()
+                rho_list.append((rho(mylat.burnup_k[i][0]),mylat.burnup_k[i][1]*1e5))
+            temps = self.feedback_temps
+            rhos = [r for r,e in rho_list]
+            w   = [np.sqrt(1/e) for k,e in rho_list]
+            _, alpha = np.polynomial.polynomial.polyfit(x=temps, y=rhos, w=w, deg=1)
+            self.alphas.append(alpha)
 
         if cleanup:
             for t in self.feedback_temps:
                 fb_lat_name = feedback + '.' + str(int(t))
                 self.fb_lats[fb_lat_name].cleanup()
         
-    def plot_feedback_rho(self, pos:int=0, plot_name:str='RhovTemp.png'):
-        if not self.rhos:
+    def plot_feedback_rho(self, pos:int=0,feedback='fs.dopp', plot_name:str='RhovTemp.png'):
+        if not self.alphas:
             print('Warning: nothing to plot')
             return
-        if pos > len(self.rhos):
-            print('Not a valid position')
+
+
+        self.alphas = []
+        rho_list = []
+        for t in self.feedback_temps:
+            fb_lat_name = feedback + '.' + str(int(t))
+            mylat = self.fb_lats[fb_lat_name]
+            mylat.get_burnup_values()
+            rho_list.append((rho(mylat.burnup_k[pos][0]),mylat.burnup_k[pos][1]*1e5))
         xvals = self.feedback_temps
-        yvals = self.rhos[pos][1]
-        yerrs = self.rhos[pos][2]
+        yvals = [r for r,e in rho_list]
+        yerrs = [e for r,e in rho_list]
+        w   = [np.sqrt(1/e) for k,e in rho_list]
+
+
+        # if pos > len(self.rhos):
+        #     print('Not a valid position')
+        #     return
+        # xvals = self.feedback_temps
+        # yvals = self.rhos[pos][1]
+        # yerrs = self.rhos[pos][2]
 
         # Fit line
-        fit  = np.polyfit(self.feedback_temps, self.rhos[pos][1], 1)
-        xfit = np.arange(min(self.feedback_temps), max(self.feedback_temps), 0.01)
-        yfit = [fit[0]*x+fit[1] for x in xfit]
-
-
-
+        yint, alpha = np.polynomial.polynomial.polyfit(x=xvals, y=yvals, w=w, deg=1)
+        xfit = np.arange(min(xvals), max(xvals), 0.01)
+        yfit = [alpha*x+yint for x in xfit]
+        # Make plot
         plt.errorbar(x=xvals, y=yvals, yerr=yerrs, ls='', marker='.', label='Sampled Points')
         plt.plot(xfit, yfit, marker='', ls='-', label='Fit')
-        plt.title(f'Reactivity vs Temperature [{self.rhos[pos][0]}] days')
+        plt.title(f'Reactivity vs Temperature [{self.days[pos]} d]')
         plt.xlabel("Temperature [k]")
         plt.ylabel("Reactivity [pcm]")
         plt.legend()
@@ -401,19 +414,25 @@ class burn(object):
         if not self.alphas:
             print('Warning: nothing to plot')
             return
-        xvals = []
-        yvals = []
-        for step in self.alphas:
-            xvals.append(step[0])
-            yvals.append(step[1])
+        xvals = self.days
+        yvals = self.alphas
+        # for step in self.alphas:
+        #     xvals.append(step[0])
+        #     yvals.append(step[1])
         plt.plot(xvals, yvals, ls='-', marker='.')
-        plt.title(f'Doppler feedback vs Time')
+        plt.title(f'Temperature feedback vs Time')
         plt.xlabel("Time [d]")
         plt.ylabel("Alpha [pcm/dk]")
         plt.savefig(self.feed_path + '/' + plot_name, bbox_inches='tight')
         plt.close()        
       
-
+    def get_PKPs(self, base_temp:int=900):
+        fb_lat_name = 'fs.dopp.' + str(int(base_temp))
+        mylat = self.fb_lats[fb_lat_name]
+        mylat.get_burnup_values()
+        self.betas = mylat.burn_betas
+        self.ngts = mylat.burn_ngts
+        self.days = mylat.burn_days
 
 
 
@@ -421,11 +440,14 @@ if __name__ == '__main__':
     test = burn('thorConSalt', 'thorConSalt')
     test.run_feedbacks(feedback='fs.dopp',recalc=False)
     test.read_feedbacks()
-    print(test.days)
-    print(test.rhos)
-    print(test.ngts)
-    print(test.betas)
-            
+    #test.read_feedbacks(feedback='gr.dopp')
+    #print(test.days)
+    #print(test.rhos)
+    #print(test.ngts)
+    #print(test.betas)
+    #for a in test.alphas:
+    #    print(a)
+    test.plot_feedback_alphas()            
 
             
 

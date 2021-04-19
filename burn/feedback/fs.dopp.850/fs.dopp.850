@@ -117,20 +117,37 @@ surf botCore pz -189.43460549999998
  surf botPlenum pz -191.4392045%graphite for outside reflector
 surf sHEX1 hexxc 0.0 0.0 19.099017432399997
 
+% Surfs for control log
+surf sCTRL0 cyl 0 0 3.0068984999999997
+surf sCTRL1 cyl 12.027593999999999 0.0 1.0022995
+surf sCTRL2 cyl 6.013797000000001 10.416201950405291 1.0022995
+surf sCTRL3 cyl -6.013796999999997 10.416201950405291 1.0022995
+surf sCTRL4 cyl -12.027593999999999 1.4729554493543907e-15 1.0022995
+surf sCTRL5 cyl -6.013797000000005 -10.416201950405288 1.0022995
+surf sCTRL6 cyl 6.013797000000001 -10.416201950405291 1.0022995
+
+
+
 %____________________Cells_______________________
 %Void
 cell 999 0 outside pot
 %B4C Shield
 cell B4CShield 0 natb4c -pot inShield -topCore botCore
 %top salt plenum
- cell topSalt 0 fuelsalt -pot topCore -topPlenum
+cell topSalt 0 fuelsalt -pot topCore -topPlenum
 %top reflector
 cell topRef 0 graphite -pot topPlenum
 %bottom salt plenum
- cell botSalt 0 fuelsalt -pot -botCore botPlenum
+cell botSalt 0 fuelsalt -pot -botCore botPlenum
 %bottom reflector
 cell botRef 0 graphite -pot -botPlenum%graphite reflector shield cell
 cell reflector 3 graphite -sHEX1
+
+% Cells for control log
+cell ctrlSalt 7 fuelsalt -sCTRL0:-sCTRL1:-sCTRL2:-sCTRL3:-sCTRL4:-sCTRL5:-sCTRL6:sHEX1
+cell ctrlgraphite 7 graphite sCTRL0 sCTRL1 sCTRL2 sCTRL3 sCTRL4 sCTRL5 sCTRL6 -sHEX1
+
+
 % LATTICE FOR CORE
 %lat <uni> <type> 0 0 <nx> <ny> <p>
 lat univ_lat 2 0 0 17 17 38.197034864799996
@@ -143,7 +160,7 @@ lat univ_lat 2 0 0 17 17 38.197034864799996
  3 3 3 3 3 3 2 2 2 2 2 2 2 2 3 3 3 %3
  3 3 3 3 3 2 2 2 2 2 2 2 2 2 3 3 3 %4
  3 3 3 3 2 2 2 2 2 2 2 2 2 2 3 3 3 %5
- 3 3 3 3 2 2 2 2 3 2 2 2 2 3 3 3 3 %c
+ 3 3 3 3 2 2 2 2 7 2 2 2 2 3 3 3 3 %c
  3 3 3 2 2 2 2 2 2 2 2 2 2 3 3 3 3 %7
  3 3 3 2 2 2 2 2 2 2 2 2 3 3 3 3 3 %8
  3 3 3 2 2 2 2 2 2 2 2 3 3 3 3 3 3 %9
@@ -189,29 +206,29 @@ cell core 0 fill univ_lat -inShield -pot -topCore botCore
 %  DENSITY: 54.19 E-6 g/cc
 mat he -54.19E-6
  rgb 255 245 213
- 2004.06c 1% Fuel salt: 76%NaF + 12%BeF2 + 9.5%ThF4 + 2.5%UF4, U enrichment 0.021
-mat fuelsalt  -3.27787419 rgb 240 30 30 tmp  850.000
+ 2004.06c 1% Fuel salt: 76%NaF + 12%BeF2 + 9.8%ThF4 + 2.2%UF4, U enrichment 0.21483298659360214
+mat fuelsalt  -3.27604041 rgb 240 30 30 tmp  850.000
 burn 1 vol 5468000
-  4009.06c  -0.014484265354    %  Be-9
-  9019.06c  -0.376585883679    %  F-19
- 11023.06c  -0.234009466584    %  Na-23
- 90232.06c  -0.295235138068    %  Th-232
- 92234.06c  -0.000014646248    %  U-234
- 92235.06c  -0.001652698242    %  U-235
- 92236.06c  -0.000007634809    %  U-236
- 92238.06c  -0.078010267015    %  U-238
+  4009.06c  -0.014490254330    %  Be-9
+  9019.06c  -0.376741594994    %  F-19
+ 11023.06c  -0.234106225181    %  Na-23
+ 90232.06c  -0.304684282214    %  Th-232
+ 92234.06c  -0.000131907736    %  U-234
+ 92235.06c  -0.014884609461    %  U-235
+ 92236.06c  -0.000068760982    %  U-236
+ 92238.06c  -0.054892365101    %  U-238
 
-% Refueling Salt Tank: 76%NaF + 12%BeF2 + 9.5%ThF4 + 2.5%UF4, U enrichment 0.1975
-mat fuelsalt_rep  -3.27728302 rgb 240 30 30 tmp 850.000000
+% Refueling Salt Tank: 76%NaF + 12%BeF2 + 9.8%ThF4 + 2.2%UF4, U enrichment 0.1975
+mat fuelsalt_rep  -3.27609149 rgb 240 30 30 tmp 850.000000
 burn 1 vol 5468000
-  4009.06c  -0.014486878096    %  Be-9
-  9019.06c  -0.376653814067    %  F-19
- 11023.06c  -0.234051678346    %  Na-23
- 90232.06c  -0.295288394014    %  Th-232
- 92234.06c  -0.000137769324    %  U-234
- 92235.06c  -0.015546037231    %  U-235
- 92236.06c  -0.000071816516    %  U-236
- 92238.06c  -0.063763612406    %  U-238
+  4009.06c  -0.014490028396    %  Be-9
+  9019.06c  -0.376735720784    %  F-19
+ 11023.06c  -0.234102574963    %  Na-23
+ 90232.06c  -0.304679531533    %  Th-232
+ 92234.06c  -0.000121263369    %  U-234
+ 92235.06c  -0.013683487712    %  U-235
+ 92236.06c  -0.000063212277    %  U-236
+ 92238.06c  -0.056124180966    %  U-238
 
 
 %______________Data Cards________________
@@ -220,7 +237,7 @@ set power 557000000  % Watts busteps = [1, 3, 5, 7, 9]
 set mcvol 10000000
 
 % Neutron population and criticality cycles
-set pop 5000 100 40 % 5000 neutrons, 100 active, 40 inactive cycles
+set pop 10000 200 60 % 10000 neutrons, 200 active, 60 inactive cycles
 % Analog reaction rate
 set arr 2
 set printm 1
@@ -246,7 +263,7 @@ mat overflow -0.001 burn 1 vol 1e9 tmp 850.0
 set pcc 0 %predictor-corrector must be turned off to use depletion
 
 mflow U_in
-all 1e-09
+all 9.9975830078125e-08
 
 mflow offgasratecore
 Ne 1e-2
@@ -258,7 +275,7 @@ Rn 1e-2
 
 % need to account for the increase in vloume with refueling
 mflow over
-all 1e-09
+all 9.9975830078125e-08
 
 rep source_rep
 rc fuelsalt_rep fuelsalt U_in 0
