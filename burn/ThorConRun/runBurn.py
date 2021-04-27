@@ -14,4 +14,5 @@ run.get_rep_rate(False)
 
 run.histories = 100000
 run.run_feedbacks(feedback='fs.dopp', recalc=True)
-run.run_feedbacks(feedback='gr.dopp', recalc=True)
+if run.read_feedbacks():
+    run.run_feedbacks(feedback='gr.dopp', recalc=True)
