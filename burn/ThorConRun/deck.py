@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+ZZ#!/usr/bin/env python3
 
 from textwrap import dedent
 from salts import Salt
@@ -105,7 +105,7 @@ class serpDeck(object):
         self.lib:str       = '09c'      # CE xsection temp selection salt
         self.gr_lib:str    = '09c'      # CE xsection temp selection graphite
         self.queue:str     = 'fill'     # NEcluster torque queue
-        self.histories:int = 200000     # Neutron histories per cycle
+        self.histories:int = 20000     # Neutron histories per cycle
         self.ompcores:int  = 20 if self.queue == 'local' else 8
         self.deck_name:str = 'core'  # Serpent input file name
         self.qsub_name:str = 'run.sh' #name for shell file to run serpent

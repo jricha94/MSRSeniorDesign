@@ -46,8 +46,8 @@ class burn(object):
         self.min_k_diff:float = 0.00665
         self.max_run:int    = 12
         self.rep_rate:float =  1e-7
-        self.rep_upper:float= 1e-5
-        self.rep_lower:float = 1e-10
+        self.rep_upper:float= 1e-4
+        self.rep_lower:float = 1e-9
         #feedback constants
         self.feed_path:str  = os.getcwd() + '/feedback' 
         self.feedback_temps:list= [800.0, 850.0, 900.0, 950.0, 1000.0]
@@ -55,6 +55,7 @@ class burn(object):
         self.fb_lats:dict = {}
         self.days:list   = None
         self.alphas:list = None
+        self.histories = 20000
         #For dynamic model parameters
         self.rhos:list   = None
         self.ngts:list   = None
@@ -303,6 +304,7 @@ class burn(object):
             self.fb_lats[fb_lat_name] = serpDeck(self.salt, self.e0, self.rep_salt, self.rep_e, True)
             mylat = self.fb_lats[fb_lat_name]
             mylat.queue = self.queue
+            mylat.histories = self.histories
             mylat.ompcores = self.ompcores
             mylat.deck_path = self.feed_path + '/' + fb_lat_name
             mylat.deck_name = fb_lat_name
