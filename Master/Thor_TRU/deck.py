@@ -16,9 +16,10 @@ serpentTools.settings.rc['verbosity'] = 'error'
 # Dictionary of fuel salts and compositions
 SALTS = {
     'thorConSalt'   : '76%NaF + 12%BeF2 + 9.5%ThF4 + 2.5%UF4',        #NaFBeTh12
-    'thorCons_ref': '76%NaF + 12%BeF2 + 10.2%ThF4 + 1.8%UF4',       #NaFBeTh12
-    'flibe'         : '72%LiF + 16%BeF2 + 12%UF4',                      #flibe
-    'TRU'           : '72%LiF + 16%BeF2 + 2%UF4 + 10%TRU'           #TRU
+    'thorCons_ref'  : '76%NaF + 12%BeF2 + 10.2%ThF4 + 1.8%UF4',       #NaFBeTh12
+    'flibe'         : '72%LiF + 16%BeF2 + 12%UF4',                    #flibe
+    'WGPu'          : '72%LiF + 16%BeF2 + 11.925%UF4 +  0.075%WGPu',  #WGPu
+    'TRU'           : '72%LiF + 16%BeF2 + 2%UF4 + 10%TRU'             #TRU
 }
 
 GRAPHITE_CTE:float = 3.5e-6                    # Graphite linear expansion coefficient [m/m per K]
@@ -106,7 +107,7 @@ class serpDeck(object):
         self.lib:str       = '09c'      # CE xsection temp selection salt
         self.gr_lib:str    = '09c'      # CE xsection temp selection graphite
         self.queue:str     = 'fill'     # NEcluster torque queue
-        self.histories:int = 10000       # Neutron histories per cycle
+        self.histories:int = 200000     # Neutron histories per cycle
         self.ompcores:int  = 20 if self.queue == 'local' else 8
         self.deck_name:str = 'core'  # Serpent input file name
         self.qsub_name:str = 'run.sh' #name for shell file to run serpent
@@ -585,10 +586,10 @@ class serpDeck(object):
         for i in range(len(days)):
             self.burn_days.append(days[i])
             self.burnup_k.append((ks[i][0],ks[i][1]*ks[i][0]))
-            self.burn_ngts.append(ngts[i][0])
+            self.burn_ngts.append((ngts[i][0], ngts[i][1]*ngts[i][0]))
             beta_list = []
             for j in range(int(len(betas[i])/2)):
-                beta_list.append(betas[i][2*j])
+                beta_list.append((betas[i][2*j], betas[i][2*j]*betas[i][2*j+1]))
             beta_list.pop(0)
             self.burn_betas.append(beta_list)          
 

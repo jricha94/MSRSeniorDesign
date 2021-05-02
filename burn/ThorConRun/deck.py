@@ -112,6 +112,7 @@ class serpDeck(object):
         self.deck_path:str = os.getcwd() + f'/{self.deck_name}'        # Where to run the lattice deck
         self.main_path:str = os.path.expanduser('~/L/')+fuel # Main path
         self.do_plots:bool = False
+        self.do_mesh:bool  = False
 
         self.reprocess:bool = reprocess
         self.vol:int = 13670000 if self.reprocess else None
@@ -472,6 +473,13 @@ class serpDeck(object):
             plot 2 2000  2000 0
             plot 3 2000  2000 0''')
 
+        if self.do_mesh:
+            data_cards += dedent('''
+            %Mesh plots
+            mesh 3 4000 4000 
+            
+            ''')
+
 
         if self.reprocess:
             data_cards += dedent(f'''
@@ -658,13 +666,10 @@ class serpDeck(object):
 
 if __name__ == '__main__':
     test = serpDeck(reprocess = False)
-    test.do_plots = True
-    #test.cleanup()
-    #test.full_build_run()
-    test.get_calculated_values()
-    print(test.k)
-    #print(test.ngt)
-    #print(test.betas)
+    test.do_mesh = True
+    test.histories = 1000
+    test.queue = 'local'
+    test.full_build_run()
 
 
     
