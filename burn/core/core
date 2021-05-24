@@ -225,7 +225,7 @@ set power 557000000  % Watts busteps = [1, 3, 5, 7, 9]
 set mcvol 10000000
 
 % Neutron population and criticality cycles
-set pop 1000 200 60 % 1000 neutrons, 200 active, 60 inactive cycles
+set pop 200000 200 60 % 200000 neutrons, 200 active, 60 inactive cycles
 % Analog reaction rate
 set arr 2
 set printm 1
@@ -233,25 +233,7 @@ set printm 1
 set acelib "sss_endfb7u.sssdir"
 set declib "sss_endfb7.dec"
 set nfylib "sss_endfb7.nfy"
-
-
-%Mesh plots
-det elastic dr -2 void dm graphite
-mesh 8 1 elastic 3  2000  2000
-mesh 8 2 elastic 3  2000  2000
-mesh 8 4 elastic 3  2000  2000
-mesh 8 5 elastic 3  2000  2000
-mesh 8 6 elastic 3  2000  2000
-mesh 8 7 elastic 3  2000  2000
-mesh 8 8 elastic 3  2000  2000
-mesh 8 9 elastic 3  2000  2000
-mesh 8 10 elastic 3  2000  2000
-mesh 8 11 elastic 3  2000  2000
-mesh 8 12 elastic 3  2000  2000
-mesh 8 13 elastic 3  2000  2000
-
-
-plot 3 8000  8000 0
-
-
-
+% Plots
+plot 1 2000  2000 0
+plot 2 2000  2000 0
+plot 3 2000  2000 0

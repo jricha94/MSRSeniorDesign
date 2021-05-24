@@ -448,7 +448,7 @@ class serpDeck(object):
     def makeDataCards(self) -> str:
         data_cards = dedent(f'''\n
             %______________Data Cards________________
-            set power 557000000  % Watts busteps = [1, 3, 5, 7, 9]
+            set power 557000000 % Watts busteps = [1, 3, 5, 7, 9]
             %set volume checker
             set mcvol 10000000
 
