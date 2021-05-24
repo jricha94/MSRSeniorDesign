@@ -108,7 +108,7 @@ class serpDeck(object):
         self.gr_lib:str    = '09c'      # CE xsection temp selection graphite
         self.queue:str     = 'fill'     # NEcluster torque queue
         self.histories:int = 200000     # Neutron histories per cycle
-        self.ompcores:int  = 20 if self.queue == 'local' else 8k
+        self.ompcores:int  = 20 if self.queue == 'local' else 8
         self.deck_name:str = 'core'  # Serpent input file name
         self.qsub_name:str = 'run.sh' #name for shell file to run serpent
         self.deck_path:str = os.getcwd() + f'/{self.deck_name}'        # Where to run the lattice deck
