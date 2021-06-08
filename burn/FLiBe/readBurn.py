@@ -10,17 +10,17 @@ import os
 
 
 write_pkes = False
-plot_ngt = False
+plot_ngt = True
 plot_betas = False
-plot_alphas = True
-plot_fuelsalt = False
+plot_alphas  = False
+plot_fuelsalt  = False
 plot_graphite = False
 plot_crit_search = False
 plot_all_RhoVtemps = False
 
 
 
-run = burn(salt='thorConSalt', rep_salt='thorConSalt')
+run = burn(salt='flibe', rep_salt='flibe')
 
 
 def smoothData(data:list=None, error:list=None, window:int=9)->list:
@@ -48,7 +48,6 @@ def smoothData(data:list=None, error:list=None, window:int=9)->list:
 
             
 if plot_ngt:
-    run = burn(salt='thorConSalt', rep_salt='thorConSalt')
     run.run_feedbacks('fs.dopp',False)
     run.get_PKPs()
     days = run.days
@@ -57,9 +56,9 @@ if plot_ngt:
     for n,e in run.ngts:
         ngts.append(n)
         ngt_errors.append(e)
-    smoothed_ngts = smoothData(ngts, ngt_errors, 15)
+    smoothed_ngts = smoothData(ngts, ngt_errors, 2)
 
-    plt.plot(days, ngts, '.')
+    plt.errorbar(days, ngts,yerr=ngt_errors, ls='', marker='.', color='b')
     plt.plot(days, smoothed_ngts, 'r-')
     plt.savefig(os.getcwd() + '/ngtplot.png', bbox_inches='tight')
     plt.close()
@@ -70,25 +69,35 @@ if plot_betas:
     run.get_PKPs()
     days = run.days
     betas = run.betas
-    beta1 = []
-    beta2 = []
-    beta3 = []
-    beta4 = []
-    beta5 = []
-    beta6 = []
+    beta1, beta1e = [], []
+    beta2, beta2e = [], []
+    beta3, beta3e = [], []
+    beta4, beta4e = [], []
+    beta5, beta5e = [], []
+    beta6, beta6e = [], []
+
+
     for beta in betas:
-        beta1.append(beta[0])
-        beta2.append(beta[1])
-        beta3.append(beta[2])
-        beta4.append(beta[3])
-        beta5.append(beta[4])
-        beta6.append(beta[5])
-    plt.plot(days, beta1, label='beta1')
-    plt.plot(days, beta2, label='beta2')
-    plt.plot(days, beta3, label='beta3')
-    plt.plot(days, beta4, label='beta4')
-    plt.plot(days, beta5, label='beta5')
-    plt.plot(days, beta6, label='beta6')
+        beta1.append(beta[0][0])
+        beta2.append(beta[1][0])
+        beta3.append(beta[2][0])
+        beta4.append(beta[3][0])
+        beta5.append(beta[4][0])
+        beta6.append(beta[5][0])
+        beta1e.append(beta[0][1])
+        beta2e.append(beta[1][1])
+        beta3e.append(beta[2][1])
+        beta4e.append(beta[3][1])
+        beta5e.append(beta[4][1])
+        beta6e.append(beta[5][1])
+
+
+    plt.errorbar(days, beta1, yerr = beta1e, label='beta1')
+    plt.errorbar(days, beta2, yerr = beta2e, label='beta2')
+    plt.errorbar(days, beta3, yerr = beta3e, label='beta3')
+    plt.errorbar(days, beta4, yerr = beta4e, label='beta4')
+    plt.errorbar(days, beta5, yerr = beta5e, label='beta5')
+    plt.errorbar(days, beta6, yerr = beta6e, label='beta6')
     plt.title('betas vs days')
     plt.legend()
     plt.savefig(os.getcwd() + '/betaplot.png', bbox_inches='tight')

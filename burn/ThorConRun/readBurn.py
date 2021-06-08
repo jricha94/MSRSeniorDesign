@@ -12,9 +12,9 @@ import os
 write_pkes = False
 plot_ngt = False
 plot_betas = False
-plot_alphas = False
+plot_alphas  = False
 plot_fuelsalt  = True
-plot_graphite = True
+plot_graphite = False
 plot_crit_search = False
 plot_all_RhoVtemps = False
 

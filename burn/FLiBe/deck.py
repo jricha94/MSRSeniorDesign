@@ -7,7 +7,6 @@ import copy
 import os
 import serpentTools
 import shutil
-
 import time
 
 serpentTools.settings.rc['verbosity'] = 'error'
