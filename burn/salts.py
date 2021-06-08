@@ -118,7 +118,7 @@ class Salt(object):
             self.ELEMENTS['Pu'].isotopes[240]=molmass.Isotope(240.0538135, 0.07, 240)
             self.ELEMENTS['Pu'].isotopes[244].abundance = 0.0 #remome Pu244
             self.formula:str = f.replace('WG', '')
-            MOLARVOLUMES['Ga'] = (40.0, 41.0) #More Placeholder values
+            MOLARVOLUMES['Ga'] = (12.12, 12.37) # Densities interpolated from https://www.indium.com/gallium/
             MOLARVOLUMES['Pu'] = (40.0, 41.0) #More Placeholder values
             #Rewrite formula so it can be parsed
             self.newform = ''

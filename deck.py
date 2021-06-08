@@ -16,8 +16,10 @@ serpentTools.settings.rc['verbosity'] = 'error'
 # Dictionary of fuel salts and compositions
 SALTS = {
     'thorConSalt'   : '76%NaF + 12%BeF2 + 9.5%ThF4 + 2.5%UF4',        #NaFBeTh12
-    'thorCons_ref': '76%NaF + 12%BeF2 + 10.2%ThF4 + 1.8%UF4',       #NaFBeTh12
-    'flibe'         : '72%LiF + 16%BeF2 + 12%UF4'                     #flibe
+    'thorCons_ref'  : '76%NaF + 12%BeF2 + 10.2%ThF4 + 1.8%UF4',       #NaFBeTh12
+    'flibe'         : '72%LiF + 16%BeF2 + 12%UF4',                    #flibe
+    'WGPu'          : '72%LiF + 16%BeF2 + 11.925%UF4 +  0.075%WGPu',  #WGPu
+    'TRU'           : '72%LiF + 16%BeF2 + 2%UF4 + 10%TRU'             #TRU
 }
 
 GRAPHITE_CTE:float = 3.5e-6                    # Graphite linear expansion coefficient [m/m per K]
@@ -105,14 +107,13 @@ class serpDeck(object):
         self.lib:str       = '09c'      # CE xsection temp selection salt
         self.gr_lib:str    = '09c'      # CE xsection temp selection graphite
         self.queue:str     = 'fill'     # NEcluster torque queue
-        self.histories:int = 20000     # Neutron histories per cycle
-        self.ompcores:int  = 20 if self.queue == 'local' else 8
+        self.histories:int = 200000     # Neutron histories per cycle
+        self.ompcores:int  = 20 if self.queue == 'local' else 8k
         self.deck_name:str = 'core'  # Serpent input file name
         self.qsub_name:str = 'run.sh' #name for shell file to run serpent
         self.deck_path:str = os.getcwd() + f'/{self.deck_name}'        # Where to run the lattice deck
         self.main_path:str = os.path.expanduser('~/L/')+fuel # Main path
         self.do_plots:bool = False
-        self.do_mesh:bool  = False
 
         self.reprocess:bool = reprocess
         self.vol:int = 13670000 if self.reprocess else None
@@ -473,13 +474,6 @@ class serpDeck(object):
             plot 2 2000  2000 0
             plot 3 2000  2000 0''')
 
-        if self.do_mesh:
-            data_cards += dedent('''
-            %Mesh plots
-            mesh 3 4000 4000 
-            
-            ''')
-
 
         if self.reprocess:
             data_cards += dedent(f'''
@@ -520,13 +514,7 @@ class serpDeck(object):
 
             dep
             pro source_rep
-            daystep
-            0.0208 0.0208 0.9584 2 4 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7
-            30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30
-            30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30
-
-            %burn up for four years
-
+            daystepk
             set inventory
             1
             86
@@ -666,10 +654,13 @@ class serpDeck(object):
 
 if __name__ == '__main__':
     test = serpDeck(reprocess = False)
-    test.do_mesh = True
-    test.histories = 1000
-    test.queue = 'local'
+    test.do_plots = True
+    test.cleanup()
     test.full_build_run()
+    test.get_calculated_values()
+    print(test.k)
+    #print(test.ngt)
+    #print(test.betas)
 
 
     
