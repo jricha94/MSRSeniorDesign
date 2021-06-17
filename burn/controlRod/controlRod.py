@@ -47,9 +47,10 @@ class control_rod(object):
         self.temp_max:float = 900
         self.delta_temp:float = 25
         self.temps:list = []
-        self.rhos_down:list = []
         self.rhos_up:list = []
-        self.rho_err:list = []
+        self.rhos_down:list = []
+        self.rhos_up_err:list = []
+        self.rhos_down_err:list = []
 
         # Reactivity v rods variables
         self.rvr_path:str = os.getcwd() + '/rvr'
@@ -235,9 +236,9 @@ class control_rod(object):
                 lat.ompcores = self.ompcores
                 lat.deck_path = self.rvt_path + '/' + lat_name
                 lat.deck_name = lat_name
-                lat.fs_tempK = 900.0
-                lat.mat_tempK = 900.0
-                lat.gr_tempK = 950.0
+                lat.fs_tempK = temp
+                lat.mat_tempK = temp
+                lat.gr_tempK = temp + 50.0
 
                 if pos == 'up':
                     for pos in lat.control_rods:
@@ -254,7 +255,7 @@ class control_rod(object):
                     lat.lib = '03c'
                 if lat.gr_tempK < 600:
                     lat.gr_lib = '03c'
-                if recalc or not lat.get_burnup_values():
+                if recalc or not lat.get_calculated_values():
                     lat.full_build_run()
                 
     def rho_v_rod(self, recalc:bool = False):
@@ -274,20 +275,54 @@ class control_rod(object):
             lat.gr_tempK = 950.0
             
             if rods_down == 0:
-                if recalc or not lat.get_burnup_values():
+                if recalc or not lat.get_calculated_values():
                     lat.full_build_run()
             else:
                 for rod in np.arange(rods_down):
                     lat.control_rods[rod] = 1
-                if recalc or not lat.get_burnup_values():
+                if recalc or not lat.get_calculated_values():
                     lat.full_build_run()
+
+    def read_rho_v_temp(self, cleanup:bool = False):
+        # while True: # Wait for all runs to finish
+        #     is_done = True
+        #     for temp in self.temps:
+        #         for pos in ['up', 'down']:
+        #             lat_name = 'control' + str(temp) + pos
+        #             if not self.rvt_dict[lat_name].get_calculated_values():
+        #                 is_done = False
+        #         if is_done:
+        #             break
+
+        # Get results
+        for temp in self.temps:
+            for pos in ['up', 'down']:
+                lat_name = 'control' + str(temp) + pos
+                self.rvt_dict[lat_name].get_calculated_values()
+
+        # Store results
+        for temp in self.temps:
+            for pos in ['up', 'down']:
+                lat_name = 'control' + str(temp) + pos
+                lat = self.rvt_dict[lat_name]
+                if 'up' in lat_name:
+                    self.rhos_up.append(rho(lat.k))
+                    self.rhos_up_err.append(lat.kerr * 1e5)
+                if 'down' in lat_name:
+                    self.rhos_down.append(rho(lat.k))
+                    self.rhos_down_err.append(lat.kerr * 1e5)
+                  
+
+
+
+
 
     def read_rho_v_rod(self, cleanup:bool = False):
         while True: # Wait for all runs to finish
             is_done = True
             for rods_down in self.rods_down_list:
                 lat_name = 'control' + str(rods_down) + 'down'
-                if not self.rvr_dict[lat_name].get_burnup_values():
+                if not self.rvr_dict[lat_name].get_calculated_values():
                     is_done = False
             if is_done:
                 break
@@ -303,7 +338,7 @@ class control_rod(object):
             lat = self.rvr_dict[lat_name]
             self.rods_down.append(rods_down)
             self.rods_down_rho.append(rho(lat.k))
-            self.rods_down_rhoe.append(lat.kerr * 1e-5)
+            self.rods_down_rhoe.append(lat.kerr * 1e5)
 
     def save_rho_v_rod(self, file_name:str='rho_v_rod.txt'):
         fh = open(self.rvr_path + '/' + file_name, 'w')
