@@ -61,8 +61,6 @@ class burn(object):
         self.betas:list  = None
 
 
-        
-
     def iterate_rho(self) -> bool:
         #Create edge cases
         rho0:float = 1.0

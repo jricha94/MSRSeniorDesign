@@ -109,23 +109,47 @@ surf pot cyl 0.0 0.0 243.048 -241.518879025 241.518879025
 %inner wall of shield
 surf inShield cyl 0.0 0.0 233.048
 %top of the core
-surf topCore pz 189.406921725%top salt plenum
+surf topCore pz 189.406921725
+%top salt plenum
 surf topPlenum pz 191.411227775
 %bottom of the core
 surf botCore pz -189.406921725
 %bottom salt plenum
- surf botPlenum pz -191.411227775%graphite for outside reflector
+surf botPlenum pz -191.411227775
+%graphite for outside reflector
 surf sHEX1 hexxc 0.0 0.0 19.096226321979998
+% Surfs and Cells for control log
 
-% Surfs for control log
-surf sCTRL0 cyl 0 0 3.0064590749999995
-surf sCTRL1 cyl 12.025836299999998 0.0 1.002153025
-surf sCTRL2 cyl 6.012918150000002 10.41467973755306 1.002153025
-surf sCTRL3 cyl -6.012918149999996 10.41467973755306 1.002153025
-surf sCTRL4 cyl -12.025836299999998 1.4727401931865047e-15 1.002153025
-surf sCTRL5 cyl -6.012918150000005 -10.414679737553056 1.002153025
-surf sCTRL6 cyl 6.012918150000002 -10.41467973755306 1.002153025
 
+surf channel00 cyl 11.518137870333035 6.6499999999999995 0.525
+surf channel01 cyl 14.018137870333035 6.6499999999999995 0.525
+surf channel02 cyl 12.768137870333035 8.815063509461096 0.525
+surf channel03 cyl 10.268137870333035 8.815063509461096 0.525
+surf channel04 cyl 9.018137870333035 6.6499999999999995 0.525
+surf channel05 cyl 10.268137870333033 4.484936490538903 0.525
+surf channel06 cyl 12.768137870333035 4.484936490538903 0.525
+surf channel10 cyl -11.518137870333035 6.6499999999999995 0.525
+surf channel11 cyl -9.018137870333035 6.6499999999999995 0.525
+surf channel12 cyl -10.268137870333035 8.815063509461096 0.525
+surf channel13 cyl -12.768137870333035 8.815063509461096 0.525
+surf channel14 cyl -14.018137870333035 6.6499999999999995 0.525
+surf channel15 cyl -12.768137870333037 4.484936490538903 0.525
+surf channel16 cyl -10.268137870333035 4.484936490538903 0.525
+surf channel20 cyl -2.4431703642989694e-15 -13.3 0.525
+surf channel21 cyl 2.4999999999999973 -13.3 0.525
+surf channel22 cyl 1.2499999999999978 -11.134936490538905 0.525
+surf channel23 cyl -1.250000000000002 -11.134936490538903 0.525
+surf channel24 cyl -2.5000000000000027 -13.3 0.525
+surf channel25 cyl -1.2500000000000036 -15.465063509461096 0.525
+surf channel26 cyl 1.2499999999999978 -15.465063509461096 0.525
+surf rodChannel0 cyl 0.0 0.0 5.3
+surf rodChannel1 cyl 8.143901214329899e-16 13.3 6.0
+surf rodChannel2 cyl -11.518137870333033 -6.650000000000002 6.0
+surf rodChannel3 cyl 11.518137870333032 -6.650000000000007 6.0
+surf controlRod0 cyl 0.0 0.0 4.8
+surf controlRod1 cyl 8.143901214329899e-16 13.3 5.5
+surf controlRod2 cyl -11.518137870333033 -6.650000000000002 5.5
+surf controlRod3 cyl 11.518137870333032 -6.650000000000007 5.5
 
 
 %____________________Cells_______________________
@@ -140,13 +164,32 @@ cell topRef 0 graphite -pot topPlenum
 %bottom salt plenum
 cell botSalt 0 fuelsalt -pot -botCore botPlenum
 %bottom reflector
-cell botRef 0 graphite -pot -botPlenum%graphite reflector shield cell
+cell botRef 0 graphite -pot -botPlenum
+%graphite reflector shield cell
 cell reflector 3 graphite -sHEX1
 
-% Cells for control log
-cell ctrlSalt 7 fuelsalt -sCTRL0:-sCTRL1:-sCTRL2:-sCTRL3:-sCTRL4:-sCTRL5:-sCTRL6:sHEX1
-cell ctrlgraphite 7 graphite sCTRL0 sCTRL1 sCTRL2 sCTRL3 sCTRL4 sCTRL5 sCTRL6 -sHEX1
 
+cell controlLogGr 7 graphite -sHEX1
+channel00 channel01 channel02 channel03 channel04 channel05 channel06
+channel10 channel11 channel12 channel13 channel14 channel15 channel16
+channel20 channel21 channel22 channel23 channel24 channel25 channel26
+rodChannel0 rodChannel1 rodChannel2 rodChannel3 
+
+
+
+cell controlLogFs 7 fuelsalt
+-channel00:-channel01:-channel02:-channel03:-channel04:-channel05:-channel06:
+-channel10:-channel11:-channel12:-channel13:-channel14:-channel15:-channel16:
+-channel20:-channel21:-channel22:-channel23:-channel24:-channel25:-channel26
+
+cell controlRodBr0 7 enrb4c -controlRod0
+cell controlRodFs0 7 fuelsalt -rodChannel0 controlRod0
+cell controlRodBr1 7 enrb4c -controlRod1
+cell controlRodFs1 7 fuelsalt -rodChannel1 controlRod1
+cell controlRodBr2 7 enrb4c -controlRod2
+cell controlRodFs2 7 fuelsalt -rodChannel2 controlRod2
+cell controlRodBr3 7 enrb4c -controlRod3
+cell controlRodFs3 7 fuelsalt -rodChannel3 controlRod3
 
 % LATTICE FOR CORE
 %lat <uni> <type> 0 0 <nx> <ny> <p>
@@ -197,7 +240,7 @@ cell core 0 fill univ_lat -inShield -pot -topCore botCore
 
 % Control Rod: enriched B4C
  mat enrb4c -2.296
-  rgb 65 65 65
+  rgb 95 95 95
   5010.09c -0.68702     %   B10
   5011.09c -0.08397     %   B11
   6000.09c -0.22901     %   carbon
@@ -206,7 +249,9 @@ cell core 0 fill univ_lat -inShield -pot -topCore botCore
 %  DENSITY: 54.19 E-6 g/cc
 mat he -54.19E-6
  rgb 255 245 213
- 2004.09c 1% Fuel salt: 76%NaF + 12%BeF2 + 9.5%ThF4 + 2.5%UF4, U enrichment 0.17
+ 2004.09c 1
+
+% Fuel salt: 76%NaF + 12%BeF2 + 9.5%ThF4 + 2.5%UF4, U enrichment 0.17
 mat fuelsalt  -3.23461294 rgb 240 30 30 tmp  908.150
   4009.09c  -0.014486470949    %  Be-9
   9019.09c  -0.376643228401    %  F-19
@@ -225,7 +270,7 @@ set power 557000000  % Watts busteps = [1, 3, 5, 7, 9]
 set mcvol 10000000
 
 % Neutron population and criticality cycles
-set pop 200000 200 60 % 200000 neutrons, 200 active, 60 inactive cycles
+set pop 20000 200 60 % 20000 neutrons, 200 active, 60 inactive cycles
 % Analog reaction rate
 set arr 2
 set printm 1
@@ -234,6 +279,6 @@ set acelib "sss_endfb7u.sssdir"
 set declib "sss_endfb7.dec"
 set nfylib "sss_endfb7.nfy"
 % Plots
-plot 1 2000  2000 0
-plot 2 2000  2000 0
-plot 3 2000  2000 0
+plot 1 6000  6000 0
+plot 2 6000  6000 0
+plot 3 6000  6000 0
