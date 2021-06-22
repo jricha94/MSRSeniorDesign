@@ -8,10 +8,9 @@ import matplotlib.pyplot as plt
 plot_rvr = False
 plot_rvt = True
 
-
-
 run = control_rod()
 run.read_rhos_if_done()
+print(run.conv_enr)
 
 if plot_rvr:
     run.rho_v_rod()
@@ -27,6 +26,10 @@ if plot_rvr:
 if plot_rvt:
     run.rho_v_temp()
     run.read_rho_v_temp()
-    plt.errorbar(x=run.temps, y=run.rhos_up, yerr=run.rhos_up_err)
-    plt.errorbar(x=run.temps, y=run.rhos_down, yerr=run.rhos_down_err)
+    plt.errorbar(x=run.temps, y=run.rhos_up, yerr=run.rhos_up_err, label='Rods Up', ls='', marker='.')
+    plt.errorbar(x=run.temps, y=run.rhos_down, yerr=run.rhos_down_err, label='Rods Down', ls='', marker='.')
+    plt.title('Temperature vs Reactivity')
+    plt.xlabel('Temperature [K]')
+    plt.ylabel('Reactivity [pcm]')
+    plt.legend()
     plt.savefig(os.getcwd() + 'rhos_v_temp.png', bbox_inches='tight')

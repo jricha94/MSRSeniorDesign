@@ -476,7 +476,7 @@ class serpDeck(object):
              5010.{self.gr_lib} {b10Frac}
              5011.{self.gr_lib} {b11Frac}
             % Thermal Scattering Library for Graphite
-             therm graph 0 gre7.18t gre7.22t''')
+             therm graph 0 gre7.04t gre7.08t gre7.12t gre7.16t gre7.18t gre7.22t''') # 18 and 22 were the OG ones
 
         # Boron Metal material definition
         mats += dedent(f'''\n
@@ -740,14 +740,15 @@ class serpDeck(object):
 
 if __name__ == '__main__':
     test = serpDeck(reprocess = False)
-    #test.do_mesh = True
-    #test.histories = 1000
-    # test.queue = 'local'
-    # test.do_plots = True
-    # test.save_deck()
-    for pos in test.control_rods:
-        test.control_rods[pos] = 1
-    print(test.control_rods)
+    test.histories = 100
+    test.queue = 'local'
+    test.ompcores = 20
+    test.gr_tempK = 600
+    test.gr_lib = '03c'
+    test.full_build_run()
+    test.get_calculated_values()
+    print(test.k, test.kerr)
+
 
 
     

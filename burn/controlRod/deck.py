@@ -85,9 +85,9 @@ class serpDeck(object):
         self.s               = Salt(self.salt_formula, e)
         self.salt_name_r     = refuel
         self.s_r             = Salt(self.salt_formula_r, e_ref)
-        self.fs_tempK:float  = 908.15                         # Salt temperature for density
-        self.mat_tempK:float = 908.15                        # Salt temperature for material temp
-        self.gr_tempK:float  = 908.15                       # Graphite temperature
+        self.fs_tempK:float  = 900.0                         # Salt temperature for density
+        self.mat_tempK:float = 900.0                        # Salt temperature for material temp
+        self.gr_tempK:float  = 950.0                       # Graphite temperature
         self.gr_dens:float   = 1.80                           # Graphite density at 950 K [g/cm3]
         self.boron_graphite:float = 2e-06     # 2ppm boron in graphite
         self.room_temp:float = 293.0
@@ -476,7 +476,7 @@ class serpDeck(object):
              5010.{self.gr_lib} {b10Frac}
              5011.{self.gr_lib} {b11Frac}
             % Thermal Scattering Library for Graphite
-             therm graph 0 gre7.18t gre7.22t''')
+             therm graph 0 gre7.04t gre7.08t gre7.12t gre7.16t gre7.18t gre7.22t''') # 18 and 22 were the OG ones
 
         # Boron Metal material definition
         mats += dedent(f'''\n
@@ -740,11 +740,15 @@ class serpDeck(object):
 
 if __name__ == '__main__':
     test = serpDeck(reprocess = False)
-    #test.do_mesh = True
-    #test.histories = 1000
+    test.histories = 100
     test.queue = 'local'
-    test.do_plots = True
-    test.save_deck()
+    test.ompcores = 20
+    test.gr_tempK = 600
+    test.gr_lib = '03c'
+    test.full_build_run()
+    test.get_calculated_values()
+    print(test.k, test.kerr)
+
 
 
     

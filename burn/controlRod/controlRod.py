@@ -311,11 +311,6 @@ class control_rod(object):
                 if 'down' in lat_name:
                     self.rhos_down.append(rho(lat.k))
                     self.rhos_down_err.append(lat.kerr * 1e5)
-                  
-
-
-
-
 
     def read_rho_v_rod(self, cleanup:bool = False):
         while True: # Wait for all runs to finish
