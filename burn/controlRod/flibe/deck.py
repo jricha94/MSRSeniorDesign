@@ -95,6 +95,7 @@ class serpDeck(object):
         self.k:float    = None                  # k-effective for model
         self.kerr:float = None                  # k-eff error
         self.betas:list = None                  # delayed neutron fractions
+        self.beta_tot:list = None               # total beta fraction
         self.ngt:float  = None                  # neutron generation time [s^-1]
         # Burnup values
         self.burnup_k:list   = None                  # k-eff for burnup
@@ -638,6 +639,7 @@ class serpDeck(object):
         self.kerr  = results.resdata["anaKeff"][1] * self.k 
         self.ngt   = results.resdata["adjNauchiGenTime"][0]
         betas = results.resdata["adjNauchiBetaEff"]
+        self.beta_tot = [betas[0], betas[1]* betas[0]]
         self.betas = []
         for i in range(int(len(betas)/2)):
             self.betas.append(betas[2*i])
@@ -740,14 +742,12 @@ class serpDeck(object):
 
 if __name__ == '__main__':
     test = serpDeck(reprocess = False)
-    test.histories = 100
+    test.histories = 10000
     test.queue = 'local'
     test.ompcores = 20
-    test.gr_tempK = 600
-    test.gr_lib = '03c'
-    test.full_build_run()
+    #test.full_build_run()
     test.get_calculated_values()
-    print(test.k, test.kerr)
+    print(test.beta_tot)
 
 
 

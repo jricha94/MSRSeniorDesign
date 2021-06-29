@@ -51,13 +51,18 @@ class control_rod(object):
         self.rhos_down:list = []
         self.rhos_up_err:list = []
         self.rhos_down_err:list = []
-
+        self.beta_up:list = []
+        self.beta_down:list = []
+        self.beta_up_err:list = []
+        self.beta_down_err:list = []
         # Reactivity v rods variables
         self.rvr_path:str = os.getcwd() + '/rvr'
         self.rvr_dict:dict = {}
         self.rods_down:list = []
         self.rods_down_rho:list = []
-        self.rods_down_rhoe:list = []
+        self.rods_down_rho_e:list = []
+        self.beta:list = []
+        self.beta_e:list = []
         self.rods_down_list:list = [0,1,2,3,4]
     
     def iterate_rho(self) -> bool:
@@ -308,9 +313,13 @@ class control_rod(object):
                 if 'up' in lat_name:
                     self.rhos_up.append(rho(lat.k))
                     self.rhos_up_err.append(lat.kerr * 1e5)
+                    self.beta_up.append(lat.beta_tot[0])
+                    self.beta_up_err.append(lat.beta_tot[1])
                 if 'down' in lat_name:
                     self.rhos_down.append(rho(lat.k))
                     self.rhos_down_err.append(lat.kerr * 1e5)
+                    self.beta_down.append(lat.beta_tot[0])
+                    self.beta_down_err.append(lat.beta_tot[1])                    
 
     def read_rho_v_rod(self, cleanup:bool = False):
         while True: # Wait for all runs to finish
@@ -333,12 +342,14 @@ class control_rod(object):
             lat = self.rvr_dict[lat_name]
             self.rods_down.append(rods_down)
             self.rods_down_rho.append(rho(lat.k))
-            self.rods_down_rhoe.append(lat.kerr * 1e5)
+            self.rods_down_rho_e.append(lat.kerr * 1e5)
+            self.beta.append(lat.beta_tot[0])
+            self.beta_e.append(lat.beta_tot[1])
 
     def save_rho_v_rod(self, file_name:str='rho_v_rod.txt'):
         fh = open(self.rvr_path + '/' + file_name, 'w')
         fh.write('rods down, rho, rho error')
-        for d,r,e in zip(self.rods_down_list, self.rods_down_rho, self.rods_down_rhoe):
+        for d,r,e in zip(self.rods_down_list, self.rods_down_rho, self.rods_down_rho_e):
             fh.write(d + ',' + r + ',' + e)
         fh.close()
 
@@ -351,7 +362,8 @@ class control_rod(object):
 
 if __name__ == '__main__':
     test = control_rod()
-    test.queue = 'local'
-    test.ompcores = 12
-    test.read_rhos_if_done()
-    print(test.conv_enr)
+    # test.read_rhos_if_done()
+    # print(test.conv_enr)
+    test.rho_v_rod()
+    test.read_rho_v_rod()
+    print(test.beta)

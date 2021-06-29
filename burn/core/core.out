@@ -54,13 +54,13 @@
             T - nuclide has supplementary transmutation cross section data
 
     1   0  4009.09c      09c  TRA    4   9 0    9.01220   900.0       stable  I-----T--------R----  beryllium 9 (Be-9)
-    2   0  5010.03c      03c  TRA    5  10 0   10.01294   600.0       stable  I-----T------T-R----  boron 10 (B-10)
+    2   0  5010.09c      09c  TRA    5  10 0   10.01294   950.0       stable  I-----T------T-R----  boron 10 (B-10)
     3   0  5010.09c      09c  TRA    5  10 0   10.01294   900.0       stable  I-----T--------R----  boron 10 (B-10)
-    4   0  5011.03c      03c  TRA    5  11 0   11.00928   600.0       stable  I-----T------T-R----  boron 11 (B-11)
+    4   0  5011.09c      09c  TRA    5  11 0   11.00928   950.0       stable  I-----T------T-R----  boron 11 (B-11)
     5   0  5011.09c      09c  TRA    5  11 0   11.00928   900.0       stable  I-----T--------R----  boron 11 (B-11)
-    6   0  6000.03c      03c  TRA    6   0 0   12.00110   600.0          N/A  I-----T------T------  natural carbon (C-nat)
+    6   0  6000.09c      09c  TRA    6   0 0   12.00110   950.0          N/A  I-----T------T------  natural carbon (C-nat)
     7   0  6000.09c      09c  TRA    6   0 0   12.00110   900.0          N/A  I-----T-------------  natural carbon (C-nat)
-    8   0  6000.03s      03s  TRA    6   0 0   12.00110   600.0          N/A  I-----TS-----T------  natural carbon (C-nat)
+    8   0  6000.09s      09s  TRA    6   0 0   12.00110   950.0          N/A  I-----TS-----T------  natural carbon (C-nat)
     9   0  9019.09c      09c  TRA    9  19 0   18.99820   900.0       stable  I-----T--------R----  fluorine 19 (F-19)
    10   0  11023.09c     09c  TRA   11  23 0   22.98949   900.0       stable  I-----T-I------R----  sodium 23 (Na-23)
    11   0  90232.09c     09c  TRA   90 232 0  232.03833   900.0  1.56331E-18  I-----T--F-D---RN---  thorium 232 (Th-232)
@@ -139,17 +139,17 @@
    8    MT =    701  Q = -1.09180E+01 MeV  Emin = 1.21400E+01 MeV  : (n,t1)
    9    MT =    800  Q = -6.00000E-01 MeV  Emin = 6.67153E-01 MeV  : (n,alpha) to ground state
 
- Nuclide    2 / 21 : 5010.03c -- boron 10 (B-10)
+ Nuclide    2 / 21 : 5010.09c -- boron 10 (B-10)
 
- Pointers                     : 16960 6145405
+ Pointers                     : 16960 6145364
  Primary type                 : Transport
  Nuclide ZAI                  : 50100
- Library ID                   : 03c
+ Library ID                   : 09c
  Cross section data file      : /opt/serpent/xsdata/acedata/5010ENDF7.ace
  Atomic weight (AW)           : 10.01294
  Atomic weight ratio (AWR)    : 9.92692
- Temperature                  : 600.0 Kelvin
- XS temperature               : 600.0 Kelvin
+ Temperature                  : 950.0 Kelvin
+ XS temperature               : 950.0 Kelvin
  Minimum and maximum energy   : 1.00000E-11 2.00000E+01
  Half-life                    : stable
  Specific ingestion toxicity  : N/A
@@ -164,7 +164,7 @@
  - Nuclide is not a delayed neutron precursor
  - Nuclide has no delayed neutron data
  - Nuclide has no ures ptable data
- - Nuclide temperature is adjusted with TMS between 600.0 and 600.0 Kelvin
+ - Nuclide temperature is adjusted with TMS between 950.0 and 950.0 Kelvin
  - Nuclide has no dosimetry data
  - Nuclide has decay data
  - Nuclide has no supplementary transmutation cross section data
@@ -227,7 +227,7 @@
  13 special reactions:
 
    1    MT =    203  Q =  0.00000E+00 MeV  Emin = 1.00000E-11 MeV  : total proton production
-   2    MT =    204  Q =  0.00000E+00 MeV  Emin = 4.80000E+00 MeV  : total deuteron production
+   2    MT =    204  Q =  0.00000E+00 MeV  Emin = 4.80031E+00 MeV  : total deuteron production
    3    MT =    205  Q =  0.00000E+00 MeV  Emin = 1.00000E-11 MeV  : total triton production
    4    MT =    207  Q =  0.00000E+00 MeV  Emin = 1.00000E-11 MeV  : total alpha production
    5    MT =    600  Q =  2.26241E-01 MeV  Emin = 1.00000E-11 MeV  : (n,p) to ground state
@@ -340,17 +340,17 @@
   12    MT =    801  Q =  2.31192E+00 MeV  Emin = 1.00000E-11 MeV  : (n,a1)
   13    MT =      4  Q =  0.00000E+00 MeV  Emin = 7.90714E-01 MeV  : total inelastic scattering
 
- Nuclide    4 / 21 : 5011.03c -- boron 11 (B-11)
+ Nuclide    4 / 21 : 5011.09c -- boron 11 (B-11)
 
- Pointers                     : 20954 6192990
+ Pointers                     : 20954 6192948
  Primary type                 : Transport
  Nuclide ZAI                  : 50110
- Library ID                   : 03c
+ Library ID                   : 09c
  Cross section data file      : /opt/serpent/xsdata/acedata/5011ENDF7.ace
  Atomic weight (AW)           : 11.00928
  Atomic weight ratio (AWR)    : 10.91470
- Temperature                  : 600.0 Kelvin
- XS temperature               : 600.0 Kelvin
+ Temperature                  : 950.0 Kelvin
+ XS temperature               : 950.0 Kelvin
  Minimum and maximum energy   : 1.00000E-11 2.00000E+01
  Half-life                    : stable
  Specific ingestion toxicity  : N/A
@@ -365,7 +365,7 @@
  - Nuclide is not a delayed neutron precursor
  - Nuclide has no delayed neutron data
  - Nuclide has no ures ptable data
- - Nuclide temperature is adjusted with TMS between 600.0 and 600.0 Kelvin
+ - Nuclide temperature is adjusted with TMS between 950.0 and 950.0 Kelvin
  - Nuclide has no dosimetry data
  - Nuclide has decay data
  - Nuclide has no supplementary transmutation cross section data
@@ -479,17 +479,17 @@
    3    MT =    207  Q =  0.00000E+00 MeV  Emin = 7.23850E+00 MeV  : total alpha production
    4    MT =      4  Q =  0.00000E+00 MeV  Emin = 2.31935E+00 MeV  : total inelastic scattering
 
- Nuclide    6 / 21 : 6000.03c -- natural carbon (C-nat)
+ Nuclide    6 / 21 : 6000.09c -- natural carbon (C-nat)
 
- Pointers                     : 15121 6068762
+ Pointers                     : 15121 6068720
  Primary type                 : Transport
  Nuclide ZAI                  : 60000
- Library ID                   : 03c
+ Library ID                   : 09c
  Cross section data file      : /opt/serpent/xsdata/acedata/6000ENDF7.ace
  Atomic weight (AW)           : 12.00110
  Atomic weight ratio (AWR)    : 11.89800
- Temperature                  : 600.0 Kelvin
- XS temperature               : 600.0 Kelvin
+ Temperature                  : 950.0 Kelvin
+ XS temperature               : 950.0 Kelvin
  Minimum and maximum energy   : 1.00000E-11 1.50000E+02
  Half-life                    : N/A
  Specific ingestion toxicity  : N/A
@@ -504,7 +504,7 @@
  - Nuclide is not a delayed neutron precursor
  - Nuclide has no delayed neutron data
  - Nuclide has no ures ptable data
- - Nuclide temperature is adjusted with TMS between 600.0 and 600.0 Kelvin
+ - Nuclide temperature is adjusted with TMS between 950.0 and 950.0 Kelvin
  - Nuclide has no dosimetry data
  - Nuclide has no decay data
  - Nuclide has no supplementary transmutation cross section data
@@ -544,7 +544,7 @@
 
  4 special reactions:
 
-   1    MT =    203  Q =  0.00000E+00 MeV  Emin = 1.44720E+01 MeV  : total proton production
+   1    MT =    203  Q =  0.00000E+00 MeV  Emin = 1.44190E+01 MeV  : total proton production
    2    MT =    204  Q =  0.00000E+00 MeV  Emin = 1.52630E+01 MeV  : total deuteron production
    3    MT =    207  Q =  0.00000E+00 MeV  Emin = 6.18124E+00 MeV  : total alpha production
    4    MT =      4  Q =  0.00000E+00 MeV  Emin = 4.81209E+00 MeV  : total inelastic scattering
@@ -619,17 +619,17 @@
    3    MT =    207  Q =  0.00000E+00 MeV  Emin = 6.18124E+00 MeV  : total alpha production
    4    MT =      4  Q =  0.00000E+00 MeV  Emin = 4.81209E+00 MeV  : total inelastic scattering
 
- Nuclide    8 / 21 : 6000.03s -- natural carbon (C-nat)
+ Nuclide    8 / 21 : 6000.09s -- natural carbon (C-nat)
 
- Pointers                     : 168833 6068762
+ Pointers                     : 168833 6068720
  Primary type                 : Transport
  Nuclide ZAI                  : 60000
- Library ID                   : 03s
+ Library ID                   : 09s
  Cross section data file      : /opt/serpent/xsdata/acedata/6000ENDF7.ace
  Atomic weight (AW)           : 12.00110
  Atomic weight ratio (AWR)    : 11.89800
- Temperature                  : 600.0 Kelvin
- XS temperature               : 600.0 Kelvin
+ Temperature                  : 950.0 Kelvin
+ XS temperature               : 950.0 Kelvin
  Minimum and maximum energy   : 1.00000E-11 1.50000E+02
  Half-life                    : N/A
  Specific ingestion toxicity  : N/A
@@ -643,7 +643,7 @@
  - Nuclide is not a delayed neutron precursor
  - Nuclide has no delayed neutron data
  - Nuclide has no ures ptable data
- - Nuclide temperature is adjusted with TMS between 600.0 and 600.0 Kelvin
+ - Nuclide temperature is adjusted with TMS between 950.0 and 950.0 Kelvin
  - Nuclide has no dosimetry data
  - Nuclide has no decay data
  - Nuclide has no supplementary transmutation cross section data
@@ -685,7 +685,7 @@
 
  4 special reactions:
 
-   1    MT =    203  Q =  0.00000E+00 MeV  Emin = 1.44720E+01 MeV  : total proton production
+   1    MT =    203  Q =  0.00000E+00 MeV  Emin = 1.44190E+01 MeV  : total proton production
    2    MT =    204  Q =  0.00000E+00 MeV  Emin = 1.52630E+01 MeV  : total deuteron production
    3    MT =    207  Q =  0.00000E+00 MeV  Emin = 6.18124E+00 MeV  : total alpha production
    4    MT =      4  Q =  0.00000E+00 MeV  Emin = 4.81209E+00 MeV  : total inelastic scattering
@@ -1663,25 +1663,25 @@ Material "graphite":
 
  - Material is included in majorant
  - Material is included in geometry
- - Atom density 9.06552E-02 1/barn*cm
- - Mass density 1.80663E+00 g/cm3
- - Volume 7.87534E+07 cm3
- - Mass 1.42278E+08 g
+ - Atom density 9.03224E-02 1/barn*cm
+ - Mass density 1.80000E+00 g/cm3
+ - Volume 7.88611E+07 cm3
+ - Mass 1.41950E+08 g
  - Photon emission rate 0.00000E+00 1/s
  - Neutron emission rate 0.00000E+00 1/s
  - 3 nuclides in composition
  - 1 nuclides associated with S(a,b) data
- - 981.25 kb of memory allocated for data
+ - 981.18 kb of memory allocated for data
 
 Isotopic composition (non-zero densities):
 
 -------------------------------------------------------------------
  Nuclide    a. weight   temp      a. dens      a. frac      m. frac
 -------------------------------------------------------------------
-  6000.03s   12.00110  600.0  9.06550E-02  9.99998E-01  9.99998E-01 (s)
-  5010.03c   10.01294  600.0  3.62621E-08  4.00000E-07  3.33734E-07    
-  5011.03c   11.00928  600.0  1.45048E-07  1.60000E-06  1.46777E-06    
-       sum                    9.06552E-02  1.00000E+00  1.00000E+00
+  6000.09s   12.00110  950.0  9.03222E-02  9.99998E-01  9.99998E-01 (s)
+  5010.09c   10.01294  950.0  3.61290E-08  4.00000E-07  3.33734E-07    
+  5011.09c   11.00928  950.0  1.44516E-07  1.60000E-06  1.46777E-06    
+       sum                    9.03224E-02  1.00000E+00  1.00000E+00
 -------------------------------------------------------------------
 
 Material "natb4c":
@@ -1690,8 +1690,8 @@ Material "natb4c":
  - Material is included in geometry
  - Atom density 1.31785E-01 1/barn*cm
  - Mass density 2.41800E+00 g/cm3
- - Volume 5.66979E+06 cm3
- - Mass 1.37096E+07 g
+ - Volume 5.66749E+06 cm3
+ - Mass 1.37040E+07 g
  - Photon emission rate 0.00000E+00 1/s
  - Neutron emission rate 0.00000E+00 1/s
  - 3 nuclides in composition
@@ -1715,13 +1715,13 @@ Material "fuelsalt":
  - Material is included in geometry
  - Atom density 6.48302E-02 1/barn*cm
  - Mass density 3.24061E+00 g/cm3
- - Volume 5.11797E+06 cm3
- - Mass 1.65853E+07 g
+ - Volume 5.14221E+06 cm3
+ - Mass 1.66639E+07 g
  - Photon emission rate 0.00000E+00 1/s
  - Neutron emission rate 0.00000E+00 1/s
  - 8 nuclides in composition
  - No nuclides associated with S(a,b) data
- - 6.60 Mb of memory allocated for data
+ - 6.59 Mb of memory allocated for data
 
 Isotopic composition (non-zero densities):
 
