@@ -27,8 +27,8 @@ class control_rod(object):
         # Critical enrichment search variables
         self.queue:str = 'fill'
         self.ompcores:int = 8
-        self.enr_max:float = 0.25
-        self.enr_min:float = 0.007
+        self.enr_max:float = 0.21
+        self.enr_min:float = 0.15
         self.rho_tgt:float  = 200.0     # target rho [pcm]
         self.rho_eps:float  = 200.0     # epsilon rho [pcm]
         self.enr_eps:float  = 1e-9      # epsilon enrichment
