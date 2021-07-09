@@ -23,7 +23,7 @@ def cubic(x,a,b,c,d):
     return a * x**3 + b * x**2 + c * x + d
 
 def linear(x,m,b):
-    return m* x + b
+    return m * x + b
 
 
 if plot_rvr:
@@ -40,10 +40,12 @@ if plot_rvr:
             dol_e.append(d[1])
         popt, pcov = scipy.optimize.curve_fit(cubic, run.rods_down_list, dol, sigma=dol_e)
         a,b,c,d = popt
-        x = np.arange(run.rods_down_list[0], run.rods_down_list[-1], 0.001)
-        plt.plot(x, a * x**3 + b * x**2 + c * x + d, ls=':', marker='', c='mediumblue')
+        x = np.arange(run.rods_down_list[0]-5, run.rods_down_list[-1]+5, 0.001)
+        plt.plot(x, a * x**3 + b * x**2 + c * x + d, ls=':', marker='', c='cornflowerblue')
         plt.errorbar(x=run.rods_down_list,y=dol, yerr=dol_e, marker='.', ls='', c='mediumblue')
         plt.ylabel('Reactivity [$]')
+        plt.xlim(-0.3, 4.2)
+        plt.ylim(-4.3, 0.3)
     else:
         plt.errorbar(x=run.rods_down_list,y=run.rods_down_rho, yerr=run.rods_down_rho_e, marker='.', ls='')
         plt.ylabel('Reactivity [pcm]')
@@ -70,9 +72,18 @@ if plot_rvt:
             dolu_e.append(du[1])
             dold.append(dd[0])
             dold_e.append(dd[1])
-        plt.errorbar(x=run.temps, y=dolu, yerr=dolu_e, label='Rods Up', ls='', marker='.')
-        plt.errorbar(x=run.temps, y=dold, yerr=dold_e, label='Rods Down', ls='', marker='.')
+        poptu, pcovu = scipy.optimize.curve_fit(linear, run.temps, dolu, sigma=dolu_e)
+        poptd, pcovd = scipy.optimize.curve_fit(linear, run.temps, dold, sigma=dold_e)
+        m,b = poptu
+        n,c = poptd
+        x = np.arange(run.temps[0]-100, run.temps[-1]+100, 0.001)
+        plt.plot(x, m * x + b, ls=':', marker='', c='cornflowerblue')
+        plt.plot(x, n * x + c, ls=':', marker='', c='orange')
+        plt.errorbar(x=run.temps, y=dolu, yerr=dolu_e, label='Rods Up', ls='', marker='.', c='mediumblue')
+        plt.errorbar(x=run.temps, y=dold, yerr=dold_e, label='Rods Down', ls='', marker='.', c='darkorange')
         plt.ylabel('Reactivity [$]')
+        plt.xlim(430, 920)
+        plt.ylim(-4.9, 8.2)
     else:    
         plt.errorbar(x=run.temps, y=run.rhos_up, yerr=run.rhos_up_err, label='Rods Up', ls='', marker='.')
         plt.errorbar(x=run.temps, y=run.rhos_down, yerr=run.rhos_down_err, label='Rods Down', ls='', marker='.')

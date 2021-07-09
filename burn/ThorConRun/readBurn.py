@@ -14,7 +14,7 @@ plot_ngt = False
 plot_betas = False
 plot_alphas  = False
 plot_fuelsalt  = True
-plot_graphite = False
+plot_graphite = True
 plot_crit_search = False
 plot_all_RhoVtemps = False
 
@@ -48,7 +48,6 @@ def smoothData(data:list=None, error:list=None, window:int=9)->list:
 
             
 if plot_ngt:
-    run = burn(salt='thorConSalt', rep_salt='thorConSalt')
     run.run_feedbacks('fs.dopp',False)
     run.get_PKPs()
     days = run.days
@@ -57,10 +56,14 @@ if plot_ngt:
     for n,e in run.ngts:
         ngts.append(n)
         ngt_errors.append(e)
-    smoothed_ngts = smoothData(ngts, ngt_errors, 2)
+    smoothed_ngts = smoothData(ngts, ngt_errors, 5)
 
-    plt.errorbar(days, ngts,yerr=ngt_errors, ls='', marker='.', color='b')
-    plt.plot(days, smoothed_ngts, 'r-')
+    plt.errorbar(days, ngts,yerr=ngt_errors, ls='', marker='.', color='b', label = 'Points')
+    plt.plot(days, smoothed_ngts, 'r-', label = 'Smoothed Data')
+    plt.xlabel('Time [d]')
+    plt.ylabel('Neutron Generation Time [s]')
+    plt.title('NGT vs Time')
+    plt.legend()
     plt.savefig(os.getcwd() + '/ngtplot.png', bbox_inches='tight')
     plt.close()
 
@@ -201,7 +204,7 @@ if plot_alphas:
     plt.plot(days, grSmooth, 'r-', label='Smoothed Graphite Fit')
     plt.plot(days, totSmooth,'k-', label='Sum of Fits')
     plt.legend()
-    plt.ylim(-5, 0)
+    #plt.ylim(-5, 0)
     plt.savefig(os.getcwd() + '/feedbackTOT.png', bbox_inches='tight')
     plt.close()
 
@@ -220,16 +223,21 @@ if plot_fuelsalt:
         fstop.append(f+e)
         fsbot.append(f-e)
 
-    fsSmooth = smoothData(fs, fserr, 25)
-    fsTopSm  = smoothData(fstop, None, 25)
-    fsBotSm  = smoothData(fsbot, None, 25)
+    fsSmooth = smoothData(fs, fserr, 11)
+    #fsTopSm  = smoothData(fstop, None, 11)
+    #fsBotSm  = smoothData(fsbot, None, 11)
+    fsTopSm, fsBotSm = [], []
+    for f,e in zip(fsSmooth, fserr):
+        fsTopSm.append(f + e)
+        fsBotSm.append(f - e)
+
 
     # Plots
     plt.plot(days, fsSmooth, c='b')
     plt.plot(days, fsTopSm, c='steelblue', alpha=0.5)
     plt.plot(days, fsBotSm, c='steelblue', alpha=0.5)
     plt.fill_between(days, fsTopSm, fsBotSm, facecolor='steelblue', alpha=0.5)
-    plt.ylim(-4, -1)
+    plt.ylim(-7, -4)
     plt.xlim(0,days[-1])
     plt.title('Fuel Salt Feedback vs Time')
     plt.xlabel('time [d]')
@@ -253,16 +261,21 @@ if plot_graphite:
         grtop.append(g+e)
         grbot.append(g-e)
 
-    grSmooth = smoothData(gr, grerr, 25)
-    grTopSm  = smoothData(grtop, None, 25)
-    grBotSm  = smoothData(grbot, None, 25)
+    grSmooth = smoothData(gr, grerr, 30)
+    #grTopSm  = smoothData(grtop, None, 11)
+    #grBotSm  = smoothData(grbot, None, 11)
+    grTopSm, grBotSm = [], []
+    for g,e in zip(grSmooth, grerr):
+        grTopSm.append(g+e)
+        grBotSm.append(g-e)
+
 
     # Plots
     plt.plot(days, grSmooth, c='r')
     plt.plot(days, grTopSm, c='indianred', alpha=0.5)
     plt.plot(days, grBotSm, c='indianred', alpha=0.5)
     plt.fill_between(days, grTopSm, grBotSm, facecolor='indianred', alpha=0.5)
-    plt.ylim(-4, 0)
+    plt.ylim(-6, 0)
     plt.xlim(0,days[-1])
     plt.title('Graphite Feedback vs Time')
     plt.xlabel('time [d]')
