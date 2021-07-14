@@ -77,13 +77,13 @@ class burn(object):
             lat0.ompcores = self.ompcores
             lat0.deck_path = self.iter_path + '/lat0'
             lat0.deck_name = 'lat0_deck'
-            lat0.GLE = thermal_expansion
+            lat0.thermal_expansion = thermal_expansion
             lat1 = serpDeck(fuel=self.salt, e=enr1)
             lat1.queue = self.queue
             lat1.ompcores = self.ompcores
             lat1.deck_path = self.iter_path + '/lat1'
             lat1.deck_name = 'lat1_deck'
-            lat1.GLE = thermal_expansion
+            lat1.thermal_expansion = thermal_expansion
             # run lat 0
             lat0.full_build_run()
             # run lat 1
@@ -143,7 +143,7 @@ class burn(object):
             mylat.ompcores = self.ompcores
             mylat.deck_path = self.iter_path + '/mylat'
             mylat.deck_name = 'mylat_deck'
-            mylat.GLE = thermal_expansion
+            mylat.thermal_expansion = thermal_expansion
 
             mylat.full_build_run()
 
@@ -266,7 +266,7 @@ class burn(object):
             lat.deck_path = self.rep_path + '/rep' + str(run)
             lat.rep_rate = self.rep_rate   # tons of heavy metal per year ?
             lat.re_rep   = self.rep_rate
-            lat.GLE = thermal_expansion
+            lat.thermal_expansion = thermal_expansion
             lat.full_build_run()
 
             is_done = False
@@ -310,7 +310,7 @@ class burn(object):
             mylat.deck_name = fb_lat_name
             mylat.rep_rate  = self.rep_rate
             mylat.re_rep    = self.rep_rate
-            mylat.GLE       = thermal_expansion
+            mylat.thermal_expansion       = thermal_expansion
 
             if feedback == 'fs.dopp':
                 mylat.gr_tempK  = self.base_temp + 50.0
