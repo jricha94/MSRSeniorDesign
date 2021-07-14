@@ -13,7 +13,7 @@ write_pkes = False
 plot_ngt = False
 plot_betas = False
 plot_alphas  = False
-plot_fuelsalt  = False
+plot_fuelsalt  = True
 plot_graphite = True
 plot_crit_search = False
 plot_all_RhoVtemps = False
@@ -239,9 +239,9 @@ if plot_fuelsalt:
     plt.fill_between(days, fsTopSm, fsBotSm, facecolor='steelblue', alpha=0.5)
     plt.ylim(-7, -4)
     plt.xlim(0,days[-1])
-    plt.title('Fuel Salt Feedback vs Time')
+    #plt.title('Fuel Salt Feedback vs Time')
     plt.xlabel('time [d]')
-    plt.ylabel(r'Fuel Temperature Feedback Coefficient  $[\frac{pcm}{dK}]$')
+    plt.ylabel(r'Fuel Temperature Feedback Coefficient  $[\frac{pcm}{K}]$')
 
     plt.savefig(os.getcwd() + '/FSfeedback.png', bbox_inches='tight')
     plt.close()
@@ -275,11 +275,11 @@ if plot_graphite:
     plt.plot(days, grTopSm, c='indianred', alpha=0.5)
     plt.plot(days, grBotSm, c='indianred', alpha=0.5)
     plt.fill_between(days, grTopSm, grBotSm, facecolor='indianred', alpha=0.5)
-    plt.ylim(-6, 0)
+    plt.ylim(-6, -2)
     plt.xlim(0,days[-1])
-    plt.title('Graphite Feedback vs Time')
+    #plt.title('Graphite Feedback vs Time')
     plt.xlabel('time [d]')
-    plt.ylabel(r'Graphite Feedback Coefficient  $[\frac{pcm}{dK}]$')
+    plt.ylabel(r'Graphite Feedback Coefficient  $[\frac{pcm}{K}]$')
 
     plt.savefig(os.getcwd() + '/GRfeedback.png', bbox_inches='tight')
     plt.close()
