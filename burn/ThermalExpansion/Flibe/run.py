@@ -24,7 +24,7 @@ tc_run.iter_path = os.getcwd() + 'thermal_expansion/k_iter'
 no_tc_run.iter_path = os.getcwd() + 'no_thermal_expansion/k_iter'
 
 # Find critical enrichment for both cases
-tc_run.iterate_rho(themal_expansion = True)
+tc_run.iterate_rho(thermal_expansion = True)
 no_tc_run.iterate_rho(thermal_expansion = False)
 
 # Save iteration data
