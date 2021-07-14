@@ -20,8 +20,8 @@ no_tc_run.enr_min = 0.01
 no_tc_run.enr_max = 0.04
 
 # Update paths for each run
-tc_run.iter_path = os.getcwd() + 'thermal_expansion/k_iter'
-no_tc_run.iter_path = os.getcwd() + 'no_thermal_expansion/k_iter'
+tc_run.iter_path = os.getcwd() + '/thermal_expansion/k_iter'
+no_tc_run.iter_path = os.getcwd() + '/no_thermal_expansion/k_iter'
 
 # Find critical enrichment for both cases
 tc_run.iterate_rho(thermal_expansion = True)
@@ -49,16 +49,16 @@ tc_run.rep_lower = 1e-10
 tc_run.rep_rate = 7e-9
 
 # Update paths for rep runs
-tc_run.rep_path = os.getcwd() + 'thermal_expansion/rep'
-no_tc_run.rep_path = os.getcwd() + 'no_thermal_expansion/rep'
+tc_run.rep_path = os.getcwd() + '/thermal_expansion/rep'
+no_tc_run.rep_path = os.getcwd() + '/no_thermal_expansion/rep'
 
 # Run rep rates
 tc_run.get_rep_rate(thermal_expansion=True)
 no_tc_run.get_rep_rate(thermal_expansion=False)
 
 # Update paths for feedback runs
-tc_run.feed_path = os.getcwd() + 'thermal_expansion/feedback'
-no_tc_run.feed_path = os.getcwd() + 'no_thermal_expansion/feedback'
+tc_run.feed_path = os.getcwd() + '/thermal_expansion/feedback'
+no_tc_run.feed_path = os.getcwd() + '/no_thermal_expansion/feedback'
 
 # Run feedback calculations
 tc_run.run_feedbacks(feedback='fs.dopp', thermal_expansion=True, recalc=True)
