@@ -15,6 +15,7 @@ te_run.ompcores = 8
 te_run.enr_min = 0.01
 te_run.enr_max = 0.04
 
+
 # Find critical enrichment for both cases
 te_run.iterate_rho(thermal_expansion = True)
 
@@ -31,6 +32,9 @@ te_run.rep_lower = 1e-10
 te_run.rep_rate = 7e-9
 
 no_te_run.e0 = te_run.conv_enr
+no_te_run.rep_e = 0.07
+no_te_run.queue = 'xeon'
+no_te_run.ompcores = 64
 
 # Run rep rates
 te_run.get_rep_rate(thermal_expansion=True)
