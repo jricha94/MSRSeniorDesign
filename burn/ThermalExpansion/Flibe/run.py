@@ -56,6 +56,10 @@ no_tc_run.rep_path = os.getcwd() + '/no_thermal_expansion/rep'
 tc_run.get_rep_rate(thermal_expansion=True)
 no_tc_run.get_rep_rate(thermal_expansion=False)
 
+# Update number of histories for feedbacks
+tc_run.histories = 100000
+no_tc_run.histories = 100000
+
 # Update paths for feedback runs
 tc_run.feed_path = os.getcwd() + '/thermal_expansion/feedback'
 no_tc_run.feed_path = os.getcwd() + '/no_thermal_expansion/feedback'
