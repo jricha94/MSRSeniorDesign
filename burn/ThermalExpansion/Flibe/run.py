@@ -55,7 +55,7 @@ te_run.run_feedbacks(feedback='fs.dopp', thermal_expansion=True, recalc=True)
 te_run.run_feedbacks(feedback='gr.dopp', thermal_expansion=True, recalc=True)
 
 # sleep to let other runs finish
-time .sleep(50000)
+time.sleep(50000)
 
 no_te_run.run_feedbacks(feedback='fs.dopp', thermal_expansion=False, recalc=True)
 no_te_run.run_feedbacks(feedback='gr.dopp', thermal_expansion=False, recalc=True)
