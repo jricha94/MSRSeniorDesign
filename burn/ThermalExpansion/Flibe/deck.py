@@ -91,7 +91,7 @@ class serpDeck(object):
         self.gr_dens:float   = 1.80                          # Graphite density at 950 K [g/cm3]
         self.boron_graphite:float = 2e-06                    # 2ppm boron in graphite
         self.room_temp:float = 293.0                         # room temperature used for thermal expansion
-        self.thermal_expansion:bool        = True                          # bool for if to calculate thermal expansion
+        self.thermal_expansion:bool = True                   # bool for if to calculate thermal expansion
 
         self.k:float    = None                  # k-effective for model
         self.kerr:float = None                  # k-eff error
