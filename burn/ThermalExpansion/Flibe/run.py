@@ -9,27 +9,18 @@ te_run = burn(salt='flibe', rep_salt='flibe')
 # Run without thermal expansion
 no_te_run = burn(salt='flibe', rep_salt='flibe')
 
-# Set run parameters for each run
-te_run.queue = 'fill'
-te_run.ompcores = 8
-te_run.enr_min = 0.01
-te_run.enr_max = 0.04
+# Get enrichment
+te_run.read_rhos_if_done()
 
-
-# Find critical enrichment for both cases
-te_run.iterate_rho(thermal_expansion = True)
-
-# Save iteration data
-te_run.save_iters()
 
 # Update run parameters for rep runs
 te_run.e0 = te_run.conv_enr
 te_run.rep_e = 0.07
 te_run.queue = 'xeon'
 te_run.ompcores = 64
-te_run.rep_upper = 1e-9
-te_run.rep_lower = 1e-10
-te_run.rep_rate = 7e-9
+te_run.rep_upper = 1e-7
+te_run.rep_lower = 1e-9
+te_run.rep_rate = 1e-8
 
 no_te_run.e0 = te_run.conv_enr
 no_te_run.rep_e = 0.07
