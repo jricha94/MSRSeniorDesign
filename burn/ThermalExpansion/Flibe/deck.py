@@ -195,9 +195,15 @@ class serpDeck(object):
 
     def graphiteDensityExpansion(self, tempK:float=950.0) -> float:
         'Return new density based on graphite thermal expansion'
-        unit_f  = (1.0 + GRAPHITE_CTE * (tempK - 950.0))
-        rho_f   = GRAPHITE_RHO / unit_f**3
-        return rho_f
+        if self.thermal_expansion:
+            unit_f  = (1.0 + GRAPHITE_CTE * (tempK - 950.0))
+            rho_f   = GRAPHITE_RHO / unit_f**3
+            return rho_f
+        else:
+            unit_f  = (1.0 + GRAPHITE_CTE * (900.0 - 950.0))
+            rho_f   = GRAPHITE_RHO / unit_f**3
+            return rho_f
+
 
     def makeDarkMod(self, rotation:float = 0.0, deltaX:float = 0.0, deltaY:float = 0.0, cellName:str = '999', cellUni:str = '0', cellMat:str = 'graphite') -> str:
         '''Creates dark moderator cell; rotation applied first, then translation
