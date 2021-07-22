@@ -17,8 +17,8 @@ te_run.read_rhos_if_done()
 no_te_run.conv_enr = te_run.conv_enr
 
 # Set paths for runs
-te_run.rvt_path = os.getcwd + '/rvt_te'
-no_te_run.rvt_path = os.getcwd + '/rvt_no_te'
+te_run.rvt_path = os.getcwd() + '/rvt_te'
+no_te_run.rvt_path = os.getcwd() + '/rvt_no_te'
 
 # Run runs
 te_run.rho_v_temp(thermal_expansion=True)
