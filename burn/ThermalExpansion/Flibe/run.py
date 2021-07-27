@@ -39,13 +39,6 @@ no_te_run.histories = 100000
 te_run.feed_path = os.getcwd() + '/feedback_thermal_expansion'
 no_te_run.feed_path = os.getcwd() + '/feedback_no_thermal_expansion'
 
-# Run feedback calculations
-te_run.run_feedbacks(feedback='fs.dopp', thermal_expansion=True, recalc=True)
-te_run.run_feedbacks(feedback='gr.dopp', thermal_expansion=True, recalc=True)
-
-# sleep to let other runs finish
-time.sleep(108000)
-
 no_te_run.run_feedbacks(feedback='fs.dopp', thermal_expansion=False, recalc=True)
 no_te_run.run_feedbacks(feedback='gr.dopp', thermal_expansion=False, recalc=True)
 
