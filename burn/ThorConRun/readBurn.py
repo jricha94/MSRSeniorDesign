@@ -1,5 +1,6 @@
 #!/usr/bin/env/ python3
 
+from re import T
 from burn import burn
 from copy import copy
 import matplotlib.pyplot as plt
@@ -14,7 +15,7 @@ plot_ngt = False
 plot_betas = False
 plot_alphas  = False
 plot_fuelsalt  = True
-plot_graphite = True
+plot_graphite = False
 plot_crit_search = False
 plot_all_RhoVtemps = False
 

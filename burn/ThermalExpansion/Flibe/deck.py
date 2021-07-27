@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from re import M
 from textwrap import dedent
 from salts import Salt
 import math
