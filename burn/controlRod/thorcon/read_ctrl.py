@@ -142,7 +142,7 @@ if do_axis:
     secaxy.set_ylabel('Reactivity [$]')
     ax1.set_xlim(xdata[0]-20, xdata[-1]+20)
     ax1.set_ylim(ydata_down[-1]-300 ,ydata_up[0]+300)
-    ax1.set_xticks([t for t in xdata if t % 50 == 0])
+    ax1.set_xticks([t for t in xdata if t % 50 == 0nl])
     fig1.savefig('two_axis_rho_v_temp.png', bbox_inches='tight')
 
     #---Next Plot---#
